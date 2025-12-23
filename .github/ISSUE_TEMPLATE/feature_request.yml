@@ -1,0 +1,48 @@
+name: ✨ 機能リクエスト
+description: 新機能や改善を提案する
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        機能リクエストありがとうございます！
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 解決したい課題
+      description: どのような問題や不便を解決したいですか？
+      placeholder: タスクを一括で削除できないので、一つずつ削除するのが面倒
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 提案する解決策
+      description: どのような機能があれば解決しますか？
+      placeholder: 複数選択して一括削除できる機能が欲しい
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 代替案
+      description: 他に考えられる解決策があれば記載してください
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度
+      description: この機能はどれくらい重要ですか？
+      options:
+        - 🔴 高（なくては困る）
+        - 🟡 中（あると便利）
+        - 🟢 低（あればうれしい）
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 追加情報
+      description: モックアップ、参考リンク、その他の情報があれば記載してください

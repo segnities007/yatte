@@ -1,0 +1,36 @@
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'composeApp/src/**/*.kt'
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  dokka:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Generate Documentation
+        run: ./gradlew dokkaHtml
+
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: build/dokka/html/
+          retention-days: 30

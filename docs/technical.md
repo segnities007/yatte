@@ -224,13 +224,13 @@ root/
 data class TaskEntity(
     @PrimaryKey val id: String,
     val title: String,
-    val time: LocalDateTime,
+    val time: Long, // Epoch Milliseconds
     val minutesBefore: Int,
     val isWeeklyLoop: Boolean,
-    val weekDays: List<DayOfWeek>,
+    val weekDays: String, // List -> JSON String or TypeConverter
     val isCompleted: Boolean,
-    val createdAt: LocalDateTime,
-    val alarmTriggeredAt: LocalDateTime?
+    val createdAt: Long,
+    val alarmTriggeredAt: Long?
 )
 
 // 履歴
@@ -239,7 +239,7 @@ data class HistoryEntity(
     @PrimaryKey val id: String,
     val taskId: String,
     val title: String,
-    val completedAt: LocalDateTime
+    val completedAt: Long
 )
 ```
 
