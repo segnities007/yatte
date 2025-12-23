@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "Running pre-commit checks..."
+
+# Run ktlint check
+./gradlew ktlintCheck --daemon
+
+status=$?
+
+if [ $status -eq 0 ]
+then
+    echo "ktlint check passed."
+    exit 0
+else
+    echo "ktlint check failed. Please fix the lint errors before committing."
+    exit 1
+fi

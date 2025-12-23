@@ -1,5 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -85,9 +87,9 @@ android {
     signingConfigs {
         create("release") {
             val keystoreFile = project.rootProject.file("keystore.properties")
-            val keystoreProperties = java.util.Properties()
+            val keystoreProperties = Properties()
             if (keystoreFile.exists()) {
-                keystoreProperties.load(java.io.FileInputStream(keystoreFile))
+                keystoreProperties.load(FileInputStream(keystoreFile))
             }
 
             storeFile = if (System.getenv("ANDROID_KEYSTORE_PATH") != null) {

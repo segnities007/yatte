@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "Running pre-push checks..."
+
+# Run unit tests and detekt
+./gradlew test detekt --daemon
+
+status=$?
+
+if [ $status -eq 0 ]
+then
+    echo "Pre-push checks passed."
+    exit 0
+else
+    echo "Pre-push checks failed. Please fix the errors before pushing."
+    exit 1
+fi
