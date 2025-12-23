@@ -16,6 +16,10 @@ plugins {
 ktlint {
     android.set(true)
     outputColorName.set("RED")
+    filter {
+        exclude("**/generated/**")
+        exclude("**/build/**")
+    }
 }
 
 detekt {
@@ -29,19 +33,19 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
         }
     }
-    
+
     jvm()
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -92,18 +96,19 @@ android {
                 keystoreProperties.load(FileInputStream(keystoreFile))
             }
 
-            storeFile = if (System.getenv("ANDROID_KEYSTORE_PATH") != null) {
-                file(System.getenv("ANDROID_KEYSTORE_PATH"))
-            } else {
-                val path = keystoreProperties.getProperty("storeFile")
-                if (path != null) file(path) else null
-            }
-            
-            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD") 
+            storeFile =
+                if (System.getenv("ANDROID_KEYSTORE_PATH") != null) {
+                    file(System.getenv("ANDROID_KEYSTORE_PATH"))
+                } else {
+                    val path = keystoreProperties.getProperty("storeFile")
+                    if (path != null) file(path) else null
+                }
+
+            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
                 ?: keystoreProperties.getProperty("storePassword")
-            keyAlias = System.getenv("ANDROID_KEY_ALIAS") 
+            keyAlias = System.getenv("ANDROID_KEY_ALIAS")
                 ?: keystoreProperties.getProperty("keyAlias")
-            keyPassword = System.getenv("ANDROID_KEY_PASSWORD") 
+            keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
                 ?: keystoreProperties.getProperty("keyPassword")
         }
     }

@@ -29,3 +29,8 @@ indent_style = tab
 
 [gradlew.bat]
 end_of_line = crlf
+
+[**/build/**]
+ktlint_standard_class-naming = disabled
+ktlint_standard_function-naming = disabled
+ktlint_standard_no-wildcard-imports = disabled

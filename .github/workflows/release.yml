@@ -39,7 +39,7 @@ jobs:
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
-      - name: Setup JDK 11
+      - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -96,7 +96,7 @@ jobs:
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
-      - name: Setup JDK 11
+      - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -125,7 +125,7 @@ jobs:
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
-      - name: Setup JDK 11
+      - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -154,7 +154,7 @@ jobs:
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
-      - name: Setup JDK 11
+      - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
