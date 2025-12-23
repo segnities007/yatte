@@ -81,9 +81,38 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    signingConfigs {
+        create("release") {
+            val keystoreFile = project.rootProject.file("keystore.properties")
+            val keystoreProperties = java.util.Properties()
+            if (keystoreFile.exists()) {
+                keystoreProperties.load(java.io.FileInputStream(keystoreFile))
+            }
+
+            storeFile = if (System.getenv("ANDROID_KEYSTORE_PATH") != null) {
+                file(System.getenv("ANDROID_KEYSTORE_PATH"))
+            } else {
+                val path = keystoreProperties.getProperty("storeFile")
+                if (path != null) file(path) else null
+            }
+            
+            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD") 
+                ?: keystoreProperties.getProperty("storePassword")
+            keyAlias = System.getenv("ANDROID_KEY_ALIAS") 
+                ?: keystoreProperties.getProperty("keyAlias")
+            keyPassword = System.getenv("ANDROID_KEY_PASSWORD") 
+                ?: keystoreProperties.getProperty("keyPassword")
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            // 署名設定が見つかった場合のみ適用
+            if (signingConfigs.getByName("release").storeFile != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     compileOptions {
