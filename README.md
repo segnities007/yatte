@@ -1,48 +1,31 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Desktop (JVM).
+# 🔔 yatte（やって）
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+**クリアマネージャー** - タスクが自動で消えていくシンプルなタスク管理アプリ
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## コンセプト
 
-### Build and Run Android Application
+「やりっぱなしを防ぐ」「溜まらないタスクリスト」をテーマにした軽量タスク管理アプリ。
+タスクは自動削除されるため、常にリストがクリーンな状態を保てる。
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+## ドキュメント
 
-### Build and Run Desktop (JVM) Application
+| ドキュメント | 内容 |
+|-------------|------|
+| [コンセプト](docs/concept.md) | アプリの理念・差別化ポイント |
+| [機能仕様](docs/features.md) | スタートリスト・履歴・通知の詳細 |
+| [画面仕様](docs/screens.md) | 画面構成・ナビゲーション・UX |
+| [UIデザイン](docs/ui-design.md) | テーマ・カラーパレット・デザインキーワード |
+| [技術仕様](docs/technical.md) | 技術スタック・アーキテクチャ |
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+## クイックサマリー
 
-### Build and Run iOS Application
-
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+| 項目 | 内容 |
+|------|------|
+| プラットフォーム | Android / iOS / Desktop（Compose Multiplatform） |
+| メイン機能 | スタートリスト（1回 or 週ループ）+ 履歴タイムライン |
+| テーマ | 🟢グリーン + 🟡クリームイエロー / やわらかくクリア |
+| 技術 | Room + MVI + Koin |
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+*作成日: 2025-12-20*
