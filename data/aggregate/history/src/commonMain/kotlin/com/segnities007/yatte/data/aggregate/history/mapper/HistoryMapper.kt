@@ -11,6 +11,9 @@ import kotlinx.datetime.toLocalDateTime
 
 /**
  * HistoryEntity → History (Domain Model)
+ *
+ * 仕様:
+ * - DBには日時を `epoch millis` で保存し、取り出すときは `TimeZone.currentSystemDefault()` で復元する。
  */
 fun HistoryEntity.toDomain(): History {
     val timeZone = TimeZone.currentSystemDefault()
@@ -24,6 +27,9 @@ fun HistoryEntity.toDomain(): History {
 
 /**
  * History (Domain Model) → HistoryEntity
+ *
+ * 仕様:
+ * - DBには日時を `epoch millis` で保存する。
  */
 fun History.toEntity(): HistoryEntity {
     val timeZone = TimeZone.currentSystemDefault()

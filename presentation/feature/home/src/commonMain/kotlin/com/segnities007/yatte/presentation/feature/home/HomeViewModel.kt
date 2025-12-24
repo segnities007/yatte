@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -24,10 +25,6 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
-/**
- * ホーム画面のViewModel
- */
 class HomeViewModel(
     private val getTodayTasksUseCase: GetTodayTasksUseCase,
     private val completeTaskUseCase: CompleteTaskUseCase,
@@ -40,6 +37,8 @@ class HomeViewModel(
 
     private val _events = Channel<HomeEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
+
+    private var loadTasksJob: Job? = null
 
     init {
         loadTasks()
@@ -57,7 +56,8 @@ class HomeViewModel(
     }
 
     private fun loadTasks() {
-        viewModelScope.launch {
+        loadTasksJob?.cancel()
+        loadTasksJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
             getTodayTasksUseCase().collect { tasks ->
                 _state.update {

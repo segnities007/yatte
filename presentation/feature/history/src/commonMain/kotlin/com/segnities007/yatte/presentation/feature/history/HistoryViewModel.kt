@@ -13,12 +13,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
-
-/**
- * 履歴画面のViewModel
- */
 class HistoryViewModel(
     private val getHistoryTimelineUseCase: GetHistoryTimelineUseCase,
     private val deleteHistoryUseCase: DeleteHistoryUseCase,
@@ -31,6 +28,8 @@ class HistoryViewModel(
 
     private val _events = Channel<HistoryEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
+
+    private var loadHistoryJob: Job? = null
 
     init {
         loadHistory()
@@ -48,7 +47,8 @@ class HistoryViewModel(
     }
 
     private fun loadHistory() {
-        viewModelScope.launch {
+        loadHistoryJob?.cancel()
+        loadHistoryJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
             getHistoryTimelineUseCase.getAll().collect { items ->
                 _state.update { it.copy(historyItems = items, isLoading = false) }

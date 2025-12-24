@@ -13,7 +13,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 /**
- * SettingsRepository の DataStore 実装
+ * SettingsRepository の DataStore 実装。
+ *
+ * 注意:
+ * - `theme_mode` は文字列として保存するため、将来値が増えたり壊れた値が混入してもクラッシュしないよう
+ *   `ThemeMode.SYSTEM` にフォールバックする。
  */
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
@@ -28,11 +32,13 @@ class SettingsRepositoryImpl(
 
     override fun getSettings(): Flow<UserSettings> =
         dataStore.data.map { preferences ->
+            val themeModeRaw = preferences[KEY_THEME_MODE]
             UserSettings(
                 defaultMinutesBefore = preferences[KEY_DEFAULT_MINUTES_BEFORE] ?: 10,
                 notificationSound = preferences[KEY_NOTIFICATION_SOUND] ?: true,
                 notificationVibration = preferences[KEY_NOTIFICATION_VIBRATION] ?: true,
-                themeMode = preferences[KEY_THEME_MODE]?.let { ThemeMode.valueOf(it) }
+                themeMode = themeModeRaw
+                    ?.let { raw -> ThemeMode.entries.firstOrNull { it.name == raw } }
                     ?: ThemeMode.SYSTEM,
             )
         }

@@ -3,20 +3,20 @@ package com.segnities007.yatte.presentation.feature.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
-import com.segnities007.yatte.domain.aggregate.settings.repository.SettingsRepository
+import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
+import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
+import com.segnities007.yatte.domain.aggregate.settings.usecase.UpdateSettingsUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
-/**
- * 設定画面のViewModel
- */
 class SettingsViewModel(
-    private val settingsRepository: SettingsRepository,
+    private val getSettingsUseCase: GetSettingsUseCase,
+    private val updateSettingsUseCase: UpdateSettingsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
@@ -24,6 +24,8 @@ class SettingsViewModel(
 
     private val _events = Channel<SettingsEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
+
+    private var loadSettingsJob: Job? = null
 
     init {
         loadSettings()
@@ -41,9 +43,10 @@ class SettingsViewModel(
     }
 
     private fun loadSettings() {
-        viewModelScope.launch {
+        loadSettingsJob?.cancel()
+        loadSettingsJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            settingsRepository.getSettings().collect { settings ->
+            getSettingsUseCase().collect { settings ->
                 _state.update { it.copy(settings = settings, isLoading = false) }
             }
         }
@@ -81,12 +84,11 @@ class SettingsViewModel(
         }
     }
 
-    private suspend fun saveSettings(settings: com.segnities007.yatte.domain.aggregate.settings.model.UserSettings) {
-        try {
-            settingsRepository.updateSettings(settings)
-        } catch (e: Exception) {
-            sendEvent(SettingsEvent.ShowError(e.message ?: "設定の保存に失敗しました"))
-        }
+    private suspend fun saveSettings(settings: UserSettings) {
+        updateSettingsUseCase(settings)
+            .onFailure { error ->
+                sendEvent(SettingsEvent.ShowError(error.message ?: "設定の保存に失敗しました"))
+            }
     }
 
     private fun sendEvent(event: SettingsEvent) {

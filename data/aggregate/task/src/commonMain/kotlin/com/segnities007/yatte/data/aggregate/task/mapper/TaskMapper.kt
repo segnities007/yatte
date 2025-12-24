@@ -16,6 +16,11 @@ import kotlinx.datetime.toLocalDateTime
 
 /**
  * TaskEntity → Task (Domain Model)
+ *
+ * 仕様:
+ * - DBには時刻を `epoch millis (Long)` で保存し、取り出すときは `TimeZone.currentSystemDefault()` で復元する。
+ * - `skipUntil` は日付のみを `epochDays` として保存する（タイムゾーンの影響を受けない）。
+ * - `weekDays` はJSONではなく「カンマ区切りの列挙名」で保存する。
  */
 fun TaskEntity.toDomain(): Task {
     val timeZone = TimeZone.currentSystemDefault()
@@ -42,6 +47,11 @@ fun TaskEntity.toDomain(): Task {
 
 /**
  * Task (Domain Model) → TaskEntity
+ *
+ * 注意:
+ * - `Task.time` は「壁時計の時刻（LocalTime）」のみのため、DBには任意の基準日と合成した `LocalDateTime` を
+ *   `epoch millis` として格納する。
+ * - 現在の実装では基準日として `createdAt.date` を用い、復元時は `.time` のみを利用する。
  */
 fun Task.toEntity(): TaskEntity {
     val timeZone = TimeZone.currentSystemDefault()
@@ -62,9 +72,15 @@ fun Task.toEntity(): TaskEntity {
 }
 
 
+/**
+ * 曜日一覧を「カンマ区切りの列挙名」として保存する。
+ */
 private fun List<DayOfWeek>.toJsonString(): String =
     joinToString(",") { it.name }
 
+/**
+ * 「カンマ区切りの列挙名」から曜日一覧を復元する。
+ */
 private fun parseWeekDays(json: String): List<DayOfWeek> =
     if (json.isBlank()) emptyList()
     else json.split(",").map { DayOfWeek.valueOf(it.trim()) }
