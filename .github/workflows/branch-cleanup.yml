@@ -28,12 +28,19 @@ jobs:
               return;
             }
             
-            // Dependabotブランチはマージ有無問わず削除
+            // Dependabotブランチとdev/ブランチはマージ時に削除
             // その他のブランチはマージ時のみ削除
             const isDependabot = branch.startsWith('dependabot/');
+            const isDevBranch = branch.startsWith('dev/');
             
             if (!merged && !isDependabot) {
               console.log(`Branch '${branch}' was not merged. Skipping deletion (not a dependabot branch).`);
+              return;
+            }
+            
+            // dev/ブランチはマージ時のみ削除
+            if (isDevBranch && !merged) {
+              console.log(`Branch '${branch}' was not merged. Skipping deletion.`);
               return;
             }
             
@@ -47,6 +54,7 @@ jobs:
             } catch (error) {
               console.log(`Failed to delete branch '${branch}': ${error.message}`);
             }
+
 
   cleanup-stale:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
