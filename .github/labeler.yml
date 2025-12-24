@@ -1,0 +1,48 @@
+# PR Labeler Configuration
+# This file is used by the labeler workflow to automatically
+# assign labels to PRs based on the files changed.
+
+android:
+  - changed-files:
+      - any-glob-to-any-file: 'composeApp/src/androidMain/**'
+
+ios:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'iosApp/**'
+          - 'composeApp/src/iosMain/**'
+
+desktop:
+  - changed-files:
+      - any-glob-to-any-file: 'composeApp/src/desktopMain/**'
+
+common:
+  - changed-files:
+      - any-glob-to-any-file: 'composeApp/src/commonMain/**'
+
+web:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'composeApp/src/wasmJsMain/**'
+          - 'composeApp/src/jsMain/**'
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/**'
+          - '**/*.md'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+
+gradle:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.gradle.kts'
+          - 'gradle/**'
+          - 'gradle.properties'
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file: '**/src/commonTest/**'
