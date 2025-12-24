@@ -7,41 +7,42 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 BOLD='\033[1m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 # Divider line
 DIVIDER="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-echo ""
-echo "${CYAN}${DIVIDER}${NC}"
-echo "${BOLD}${BLUE}🔍 Pre-commit Checks${NC}"
-echo "${CYAN}${DIVIDER}${NC}"
-echo ""
+printf "\n"
+printf "${CYAN}${DIVIDER}${NC}\n"
+printf "${BOLD}${BLUE}🔍 Pre-commit Checks${NC}\n"
+printf "${CYAN}${DIVIDER}${NC}\n"
+printf "\n"
 
 # Step 1: ktlint
-echo "${YELLOW}📝 Step 1/1: Running ktlint...${NC}"
-echo "   ${CYAN}→ Checking code style and formatting${NC}"
-echo ""
+printf "${YELLOW}📝 Step 1/1: Running ktlint...${NC}\n"
+printf "   ${CYAN}→ Checking code style and formatting${NC}\n"
+printf "\n"
 
 ./gradlew ktlintCheck --daemon -q
 
 status=$?
 
-echo ""
-echo "${CYAN}${DIVIDER}${NC}"
+printf "\n"
+printf "${CYAN}${DIVIDER}${NC}\n"
 
 if [ $status -eq 0 ]; then
-    echo "${GREEN}${BOLD}✅ All checks passed!${NC}"
-    echo "${GREEN}   Your commit is ready.${NC}"
-    echo "${CYAN}${DIVIDER}${NC}"
-    echo ""
+    printf "${GREEN}${BOLD}✅ All checks passed!${NC}\n"
+    printf "${GREEN}   Your commit is ready.${NC}\n"
+    printf "${CYAN}${DIVIDER}${NC}\n"
+    printf "\n"
     exit 0
 else
-    echo "${RED}${BOLD}❌ ktlint check failed!${NC}"
-    echo "${RED}   Please fix the lint errors before committing.${NC}"
-    echo ""
-    echo "${YELLOW}💡 Tip: Run './gradlew ktlintFormat' to auto-fix issues${NC}"
-    echo "${CYAN}${DIVIDER}${NC}"
-    echo ""
+    printf "${RED}${BOLD}❌ ktlint check failed!${NC}\n"
+    printf "${RED}   Please fix the lint errors before committing.${NC}\n"
+    printf "\n"
+    printf "${YELLOW}💡 Tip: Run './gradlew ktlintFormat' to auto-fix issues${NC}\n"
+    printf "${CYAN}${DIVIDER}${NC}\n"
+    printf "\n"
     exit 1
 fi
+

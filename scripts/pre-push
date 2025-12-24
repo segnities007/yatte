@@ -7,62 +7,63 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 BOLD='\033[1m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 # Divider line
 DIVIDER="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-echo ""
-echo "${CYAN}${DIVIDER}${NC}"
-echo "${BOLD}${BLUE}🚀 Pre-push Checks${NC}"
-echo "${CYAN}${DIVIDER}${NC}"
-echo ""
+printf "\n"
+printf "${CYAN}${DIVIDER}${NC}\n"
+printf "${BOLD}${BLUE}🚀 Pre-push Checks${NC}\n"
+printf "${CYAN}${DIVIDER}${NC}\n"
+printf "\n"
 
 # Step 1: Unit Tests
-echo "${YELLOW}🧪 Step 1/2: Running Unit Tests...${NC}"
-echo "   ${CYAN}→ Verifying code correctness${NC}"
-echo ""
+printf "${YELLOW}🧪 Step 1/2: Running Unit Tests...${NC}\n"
+printf "   ${CYAN}→ Verifying code correctness${NC}\n"
+printf "\n"
 
 ./gradlew test --daemon -q
 test_status=$?
 
-echo ""
+printf "\n"
 
 if [ $test_status -ne 0 ]; then
-    echo "${CYAN}${DIVIDER}${NC}"
-    echo "${RED}${BOLD}❌ Unit tests failed!${NC}"
-    echo "${RED}   Please fix failing tests before pushing.${NC}"
-    echo "${CYAN}${DIVIDER}${NC}"
-    echo ""
+    printf "${CYAN}${DIVIDER}${NC}\n"
+    printf "${RED}${BOLD}❌ Unit tests failed!${NC}\n"
+    printf "${RED}   Please fix failing tests before pushing.${NC}\n"
+    printf "${CYAN}${DIVIDER}${NC}\n"
+    printf "\n"
     exit 1
 fi
 
-echo "${GREEN}   ✓ Unit tests passed${NC}"
-echo ""
+printf "${GREEN}   ✓ Unit tests passed${NC}\n"
+printf "\n"
 
 # Step 2: Detekt
-echo "${YELLOW}🔬 Step 2/2: Running Detekt...${NC}"
-echo "   ${CYAN}→ Analyzing code quality${NC}"
-echo ""
+printf "${YELLOW}🔬 Step 2/2: Running Detekt...${NC}\n"
+printf "   ${CYAN}→ Analyzing code quality${NC}\n"
+printf "\n"
 
 ./gradlew detekt --daemon -q
 detekt_status=$?
 
-echo ""
-echo "${CYAN}${DIVIDER}${NC}"
+printf "\n"
+printf "${CYAN}${DIVIDER}${NC}\n"
 
 if [ $detekt_status -eq 0 ]; then
-    echo "${GREEN}${BOLD}✅ All checks passed!${NC}"
-    echo "${GREEN}   Your push is ready.${NC}"
-    echo "${CYAN}${DIVIDER}${NC}"
-    echo ""
+    printf "${GREEN}${BOLD}✅ All checks passed!${NC}\n"
+    printf "${GREEN}   Your push is ready.${NC}\n"
+    printf "${CYAN}${DIVIDER}${NC}\n"
+    printf "\n"
     exit 0
 else
-    echo "${RED}${BOLD}❌ Detekt check failed!${NC}"
-    echo "${RED}   Please fix code quality issues before pushing.${NC}"
-    echo ""
-    echo "${YELLOW}💡 Tip: Check 'composeApp/build/reports/detekt/' for details${NC}"
-    echo "${CYAN}${DIVIDER}${NC}"
-    echo ""
+    printf "${RED}${BOLD}❌ Detekt check failed!${NC}\n"
+    printf "${RED}   Please fix code quality issues before pushing.${NC}\n"
+    printf "\n"
+    printf "${YELLOW}💡 Tip: Check 'composeApp/build/reports/detekt/' for details${NC}\n"
+    printf "${CYAN}${DIVIDER}${NC}\n"
+    printf "\n"
     exit 1
 fi
+
