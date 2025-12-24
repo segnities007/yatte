@@ -96,6 +96,56 @@ fun TaskFormScreen(
                 singleLine = true,
             )
 
+            // 時間指定
+            Text(
+                text = "実行時間",
+                style = MaterialTheme.typography.labelLarge,
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                // 時間選択
+                OutlinedTextField(
+                    value = state.time.hour.toString().padStart(2, '0'),
+                    onValueChange = { input ->
+                        val hour = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
+                        if (hour in 0..23) {
+                            viewModel.onIntent(
+                                TaskFormIntent.UpdateTime(
+                                    kotlinx.datetime.LocalTime(hour, state.time.minute),
+                                ),
+                            )
+                        }
+                    },
+                    label = { Text("時") },
+                    modifier = Modifier.weight(1f),
+                    singleLine = true,
+                )
+                Text(
+                    text = ":",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(top = 16.dp),
+                )
+                // 分選択
+                OutlinedTextField(
+                    value = state.time.minute.toString().padStart(2, '0'),
+                    onValueChange = { input ->
+                        val minute = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
+                        if (minute in 0..59) {
+                            viewModel.onIntent(
+                                TaskFormIntent.UpdateTime(
+                                    kotlinx.datetime.LocalTime(state.time.hour, minute),
+                                ),
+                            )
+                        }
+                    },
+                    label = { Text("分") },
+                    modifier = Modifier.weight(1f),
+                    singleLine = true,
+                )
+            }
+
             // タスクタイプ
             Text(
                 text = "タスクタイプ",

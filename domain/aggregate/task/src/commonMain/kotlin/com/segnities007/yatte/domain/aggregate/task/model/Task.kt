@@ -88,6 +88,9 @@ data class Task(
      * @return アクティブな場合はtrue
      */
     fun isActiveOn(date: LocalDate): Boolean {
+        // 完了済みタスクはアクティブでない
+        if (isCompleted) return false
+
         // スキップ中はアクティブでない
         if (isSkipped(date)) return false
 
