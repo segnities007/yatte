@@ -20,3 +20,11 @@ actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
         AppDatabase.DATABASE_NAME,
     )
 }
+
+/**
+ * Android用のデータベース作成（Contextあり）
+ */
+fun createDatabase(context: Context): AppDatabase {
+    initializeDatabase(context)
+    return createDatabase()
+}
