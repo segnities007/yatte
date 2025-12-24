@@ -72,10 +72,7 @@ kotlin {
             // Project modules
             implementation(projects.di)
             implementation(projects.presentation.core)
-            implementation(projects.presentation.feature.home)
-            implementation(projects.presentation.feature.task)
-            implementation(projects.presentation.feature.history)
-            implementation(projects.presentation.feature.settings)
+            implementation(projects.presentation.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -51,6 +51,7 @@ include(":data:aggregate:settings")
 
 // Presentation Layer
 include(":presentation:core")
+include(":presentation:navigation")
 include(":presentation:feature:home")
 include(":presentation:feature:task")
 include(":presentation:feature:history")
