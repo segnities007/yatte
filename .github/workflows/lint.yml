@@ -9,9 +9,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ktlint:
+  lint:
     runs-on: ubuntu-latest
-    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - task: ktlintCheck
+            name: ktlint
+          - task: detekt
+            name: detekt
+
+    name: ${{ matrix.name }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,33 +37,12 @@ jobs:
         with:
           cache-read-only: true
 
-      - name: Run ktlint
-        run: ./gradlew ktlintCheck
+      - name: Run ${{ matrix.name }}
+        run: ./gradlew ${{ matrix.task }}
 
-  detekt:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-read-only: true
-
-      - name: Run detekt
-        run: ./gradlew detekt
-
-      - name: Upload Detekt Report
+      - name: Upload Report
         uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && matrix.name == 'detekt'
         with:
           name: detekt-report
           path: composeApp/build/reports/detekt/
