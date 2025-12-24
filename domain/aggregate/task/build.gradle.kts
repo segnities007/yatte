@@ -9,9 +9,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.domain.core)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.kotlinx.coroutines.core)
+            api(projects.domain.core)
+            api(libs.kotlinx.datetime)
+            api(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

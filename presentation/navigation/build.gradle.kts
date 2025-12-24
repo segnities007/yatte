@@ -34,6 +34,8 @@ kotlin {
             api(projects.presentation.feature.task)
             api(projects.presentation.feature.history)
             api(projects.presentation.feature.settings)
+            // Runtime dependencies (ensure transitive availability)
+            api(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
