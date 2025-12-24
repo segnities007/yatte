@@ -13,10 +13,6 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.plus
-
-/**
- * HistoryRepository の実装
- */
 class HistoryRepositoryImpl(
     private val dao: HistoryDao,
 ) : HistoryRepository {
@@ -26,6 +22,13 @@ class HistoryRepositoryImpl(
             entities.map { it.toDomain() }
         }
 
+    /**
+     * 指定日の履歴を取得する。
+     *
+     * 仕様:
+     * - completed_at は Epoch millis で保存される
+     * - [startOfDay, endOfDay) の半開区間で当日分を切り出す（タイムゾーン依存）
+     */
     override fun getByDate(date: LocalDate): Flow<List<History>> {
         val timeZone = TimeZone.currentSystemDefault()
         val startOfDay = date.atStartOfDayIn(timeZone).toEpochMilliseconds()

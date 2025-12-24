@@ -14,7 +14,11 @@ import com.segnities007.yatte.domain.aggregate.task.repository.TaskRepository
 import org.koin.dsl.module
 
 /**
- * データベースモジュール
+ * データベースモジュール。
+ *
+ * 前提:
+ * - Androidでは `createDatabase()` 実行前に `initializeDatabase(context)` が必要。
+ *   （Application起動時に初期化してからKoinを開始する）
  */
 val databaseModule = module {
     single<AppDatabase> { createDatabase() }
@@ -25,11 +29,14 @@ val databaseModule = module {
 }
 
 /**
- * リポジトリモジュール
+ * リポジトリモジュール。
+ *
+ * Data層のRepositoryImplは、Domain層のRepositoryインターフェースを実装し、
+ * Entity↔Model変換やクエリ条件（例: 今日のタスク、期限切れ削除）を担当する。
  */
 val repositoryModule = module {
     single<TaskRepository> { TaskRepositoryImpl(get()) }
     single<HistoryRepository> { HistoryRepositoryImpl(get()) }
-    single<AlarmRepository> { AlarmRepositoryImpl(get()) }
+    single<AlarmRepository> { AlarmRepositoryImpl(get(), get()) }
     single<SettingsRepository> { SettingsRepositoryImpl(get()) }
 }

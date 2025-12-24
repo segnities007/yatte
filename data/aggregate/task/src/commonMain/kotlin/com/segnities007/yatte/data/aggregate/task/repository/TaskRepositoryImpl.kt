@@ -11,10 +11,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
-
-/**
- * TaskRepository の実装
- */
 class TaskRepositoryImpl(
     private val dao: TaskDao,
 ) : TaskRepository {
@@ -43,6 +39,13 @@ class TaskRepositoryImpl(
     override suspend fun delete(id: TaskId) =
         dao.deleteById(id.value)
 
+    /**
+     * 期限切れ（アラーム発火から24時間経過）の1回限りタスクを削除する。
+     *
+     * 仕様:
+     * - 削除判定の起点は tasks.alarm_triggered_at（未設定なら削除対象にならない）
+     * - WEEKLY_LOOP は対象外（自動削除しない）
+     */
     override suspend fun deleteExpiredTasks() {
         val now = Clock.System.now()
         val thresholdMillis = now.toEpochMilliseconds() - (24 * 60 * 60 * 1000)

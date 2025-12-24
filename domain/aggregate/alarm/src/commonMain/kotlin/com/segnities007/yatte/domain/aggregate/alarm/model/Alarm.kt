@@ -22,11 +22,7 @@ data class Alarm(
     init {
         require(notifyAt <= scheduledAt) { "通知時刻は予定時刻より前である必要があります" }
     }
-
-    /**
-     * アラームを発火済みにする
-     */
-    fun markTriggered(): Alarm = copy(isTriggered = true)
+    fun markAsTriggered(): Alarm = copy(isTriggered = true)
 }
 
 

@@ -12,11 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
-/**
- * 設定画面のViewModel
- */
 class SettingsViewModel(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val updateSettingsUseCase: UpdateSettingsUseCase,
@@ -27,6 +24,8 @@ class SettingsViewModel(
 
     private val _events = Channel<SettingsEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
+
+    private var loadSettingsJob: Job? = null
 
     init {
         loadSettings()
@@ -44,7 +43,8 @@ class SettingsViewModel(
     }
 
     private fun loadSettings() {
-        viewModelScope.launch {
+        loadSettingsJob?.cancel()
+        loadSettingsJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             getSettingsUseCase().collect { settings ->
                 _state.update { it.copy(settings = settings, isLoading = false) }

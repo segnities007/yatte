@@ -10,38 +10,25 @@ import kotlinx.coroutines.flow.Flow
  * Data層で実装される
  */
 interface TaskRepository {
-    /**
-     * 今日のタスク一覧を取得
-     */
     fun getTodayTasks(): Flow<List<Task>>
 
-    /**
-     * すべてのタスクを取得
-     */
     fun getAllTasks(): Flow<List<Task>>
 
-    /**
-     * IDでタスクを取得
-     */
     suspend fun getById(id: TaskId): Task?
 
-    /**
-     * タスクを作成
-     */
     suspend fun insert(task: Task)
 
-    /**
-     * タスクを更新
-     */
     suspend fun update(task: Task)
 
-    /**
-     * タスクを削除
-     */
     suspend fun delete(id: TaskId)
 
     /**
      * 期限切れタスクを削除
+     *
+     * 仕様:
+     * - 対象は「1回限り」のタスクのみ（週次タスクは削除対象外）。
+     * - 24時間後削除の起点は「作成時刻」ではなく「アラーム発火時刻」。
+     *   これにより「通知が鳴ってから24時間」の仕様を満たす。
      */
     suspend fun deleteExpiredTasks()
 }
