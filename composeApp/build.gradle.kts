@@ -52,6 +52,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(projects.data.core)
+            implementation(projects.data.aggregate.settings)
         }
 
         commonMain.dependencies {

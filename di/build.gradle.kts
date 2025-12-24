@@ -30,6 +30,9 @@ kotlin {
             implementation(projects.data.aggregate.history)
             implementation(projects.data.aggregate.alarm)
             implementation(projects.data.aggregate.settings)
+
+            // DataStore
+            implementation(libs.datastore.preferences)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

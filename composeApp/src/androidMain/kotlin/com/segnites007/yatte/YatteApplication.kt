@@ -1,6 +1,7 @@
 package com.segnites007.yatte
 
 import android.app.Application
+import com.segnities007.yatte.data.aggregate.settings.initializeDataStore
 import com.segnities007.yatte.data.core.database.createDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -10,6 +11,9 @@ import org.koin.dsl.module
 class YatteApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        // DataStore初期化
+        initializeDataStore(this)
 
         val dbModule =
             module {
