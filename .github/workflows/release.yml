@@ -78,13 +78,13 @@ jobs:
         run: ./gradlew composeApp:bundleRelease
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: android-apk
           path: composeApp/build/outputs/apk/release/*.apk
 
       - name: Upload AAB
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: android-aab
           path: composeApp/build/outputs/bundle/release/*.aab
@@ -113,7 +113,7 @@ jobs:
         run: ./gradlew composeApp:packageDeb
 
       - name: Upload Linux Package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: desktop-linux
           path: composeApp/build/compose/binaries/main/deb/*.deb
@@ -142,7 +142,7 @@ jobs:
         run: ./gradlew composeApp:packageMsi
 
       - name: Upload Windows Package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: desktop-windows
           path: composeApp/build/compose/binaries/main/msi/*.msi
@@ -171,7 +171,7 @@ jobs:
         run: ./gradlew composeApp:packageDmg
 
       - name: Upload macOS Package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: desktop-macos
           path: composeApp/build/compose/binaries/main/dmg/*.dmg
