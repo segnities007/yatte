@@ -35,7 +35,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Generate Documentation
-        run: ./gradlew dokkaHtml
+        run: ./gradlew dokkaGenerateHtml
 
       - name: Upload Documentation
         uses: actions/upload-artifact@v4
