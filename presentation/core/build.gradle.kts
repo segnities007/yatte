@@ -20,6 +20,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(projects.domain.core)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

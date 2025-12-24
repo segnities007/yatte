@@ -16,11 +16,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -63,8 +64,7 @@ class HomeViewModel(
                     it.copy(
                         todayTasks = tasks,
                         isLoading = false,
-                        today = Clock.System.now()
-                            .toLocalDateTime(TimeZone.currentSystemDefault()).date,
+                        today = currentLocalDateTime().date,
                     )
                 }
             }
@@ -77,8 +77,7 @@ class HomeViewModel(
             completeTaskUseCase(task.id)
                 .onSuccess { completedTask ->
                     // 履歴に追加
-                    val now = Clock.System.now()
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
+                    val now = currentLocalDateTime()
                     val history = History(
                         id = HistoryId(Uuid.random().toString()),
                         taskId = completedTask.id,
@@ -107,5 +106,10 @@ class HomeViewModel(
         viewModelScope.launch {
             _events.send(event)
         }
+    }
+
+    private fun currentLocalDateTime(): LocalDateTime {
+        val instant = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
+        return instant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 }

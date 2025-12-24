@@ -15,11 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -67,7 +68,6 @@ class TaskFormViewModel(
                 }
         }
     }
-
 
     fun onIntent(intent: TaskFormIntent) {
         when (intent) {
@@ -119,8 +119,7 @@ class TaskFormViewModel(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
-            val now = Clock.System.now()
-                .toLocalDateTime(TimeZone.currentSystemDefault())
+            val now = currentLocalDateTime()
 
             val task = Task(
                 id = TaskId(currentState.editingTaskId ?: Uuid.random().toString()),
@@ -157,5 +156,10 @@ class TaskFormViewModel(
         viewModelScope.launch {
             _events.send(event)
         }
+    }
+
+    private fun currentLocalDateTime(): kotlinx.datetime.LocalDateTime {
+        val instant = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
+        return instant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 }
