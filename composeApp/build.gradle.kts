@@ -50,16 +50,31 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
+            implementation(projects.data.core)
         }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            // Koin
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            // Project modules
+            implementation(projects.di)
+            implementation(projects.presentation.core)
+            implementation(projects.presentation.feature.home)
+            implementation(projects.presentation.feature.task)
+            implementation(projects.presentation.feature.history)
+            implementation(projects.presentation.feature.settings)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

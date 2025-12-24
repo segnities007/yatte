@@ -11,8 +11,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // Koin (後で追加)
-            // implementation(libs.koin.core)
+            // Koin
+            api(libs.koin.core)
+
+            // Room (for AppDatabase)
+            implementation(libs.room.runtime)
 
             // Domain
             implementation(projects.domain.core)

@@ -13,7 +13,10 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.alarm)
+            implementation(projects.domain.aggregate.task)
             implementation(projects.data.core)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

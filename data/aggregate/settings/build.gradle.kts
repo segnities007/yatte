@@ -14,6 +14,8 @@ kotlin {
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.settings)
             implementation(projects.data.core)
+            implementation(libs.datastore.preferences)
+            implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
