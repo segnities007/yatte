@@ -16,13 +16,21 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
+            implementation(libs.kotlinx.datetime)
+            // Koin
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            // Project
             implementation(projects.presentation.core)
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.task)
             implementation(projects.domain.aggregate.history)
+            implementation(projects.di)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
