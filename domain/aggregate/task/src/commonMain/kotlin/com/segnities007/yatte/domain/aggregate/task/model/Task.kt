@@ -47,10 +47,6 @@ data class Task(
         private const val MAX_TITLE_LENGTH = 100
         private const val MAX_MINUTES_BEFORE = 60
     }
-
-    /**
-     * タスクを完了状態にする
-     */
     fun complete(): Task = copy(isCompleted = true)
 
     /**
@@ -58,9 +54,6 @@ data class Task(
      */
     fun resetCompletion(): Task = copy(isCompleted = false, alarmTriggeredAt = null)
 
-    /**
-     * アラームが発火したことを記録する
-     */
     fun markAlarmTriggered(triggeredAt: LocalDateTime): Task =
         copy(alarmTriggeredAt = triggeredAt)
 
@@ -75,9 +68,6 @@ data class Task(
         return copy(skipUntil = until)
     }
 
-    /**
-     * スキップを解除する
-     */
     fun cancelSkip(): Task = copy(skipUntil = null)
 
     /**

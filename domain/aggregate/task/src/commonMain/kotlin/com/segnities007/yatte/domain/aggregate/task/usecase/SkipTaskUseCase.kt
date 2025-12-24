@@ -4,19 +4,11 @@ import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.repository.TaskRepository
 import com.segnities007.yatte.domain.core.error.EntityNotFoundError
 import kotlinx.datetime.LocalDate
-
-/**
- * 週次タスクスキップユースケース
- */
 class SkipTaskUseCase(
     private val repository: TaskRepository,
 ) {
     /**
-     * 週次タスクを指定日までスキップする
-     *
-     * @param taskId スキップするタスクのID
-     * @param until スキップする期限日
-     * @return 成功時はUnit、失敗時はエラー
+     * [taskId] の週次タスクを [until] までスキップする。
      */
     suspend operator fun invoke(taskId: TaskId, until: LocalDate): Result<Unit> =
         runCatching {
@@ -28,10 +20,7 @@ class SkipTaskUseCase(
         }
 
     /**
-     * スキップを解除する
-     *
-     * @param taskId スキップを解除するタスクのID
-     * @return 成功時はUnit、失敗時はエラー
+     * [taskId] のスキップを解除する。
      */
     suspend fun cancel(taskId: TaskId): Result<Unit> =
         runCatching {

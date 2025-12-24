@@ -31,6 +31,22 @@ interface TaskDao {
     @Query("DELETE FROM tasks")
     suspend fun deleteAll()
 
+    /**
+     * アラーム発火時刻（tasks.alarm_triggered_at）を記録する。
+     *
+        * 仕様:
+     * - 対象は **ONE_TIME タスクのみ**（週次タスクは自動削除しないため）
+     * - この時刻は「24時間後自動削除」の起点として使用される
+     */
+    @Query("UPDATE tasks SET alarm_triggered_at = :triggeredAtMillis WHERE id = :taskId AND task_type = 'ONE_TIME'")
+    suspend fun setAlarmTriggeredAtIfOneTimeTask(taskId: String, triggeredAtMillis: Long)
+
+    /**
+     * 期限切れの1回限りタスクを削除する。
+     *
+     * - alarm_triggered_at が設定済みで、thresholdMillis より古いものを削除
+     * - ONE_TIME のみ対象（WEEKLY_LOOP は削除しない）
+     */
     @Query("DELETE FROM tasks WHERE alarm_triggered_at IS NOT NULL AND alarm_triggered_at < :thresholdMillis AND task_type = 'ONE_TIME'")
     suspend fun deleteExpired(thresholdMillis: Long)
 }

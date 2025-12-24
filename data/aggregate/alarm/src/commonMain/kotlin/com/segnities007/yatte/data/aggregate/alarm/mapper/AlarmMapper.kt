@@ -11,6 +11,9 @@ import kotlinx.datetime.toLocalDateTime
 
 /**
  * AlarmEntity → Alarm (Domain Model)
+ *
+ * 仕様:
+ * - DBには日時を `epoch millis` で保存し、取り出すときは `TimeZone.currentSystemDefault()` で復元する。
  */
 fun AlarmEntity.toDomain(): Alarm {
     val timeZone = TimeZone.currentSystemDefault()
@@ -25,6 +28,9 @@ fun AlarmEntity.toDomain(): Alarm {
 
 /**
  * Alarm (Domain Model) → AlarmEntity
+ *
+ * 仕様:
+ * - DBには日時を `epoch millis` で保存する。
  */
 fun Alarm.toEntity(): AlarmEntity {
     val timeZone = TimeZone.currentSystemDefault()
