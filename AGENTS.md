@@ -8,6 +8,7 @@
 >
 > - **コーディング全般**: [コーディング規約](docs/guidelines/coding.md)
 > - **Domain層実装**: [Domain層ガイドライン](docs/guidelines/domain.md)
+> - **Data層実装**: [Data層ガイドライン](docs/guidelines/data.md)
 > - **設計・構成など**: [アーキテクチャガイドライン](docs/guidelines/architecture.md)
 > - **画面・UI実装**: [UI実装ガイドライン](docs/guidelines/ui.md)
 > - **DB・データ操作**: [データベースガイドライン](docs/guidelines/database.md)
