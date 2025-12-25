@@ -29,6 +29,7 @@ sealed interface TaskFormIntent {
     data class UpdateTaskType(val type: TaskType) : TaskFormIntent
     data class ToggleWeekDay(val day: DayOfWeek) : TaskFormIntent
     data object SaveTask : TaskFormIntent
+    data object DeleteTask : TaskFormIntent
     data object Cancel : TaskFormIntent
 }
 
@@ -37,6 +38,7 @@ sealed interface TaskFormIntent {
  */
 sealed interface TaskFormEvent {
     data object TaskSaved : TaskFormEvent
+    data object TaskDeleted : TaskFormEvent
     data object Cancelled : TaskFormEvent
     data class ShowError(val message: String) : TaskFormEvent
 }

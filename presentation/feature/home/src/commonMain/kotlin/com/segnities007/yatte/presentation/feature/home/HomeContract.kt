@@ -7,10 +7,10 @@ import kotlinx.datetime.LocalDate
  * ホーム画面の状態
  */
 data class HomeState(
-    val todayTasks: List<Task> = emptyList(),
+    val selectedDate: LocalDate? = null,
+    val tasks: List<Task> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null,
-    val today: LocalDate? = null,
 )
 
 /**
@@ -18,11 +18,13 @@ data class HomeState(
  */
 sealed interface HomeIntent {
     data object LoadTasks : HomeIntent
+    data class SelectDate(val date: LocalDate) : HomeIntent
     data class CompleteTask(val task: Task) : HomeIntent
     data class SkipTask(val task: Task, val until: LocalDate) : HomeIntent
     data object NavigateToAddTask : HomeIntent
     data object NavigateToHistory : HomeIntent
     data object NavigateToSettings : HomeIntent
+    data class NavigateToEditTask(val taskId: String) : HomeIntent
 }
 
 /**
@@ -32,6 +34,8 @@ sealed interface HomeEvent {
     data object NavigateToAddTask : HomeEvent
     data object NavigateToHistory : HomeEvent
     data object NavigateToSettings : HomeEvent
+    data class NavigateToEditTask(val taskId: String) : HomeEvent
     data class ShowError(val message: String) : HomeEvent
     data class ShowTaskCompleted(val taskTitle: String) : HomeEvent
 }
+

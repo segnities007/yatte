@@ -1,0 +1,14 @@
+<resources>
+    <string name="nav_home">ホーム</string>
+    <string name="nav_manage">管理</string>
+    <string name="nav_history">履歴</string>
+    <string name="nav_settings">設定</string>
+
+    <string name="common_back">戻る</string>
+    <string name="common_save">保存</string>
+    <string name="common_delete">削除</string>
+
+    <string name="error_delete_failed">削除に失敗しました</string>
+
+    <string name="cd_add_task">タスク追加</string>
+</resources>

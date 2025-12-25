@@ -6,6 +6,7 @@ import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.domain.aggregate.task.usecase.CreateTaskUseCase
+import com.segnities007.yatte.domain.aggregate.task.usecase.DeleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetTaskByIdUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.UpdateTaskUseCase
 import kotlinx.coroutines.channels.Channel
@@ -22,11 +23,16 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
+import org.jetbrains.compose.resources.getString
+import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 import kotlin.uuid.Uuid
+
 class TaskFormViewModel(
     private val createTaskUseCase: CreateTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TaskFormState())
@@ -55,12 +61,13 @@ class TaskFormViewModel(
                         }
                     } else {
                         _state.update { it.copy(isLoading = false) }
-                        sendEvent(TaskFormEvent.ShowError("タスクが見つかりません"))
+                        sendEvent(TaskFormEvent.ShowError(getString(TaskRes.string.error_task_not_found)))
                     }
                 }
                 .onFailure { error ->
                     _state.update { it.copy(isLoading = false) }
-                    sendEvent(TaskFormEvent.ShowError(error.message ?: "タスクの読み込みに失敗しました"))
+                    val message = error.message ?: getString(TaskRes.string.error_task_load_failed)
+                    sendEvent(TaskFormEvent.ShowError(message))
                 }
         }
     }
@@ -73,6 +80,7 @@ class TaskFormViewModel(
             is TaskFormIntent.UpdateTaskType -> updateTaskType(intent.type)
             is TaskFormIntent.ToggleWeekDay -> toggleWeekDay(intent.day)
             is TaskFormIntent.SaveTask -> saveTask()
+            is TaskFormIntent.DeleteTask -> deleteTask()
             is TaskFormIntent.Cancel -> sendEvent(TaskFormEvent.Cancelled)
         }
     }
@@ -108,7 +116,7 @@ class TaskFormViewModel(
     private fun saveTask() {
         val currentState = _state.value
         if (currentState.title.isBlank()) {
-            sendEvent(TaskFormEvent.ShowError("タイトルを入力してください"))
+            sendEvent(TaskFormEvent.ShowError(getString(TaskRes.string.error_title_required)))
             return
         }
 
@@ -143,8 +151,30 @@ class TaskFormViewModel(
                 }
                 .onFailure { error ->
                     _state.update { it.copy(isLoading = false) }
-                    sendEvent(TaskFormEvent.ShowError(error.message ?: "保存に失敗しました"))
+                    val message = error.message ?: getString(TaskRes.string.error_save_failed)
+                    sendEvent(TaskFormEvent.ShowError(message))
                 }
+        }
+    }
+
+    private fun deleteTask() {
+        val currentState = _state.value
+        val taskId = currentState.editingTaskId ?: return
+
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            val result = deleteTaskUseCase(TaskId(taskId))
+            result
+                .onSuccess {
+                    _state.update { it.copy(isLoading = false) }
+                    sendEvent(TaskFormEvent.TaskDeleted)
+                }
+
+            result.exceptionOrNull()?.let { error ->
+                _state.update { it.copy(isLoading = false) }
+                val message = error.message ?: getString(CoreRes.string.error_delete_failed)
+                sendEvent(TaskFormEvent.ShowError(message))
+            }
         }
     }
 

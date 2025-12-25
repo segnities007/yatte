@@ -34,6 +34,8 @@ kotlin {
             api(projects.presentation.feature.task)
             api(projects.presentation.feature.history)
             api(projects.presentation.feature.settings)
+            api(projects.presentation.feature.management)
+            api(projects.presentation.feature.management)
             // Runtime dependencies (ensure transitive availability)
             api(libs.kotlinx.datetime)
         }

@@ -56,6 +56,7 @@ include(":presentation:feature:home")
 include(":presentation:feature:task")
 include(":presentation:feature:history")
 include(":presentation:feature:settings")
+include(":presentation:feature:management")
 
 // DI
 include(":di")

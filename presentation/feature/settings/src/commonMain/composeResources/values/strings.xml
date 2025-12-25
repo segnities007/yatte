@@ -1,0 +1,18 @@
+<resources>
+    <string name="snackbar_settings_saved">設定を保存しました</string>
+
+    <string name="section_notifications">通知</string>
+    <string name="notification_sound_title">通知音</string>
+    <string name="notification_sound_desc">タスク通知時に音を鳴らす</string>
+    <string name="notification_vibration_title">バイブレーション</string>
+    <string name="notification_vibration_desc">タスク通知時に振動する</string>
+    <string name="default_minutes_before">デフォルト通知時間: %1$d分前</string>
+
+    <string name="section_appearance">外観</string>
+    <string name="theme_title">テーマ</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="theme_system">システム</string>
+
+    <string name="error_settings_save_failed">設定の保存に失敗しました</string>
+</resources>

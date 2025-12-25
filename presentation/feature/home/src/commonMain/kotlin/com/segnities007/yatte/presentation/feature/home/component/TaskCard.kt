@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
+import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 
 /**
  * タスクカードコンポーネント
@@ -31,9 +33,11 @@ import com.segnities007.yatte.domain.aggregate.task.model.Task
 fun TaskCard(
     task: Task,
     onComplete: () -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
+        onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
@@ -60,7 +64,7 @@ fun TaskCard(
             IconButton(onClick = onComplete) {
                 Icon(
                     Icons.Default.Check,
-                    contentDescription = "完了",
+                    contentDescription = stringResource(HomeRes.string.cd_complete),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }

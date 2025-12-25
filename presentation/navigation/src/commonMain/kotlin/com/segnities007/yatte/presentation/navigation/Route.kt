@@ -3,11 +3,6 @@ package com.segnities007.yatte.presentation.navigation
 import kotlinx.serialization.Serializable
 
 /**
- * ナビゲーションルート定義
- * kotlinx.serialization を使用した型安全なルーティング
- */
-
-/**
  * ホーム画面（今日のタスク一覧）
  */
 @Serializable

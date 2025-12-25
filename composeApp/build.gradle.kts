@@ -86,7 +86,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.segnites007.yatte"
+    namespace = "com.segnities007.yatte"
     compileSdk =
         libs.versions.android.compileSdk
             .get()
@@ -157,11 +157,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.segnites007.yatte.MainKt"
+        mainClass = "com.segnities007.yatte.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.segnites007.yatte"
+            packageName = "com.segnities007.yatte"
             packageVersion = "1.0.0"
         }
     }

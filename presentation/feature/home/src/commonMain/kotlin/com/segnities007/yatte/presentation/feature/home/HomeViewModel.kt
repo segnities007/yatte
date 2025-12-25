@@ -17,14 +17,18 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
+import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
+
 class HomeViewModel(
     private val getTodayTasksUseCase: GetTodayTasksUseCase,
     private val completeTaskUseCase: CompleteTaskUseCase,
@@ -32,7 +36,9 @@ class HomeViewModel(
     private val addHistoryUseCase: AddHistoryUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(HomeState())
+    private val _state = MutableStateFlow(
+        HomeState(selectedDate = Clock.System.todayIn(TimeZone.currentSystemDefault()))
+    )
     val state: StateFlow<HomeState> = _state.asStateFlow()
 
     private val _events = Channel<HomeEvent>(Channel.BUFFERED)
@@ -47,24 +53,37 @@ class HomeViewModel(
     fun onIntent(intent: HomeIntent) {
         when (intent) {
             is HomeIntent.LoadTasks -> loadTasks()
+            is HomeIntent.SelectDate -> selectDate(intent.date)
             is HomeIntent.CompleteTask -> completeTask(intent.task)
             is HomeIntent.SkipTask -> skipTask(intent.task, intent.until)
             is HomeIntent.NavigateToAddTask -> sendEvent(HomeEvent.NavigateToAddTask)
             is HomeIntent.NavigateToHistory -> sendEvent(HomeEvent.NavigateToHistory)
             is HomeIntent.NavigateToSettings -> sendEvent(HomeEvent.NavigateToSettings)
+            is HomeIntent.NavigateToEditTask -> sendEvent(HomeEvent.NavigateToEditTask(intent.taskId))
         }
+    }
+
+    private fun selectDate(date: LocalDate) {
+        _state.update { it.copy(selectedDate = date) }
+        loadTasks()
     }
 
     private fun loadTasks() {
         loadTasksJob?.cancel()
         loadTasksJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
-            getTodayTasksUseCase().collect { tasks ->
+            val selectedDate = _state.value.selectedDate
+            getTodayTasksUseCase().collect { allTasks ->
+                // 選択された日付に該当するタスクをフィルタ
+                val tasksForDate = if (selectedDate != null) {
+                    allTasks.filter { it.isActiveOn(selectedDate) }
+                } else {
+                    allTasks
+                }
                 _state.update {
                     it.copy(
-                        todayTasks = tasks,
+                        tasks = tasksForDate,
                         isLoading = false,
-                        today = currentLocalDateTime().date,
                     )
                 }
             }
@@ -88,7 +107,8 @@ class HomeViewModel(
                     sendEvent(HomeEvent.ShowTaskCompleted(completedTask.title))
                 }
                 .onFailure { error ->
-                    sendEvent(HomeEvent.ShowError(error.message ?: "タスク完了に失敗しました"))
+                    val message = error.message ?: getString(HomeRes.string.error_task_complete_failed)
+                    sendEvent(HomeEvent.ShowError(message))
                 }
         }
     }
@@ -97,7 +117,8 @@ class HomeViewModel(
         viewModelScope.launch {
             skipTaskUseCase(task.id, until)
                 .onFailure { error ->
-                    sendEvent(HomeEvent.ShowError(error.message ?: "スキップに失敗しました"))
+                    val message = error.message ?: getString(HomeRes.string.error_skip_failed)
+                    sendEvent(HomeEvent.ShowError(message))
                 }
         }
     }
@@ -113,3 +134,4 @@ class HomeViewModel(
         return instant.toLocalDateTime(TimeZone.currentSystemDefault())
     }
 }
+
