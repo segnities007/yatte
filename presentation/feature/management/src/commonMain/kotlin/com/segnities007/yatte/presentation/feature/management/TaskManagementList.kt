@@ -24,6 +24,7 @@ import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.management.generated.resources.*
 import yatte.presentation.feature.management.generated.resources.Res as ManagementRes
 
 @Composable
@@ -83,7 +84,12 @@ fun TaskManagementCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 val typeLabel = if (task.taskType == TaskType.WEEKLY_LOOP) {
-                    val days = task.weekDays.joinToString("・") { it.toDisplayString() }
+                    val days = buildString {
+                        for (day in task.weekDays) {
+                            if (isNotEmpty()) append("・")
+                            append(day.toDisplayString())
+                        }
+                    }
                     stringResource(ManagementRes.string.task_type_weekly, days)
                 } else {
                     stringResource(ManagementRes.string.task_type_one_time)
@@ -115,5 +121,4 @@ private fun DayOfWeek.toDisplayString(): String = when (this) {
     DayOfWeek.FRIDAY -> stringResource(ManagementRes.string.weekday_fri_short)
     DayOfWeek.SATURDAY -> stringResource(ManagementRes.string.weekday_sat_short)
     DayOfWeek.SUNDAY -> stringResource(ManagementRes.string.weekday_sun_short)
-    else -> ""
 }

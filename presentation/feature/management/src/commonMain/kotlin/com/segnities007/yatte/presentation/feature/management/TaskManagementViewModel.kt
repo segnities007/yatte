@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
+import yatte.presentation.core.generated.resources.error_delete_failed
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.management.generated.resources.*
 import yatte.presentation.feature.management.generated.resources.Res as ManagementRes
 
 class TaskManagementViewModel(

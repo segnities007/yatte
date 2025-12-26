@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.core.generated.resources.Res
+import yatte.presentation.core.generated.resources.*
 
 /**
  * ナビゲーション項目

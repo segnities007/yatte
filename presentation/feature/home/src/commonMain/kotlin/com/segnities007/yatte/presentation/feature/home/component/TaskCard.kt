@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.home.generated.resources.*
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 
 /**

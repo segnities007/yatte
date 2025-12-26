@@ -34,9 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.history.model.History
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import yatte.presentation.core.generated.resources.common_delete
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.history.generated.resources.*
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +57,7 @@ internal fun HistoryScreen(
                 is HistoryEvent.NavigateBack -> actions.onBack()
                 is HistoryEvent.ShowError -> onShowSnackbar(event.message)
                 is HistoryEvent.ShowExportSuccess -> onShowSnackbar(
-                    stringResource(HistoryRes.string.snackbar_export_success, event.format),
+                    getString(HistoryRes.string.snackbar_export_success, event.format),
                 )
                 is HistoryEvent.ShowClearConfirmation -> {}
             }

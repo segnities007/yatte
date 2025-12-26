@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import yatte.presentation.feature.settings.generated.resources.*
 import org.jetbrains.compose.resources.getString
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 

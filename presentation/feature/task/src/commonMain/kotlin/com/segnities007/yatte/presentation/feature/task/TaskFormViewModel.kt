@@ -24,7 +24,9 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import org.jetbrains.compose.resources.getString
+import yatte.presentation.core.generated.resources.*
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 import kotlin.uuid.Uuid
 
@@ -116,7 +118,10 @@ class TaskFormViewModel(
     private fun saveTask() {
         val currentState = _state.value
         if (currentState.title.isBlank()) {
-            sendEvent(TaskFormEvent.ShowError(getString(TaskRes.string.error_title_required)))
+            viewModelScope.launch {
+                val message = getString(TaskRes.string.error_title_required)
+                _events.send(TaskFormEvent.ShowError(message))
+            }
             return
         }
 

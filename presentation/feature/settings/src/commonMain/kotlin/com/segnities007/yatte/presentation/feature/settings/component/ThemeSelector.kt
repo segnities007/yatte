@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.settings.generated.resources.*
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 
 /**

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import yatte.presentation.feature.management.generated.resources.*
 import yatte.presentation.feature.management.generated.resources.Res as ManagementRes
 
 @OptIn(ExperimentalMaterial3Api::class)

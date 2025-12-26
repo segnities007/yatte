@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.home.generated.resources.*
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 
 /**

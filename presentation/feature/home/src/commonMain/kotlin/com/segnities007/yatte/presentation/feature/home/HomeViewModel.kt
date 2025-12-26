@@ -24,6 +24,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
+import yatte.presentation.feature.home.generated.resources.*
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi

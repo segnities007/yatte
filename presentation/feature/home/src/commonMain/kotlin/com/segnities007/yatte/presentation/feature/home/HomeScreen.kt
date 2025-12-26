@@ -38,8 +38,12 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.todayIn
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.nav_history
+import yatte.presentation.core.generated.resources.nav_settings
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.home.generated.resources.*
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Clock
@@ -78,7 +82,7 @@ internal fun HomeScreen(
                 is HomeEvent.NavigateToEditTask -> actions.onEditTask(event.taskId)
                 is HomeEvent.ShowError -> onShowSnackbar(event.message)
                 is HomeEvent.ShowTaskCompleted -> onShowSnackbar(
-                    stringResource(HomeRes.string.snackbar_task_completed, event.taskTitle),
+                    getString(HomeRes.string.snackbar_task_completed, event.taskTitle),
                 )
             }
         }

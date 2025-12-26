@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.common_delete
 import yatte.presentation.core.generated.resources.Res as CoreRes
 
 /**

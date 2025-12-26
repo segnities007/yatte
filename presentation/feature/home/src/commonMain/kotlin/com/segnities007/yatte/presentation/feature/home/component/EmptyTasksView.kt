@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.home.generated.resources.*
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 
 /**

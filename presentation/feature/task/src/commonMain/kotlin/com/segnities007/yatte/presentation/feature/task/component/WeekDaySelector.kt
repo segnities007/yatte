@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 
 /**

@@ -40,8 +40,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import kotlinx.datetime.DayOfWeek
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.*
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -63,7 +66,7 @@ internal fun TaskFormScreen(
             when (event) {
                 is TaskFormEvent.TaskSaved -> actions.onBack()
                 is TaskFormEvent.TaskDeleted -> {
-                    onShowSnackbar(stringResource(TaskRes.string.snackbar_task_deleted))
+                    onShowSnackbar(getString(TaskRes.string.snackbar_task_deleted))
                     actions.onBack()
                 }
                 is TaskFormEvent.Cancelled -> actions.onBack()

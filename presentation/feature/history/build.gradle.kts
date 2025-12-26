@@ -34,6 +34,7 @@ kotlin {
             implementation(projects.domain.aggregate.history)
             implementation(projects.di)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

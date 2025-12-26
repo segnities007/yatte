@@ -17,7 +17,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.getString
+import yatte.presentation.core.generated.resources.error_delete_failed
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.history.generated.resources.*
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
 class HistoryViewModel(

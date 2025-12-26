@@ -33,8 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.nav_settings
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.settings.generated.resources.*
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -52,7 +55,7 @@ internal fun SettingsScreen(
             when (event) {
                 is SettingsEvent.NavigateBack -> actions.onBack()
                 is SettingsEvent.ShowError -> onShowSnackbar(event.message)
-                is SettingsEvent.ShowSaveSuccess -> onShowSnackbar(stringResource(SettingsRes.string.snackbar_settings_saved))
+                is SettingsEvent.ShowSaveSuccess -> onShowSnackbar(getString(SettingsRes.string.snackbar_settings_saved))
             }
         }
     }

@@ -33,6 +33,7 @@ kotlin {
             implementation(projects.domain.aggregate.settings)
             implementation(projects.di)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
