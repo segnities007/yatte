@@ -102,6 +102,10 @@ class AlarmReceiver : BroadcastReceiver() {
             }
         }
     }
+
+    private fun getTaskIdFromIntent(intent: Intent): String? = intent.getStringExtra(AlarmConstants.EXTRA_TASK_TITLE)
+
+    private fun getAlarmIdFromIntent(intent: Intent): String? = intent.getStringExtra(AlarmConstants.EXTRA_ALARM_ID)
 }
 
 private fun currentLocalDateTime(): LocalDateTime {
