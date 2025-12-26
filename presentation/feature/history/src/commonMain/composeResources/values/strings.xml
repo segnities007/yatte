@@ -2,6 +2,7 @@
     <string name="title_history">完了履歴</string>
 
     <string name="common_empty_emoji">📋</string>
+    <string name="cd_export">エクスポート</string>
     <string name="empty_no_history">履歴がありません</string>
 
     <string name="snackbar_export_success">%1$s形式でエクスポートしました</string>

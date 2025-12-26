@@ -17,6 +17,7 @@ import com.segnities007.yatte.domain.aggregate.task.usecase.GetTodayTasksUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.SkipTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.UpdateTaskUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ResetAllDataUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.UpdateSettingsUseCase
 import org.koin.dsl.module
 
@@ -43,10 +44,11 @@ val useCaseModule = module {
 
     // Alarm UseCases
     factory { ScheduleAlarmUseCase(get(), get()) }
-    factory { CancelAlarmUseCase(get()) }
+    factory { CancelAlarmUseCase(get(), get()) }
     factory { GetScheduledAlarmsUseCase(get()) }
 
     // Settings UseCases
     factory { GetSettingsUseCase(get()) }
     factory { UpdateSettingsUseCase(get()) }
+    factory { ResetAllDataUseCase(get(), get()) }
 }

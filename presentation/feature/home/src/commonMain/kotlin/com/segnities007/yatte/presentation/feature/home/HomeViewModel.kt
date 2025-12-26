@@ -9,6 +9,7 @@ import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.usecase.CompleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetTodayTasksUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.SkipTaskUseCase
+import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -35,6 +36,7 @@ class HomeViewModel(
     private val completeTaskUseCase: CompleteTaskUseCase,
     private val skipTaskUseCase: SkipTaskUseCase,
     private val addHistoryUseCase: AddHistoryUseCase,
+    private val cancelAlarmUseCase: CancelAlarmUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(
@@ -61,6 +63,7 @@ class HomeViewModel(
             is HomeIntent.NavigateToHistory -> sendEvent(HomeEvent.NavigateToHistory)
             is HomeIntent.NavigateToSettings -> sendEvent(HomeEvent.NavigateToSettings)
             is HomeIntent.NavigateToEditTask -> sendEvent(HomeEvent.NavigateToEditTask(intent.taskId))
+            is HomeIntent.NavigateToToday -> { /* Handled directly in UI via pagerState */ }
         }
     }
 
@@ -96,6 +99,9 @@ class HomeViewModel(
         viewModelScope.launch {
             completeTaskUseCase(task.id)
                 .onSuccess { completedTask ->
+                    // 手動完了時は必ずアラームをキャンセル
+                    cancelAlarmUseCase.byTaskId(completedTask.id)
+
                     // 履歴に追加
                     val now = currentLocalDateTime()
                     val history = History(

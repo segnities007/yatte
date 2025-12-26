@@ -1,5 +1,6 @@
 package com.segnities007.yatte.presentation.feature.management
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
@@ -14,11 +15,15 @@ data class TaskManagementActions(
 
 fun NavGraphBuilder.taskManagementScreen(
     actions: TaskManagementActions,
+    contentPadding: PaddingValues,
+    isNavigationVisible: Boolean,
     onShowSnackbar: (String) -> Unit,
 ) {
     composable<TaskManagementRoute> {
         TaskManagementScreen(
             actions = actions,
+            contentPadding = contentPadding,
+            isNavigationVisible = isNavigationVisible,
             onShowSnackbar = onShowSnackbar,
         )
     }

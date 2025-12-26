@@ -27,6 +27,7 @@ class SettingsRepositoryImpl(
         val KEY_DEFAULT_MINUTES_BEFORE = intPreferencesKey("default_minutes_before")
         val KEY_NOTIFICATION_SOUND = booleanPreferencesKey("notification_sound")
         val KEY_NOTIFICATION_VIBRATION = booleanPreferencesKey("notification_vibration")
+        val KEY_CUSTOM_SOUND_URI = stringPreferencesKey("custom_sound_uri")
         val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
     }
 
@@ -37,6 +38,7 @@ class SettingsRepositoryImpl(
                 defaultMinutesBefore = preferences[KEY_DEFAULT_MINUTES_BEFORE] ?: 10,
                 notificationSound = preferences[KEY_NOTIFICATION_SOUND] ?: true,
                 notificationVibration = preferences[KEY_NOTIFICATION_VIBRATION] ?: true,
+                customSoundUri = preferences[KEY_CUSTOM_SOUND_URI],
                 themeMode = themeModeRaw
                     ?.let { raw -> ThemeMode.entries.firstOrNull { it.name == raw } }
                     ?: ThemeMode.SYSTEM,
@@ -48,6 +50,12 @@ class SettingsRepositoryImpl(
             preferences[KEY_DEFAULT_MINUTES_BEFORE] = settings.defaultMinutesBefore
             preferences[KEY_NOTIFICATION_SOUND] = settings.notificationSound
             preferences[KEY_NOTIFICATION_VIBRATION] = settings.notificationVibration
+            val soundUri = settings.customSoundUri
+            if (soundUri != null) {
+                preferences[KEY_CUSTOM_SOUND_URI] = soundUri
+            } else {
+                preferences.remove(KEY_CUSTOM_SOUND_URI)
+            }
             preferences[KEY_THEME_MODE] = settings.themeMode.name
         }
     }

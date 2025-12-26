@@ -1,26 +1,26 @@
 package com.segnities007.yatte.presentation.feature.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,8 +28,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
+import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
 import com.segnities007.yatte.presentation.feature.home.component.EmptyTasksView
 import com.segnities007.yatte.presentation.feature.home.component.TaskList
 import com.segnities007.yatte.presentation.feature.home.component.formatDate
@@ -57,9 +64,13 @@ private const val PAGE_COUNT = 1000
 internal fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
     actions: HomeActions,
+    contentPadding: PaddingValues,
+    isNavigationVisible: Boolean,
     onShowSnackbar: (String) -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val scope = rememberCoroutineScope()
+    val scrollState = rememberLazyListState()
     val today = remember { Clock.System.todayIn(TimeZone.currentSystemDefault()) }
     val pagerState = rememberPagerState(initialPage = INITIAL_PAGE) { PAGE_COUNT }
     val coroutineScope = rememberCoroutineScope()
@@ -88,62 +99,24 @@ internal fun HomeScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
-                navigationIcon = {
-                    IconButton(onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                        }
-                    }) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(HomeRes.string.cd_prev_day),
-                        )
-                    }
-                },
-                title = {
-                    Text(text = state.selectedDate?.let { formatDate(it) } ?: "")
-                },
-                actions = {
-                    IconButton(onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                        }
-                    }) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowForward,
-                            contentDescription = stringResource(HomeRes.string.cd_next_day),
-                        )
-                    }
-                    IconButton(onClick = { viewModel.onIntent(HomeIntent.NavigateToHistory) }) {
-                        Icon(
-                            Icons.Default.History,
-                            contentDescription = stringResource(CoreRes.string.nav_history),
-                        )
-                    }
-                    IconButton(onClick = { viewModel.onIntent(HomeIntent.NavigateToSettings) }) {
-                        Icon(
-                            Icons.Default.Settings,
-                            contentDescription = stringResource(CoreRes.string.nav_settings),
-                        )
-                    }
-                },
-            )
-        },
-    ) { padding ->
+    // ヘッダー分の高さとマージンを考慮したパディング
+    // FNB用のcontentPadding(bottom)に加えて、Topのパディングを追加してリストに渡す
+    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
+    val listContentPadding = PaddingValues(
+        top = statusBarHeight + headerHeight,
+        bottom = contentPadding.calculateBottomPadding(),
+        start = 16.dp,
+        end = 16.dp,
+    )
+
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // コンテンツ (背面)
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
+            modifier = Modifier.fillMaxSize(),
         ) { _ ->
             Box(modifier = Modifier.fillMaxSize()) {
                 when {
@@ -160,13 +133,62 @@ internal fun HomeScreen(
                     else -> {
                         TaskList(
                             tasks = state.tasks,
+                            contentPadding = listContentPadding,
                             onCompleteTask = { viewModel.onIntent(HomeIntent.CompleteTask(it)) },
+                            onSkipTask = { task ->
+                                viewModel.onIntent(HomeIntent.SkipTask(task, state.selectedDate ?: today))
+                            },
                             onTaskClick = { viewModel.onIntent(HomeIntent.NavigateToEditTask(it.id.value)) },
                         )
                     }
                 }
             }
         }
+
+        // Floating Header (前面)
+        FloatingHeaderBar(
+            isVisible = isNavigationVisible,
+            title = {
+                val dateText = if (state.selectedDate != null) {
+                    formatDate(state.selectedDate!!)
+                } else {
+                    ""
+                }
+                Text(
+                    text = dateText,
+                    modifier = Modifier.clickable {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(INITIAL_PAGE)
+                        }
+                    }
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
+                }) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(HomeRes.string.cd_prev_day),
+                    )
+                }
+            },
+            actions = {
+                IconButton(onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
+                }) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = stringResource(HomeRes.string.cd_next_day),
+                    )
+                }
+            },
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 

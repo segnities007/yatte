@@ -10,6 +10,7 @@ data class SettingsState(
     val settings: UserSettings = UserSettings(),
     val isLoading: Boolean = true,
     val error: String? = null,
+    val showResetConfirmation: Boolean = false,
 )
 
 /**
@@ -20,8 +21,12 @@ sealed interface SettingsIntent {
     data class UpdateMinutesBefore(val minutes: Int) : SettingsIntent
     data class ToggleNotificationSound(val enabled: Boolean) : SettingsIntent
     data class ToggleNotificationVibration(val enabled: Boolean) : SettingsIntent
+    data class UpdateCustomSoundUri(val uri: String?) : SettingsIntent
     data class UpdateThemeMode(val mode: ThemeMode) : SettingsIntent
     data object NavigateBack : SettingsIntent
+    data object RequestResetData : SettingsIntent
+    data object ConfirmResetData : SettingsIntent
+    data object CancelResetData : SettingsIntent
 }
 
 /**
@@ -31,4 +36,5 @@ sealed interface SettingsEvent {
     data object NavigateBack : SettingsEvent
     data class ShowError(val message: String) : SettingsEvent
     data object ShowSaveSuccess : SettingsEvent
+    data object ShowResetSuccess : SettingsEvent
 }

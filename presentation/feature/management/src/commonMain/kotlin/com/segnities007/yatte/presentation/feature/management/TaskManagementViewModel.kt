@@ -3,6 +3,7 @@ package com.segnities007.yatte.presentation.feature.management
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
+import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.DeleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetAllTasksUseCase
 import kotlinx.coroutines.channels.Channel
@@ -21,6 +22,7 @@ import yatte.presentation.feature.management.generated.resources.Res as Manageme
 class TaskManagementViewModel(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val cancelAlarmUseCase: CancelAlarmUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TaskManagementState())
@@ -58,6 +60,7 @@ class TaskManagementViewModel(
 
     private fun deleteTask(taskId: String) {
         viewModelScope.launch {
+            cancelAlarmUseCase.byTaskId(TaskId(taskId))
             val result = deleteTaskUseCase(TaskId(taskId))
             result
                 .onSuccess {

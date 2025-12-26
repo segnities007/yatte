@@ -31,4 +31,9 @@ interface TaskRepository {
      *   これにより「通知が鳴ってから24時間」の仕様を満たす。
      */
     suspend fun deleteExpiredTasks()
+
+    /**
+     * 全タスクを削除（データリセット用）
+     */
+    suspend fun deleteAll()
 }

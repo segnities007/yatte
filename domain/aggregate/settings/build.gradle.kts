@@ -10,6 +10,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.domain.core)
+            implementation(projects.domain.aggregate.task)
+            implementation(projects.domain.aggregate.history)
             implementation(libs.kotlinx.coroutines.core)
         }
         commonTest.dependencies {

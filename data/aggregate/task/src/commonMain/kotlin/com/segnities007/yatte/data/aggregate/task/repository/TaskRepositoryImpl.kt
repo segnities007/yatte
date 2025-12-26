@@ -51,4 +51,8 @@ class TaskRepositoryImpl(
         val thresholdMillis = now.toEpochMilliseconds() - (24 * 60 * 60 * 1000)
         dao.deleteExpired(thresholdMillis)
     }
+
+    override suspend fun deleteAll() {
+        dao.deleteAll()
+    }
 }

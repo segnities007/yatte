@@ -14,6 +14,7 @@ import org.koin.core.module.Module
  */
 val allModules: List<Module> =
     appModules +
+        platformModules +
         listOf(
             navigationModule,
             homeViewModelModule,

@@ -25,6 +25,7 @@ sealed interface HomeIntent {
     data object NavigateToHistory : HomeIntent
     data object NavigateToSettings : HomeIntent
     data class NavigateToEditTask(val taskId: String) : HomeIntent
+    data object NavigateToToday : HomeIntent
 }
 
 /**
