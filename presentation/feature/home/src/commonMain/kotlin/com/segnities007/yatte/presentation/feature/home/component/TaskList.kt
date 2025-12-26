@@ -17,12 +17,14 @@ import com.segnities007.yatte.domain.aggregate.task.model.Task
 fun TaskList(
     tasks: List<Task>,
     onCompleteTask: (Task) -> Unit,
+    onSkipTask: (Task) -> Unit,
     onTaskClick: (Task) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(16.dp),
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(tasks, key = { it.id.value }) { task ->
@@ -30,6 +32,11 @@ fun TaskList(
                 task = task,
                 onComplete = { onCompleteTask(task) },
                 onClick = { onTaskClick(task) },
+                onSkip = if (task.taskType == com.segnities007.yatte.domain.aggregate.task.model.TaskType.WEEKLY_LOOP) {
+                    { onSkipTask(task) }
+                } else {
+                    null
+                },
             )
         }
     }

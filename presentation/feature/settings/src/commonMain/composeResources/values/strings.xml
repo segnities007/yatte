@@ -14,5 +14,21 @@
     <string name="theme_dark">ダーク</string>
     <string name="theme_system">システム</string>
 
+    <string name="section_data">データ管理</string>
+    <string name="reset_title">データリセット</string>
+    <string name="reset_desc">すべてのタスクと履歴を削除します</string>
+    <string name="reset_button">リセット</string>
+    <string name="reset_dialog_title">データリセット</string>
+    <string name="reset_dialog_message">すべてのタスクと履歴が削除されます。この操作は取り消せません。</string>
+    <string name="reset_dialog_confirm">リセット</string>
+    <string name="reset_dialog_cancel">キャンセル</string>
+    <string name="snackbar_reset_success">すべてのデータを削除しました</string>
+
     <string name="error_settings_save_failed">設定の保存に失敗しました</string>
+
+    <string name="custom_sound_title">カスタム通知音</string>
+    <string name="custom_sound_selected">カスタム音源が設定されています</string>
+    <string name="custom_sound_default">デフォルトの通知音を使用</string>
+    <string name="custom_sound_select">音源を選択</string>
+    <string name="custom_sound_clear">クリア</string>
 </resources>

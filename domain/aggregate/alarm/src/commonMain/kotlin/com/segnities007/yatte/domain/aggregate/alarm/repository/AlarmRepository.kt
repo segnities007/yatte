@@ -17,6 +17,22 @@ import kotlinx.coroutines.flow.Flow
 interface AlarmRepository {
     suspend fun schedule(alarm: Alarm)
 
+    /**
+     * 指定した [alarmId] のアラームを取得する。
+     *
+     * 用途:
+     * - AndroidのReceiver等、プラットフォーム層で発火時に参照する
+     */
+    suspend fun getById(alarmId: AlarmId): Alarm?
+
+    /**
+     * 指定した [taskId] に紐づく未発火（is_triggered = 0）のアラームを取得する。
+     *
+     * 用途:
+     * - タスク完了/削除/編集時に、OS側のスケジュールもキャンセルする
+     */
+    suspend fun getByTaskId(taskId: TaskId): Alarm?
+
     suspend fun cancel(alarmId: AlarmId)
 
     suspend fun cancelByTaskId(taskId: TaskId)

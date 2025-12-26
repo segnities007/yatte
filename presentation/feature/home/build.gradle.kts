@@ -21,6 +21,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
+            implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.navigation.compose)
             implementation(libs.kotlinx.datetime)
             // Koin
@@ -30,6 +31,7 @@ kotlin {
             // Project
             implementation(projects.presentation.core)
             implementation(projects.domain.core)
+            implementation(projects.domain.aggregate.alarm)
             implementation(projects.domain.aggregate.task)
             implementation(projects.domain.aggregate.history)
             implementation(projects.di)

@@ -30,12 +30,14 @@ data class TaskActions(
  */
 fun NavGraphBuilder.taskScreens(
     actions: TaskActions,
+    isNavigationVisible: Boolean,
     onShowSnackbar: (String) -> Unit,
 ) {
     composable<AddTaskRoute> {
         TaskFormScreen(
             taskId = null,
             actions = actions,
+            isNavigationVisible = isNavigationVisible,
             onShowSnackbar = onShowSnackbar,
         )
     }
@@ -45,6 +47,7 @@ fun NavGraphBuilder.taskScreens(
         TaskFormScreen(
             taskId = route.taskId,
             actions = actions,
+            isNavigationVisible = isNavigationVisible,
             onShowSnackbar = onShowSnackbar,
         )
     }

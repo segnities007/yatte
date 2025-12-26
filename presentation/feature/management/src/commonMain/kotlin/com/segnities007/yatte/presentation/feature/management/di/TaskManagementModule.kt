@@ -5,5 +5,5 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val taskManagementViewModelModule = module {
-    viewModel { TaskManagementViewModel(get(), get()) }
+    viewModel { TaskManagementViewModel(get(), get(), get()) }
 }

@@ -31,11 +31,12 @@ import yatte.presentation.feature.management.generated.resources.Res as Manageme
 fun TaskManagementList(
     tasks: List<Task>,
     onTaskClick: (Task) -> Unit,
+    contentPadding: PaddingValues = PaddingValues(16.dp),
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(tasks, key = { it.id.value }) { task ->

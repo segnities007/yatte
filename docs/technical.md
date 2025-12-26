@@ -409,23 +409,4 @@ suspend fun createTask(task: Task): Result<TaskId> = runCatching {
 
 ---
 
-## 依存関係（予定）
 
-```kotlin
-// libs.versions.toml
-[versions]
-kotlin = "2.0.0"
-compose = "1.6.0"
-room = "2.7.0"
-koin = "3.5.0"
-
-[libraries]
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
-```
-
----
-
-*作成日: 2025-12-20*

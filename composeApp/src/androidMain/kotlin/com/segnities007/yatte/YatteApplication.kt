@@ -3,6 +3,13 @@ package com.segnities007.yatte
 import android.app.Application
 import com.segnities007.yatte.data.aggregate.settings.initializeDataStore
 import com.segnities007.yatte.data.core.database.initializeDatabase
+import com.segnities007.yatte.domain.aggregate.alarm.scheduler.AlarmScheduler
+import com.segnities007.yatte.domain.aggregate.alarm.usecase.GetScheduledAlarmsUseCase
+import com.segnities007.yatte.platform.cleanup.ExpiredTaskCleanupScheduler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -28,6 +35,23 @@ class YatteApplication : Application() {
             androidLogger()
             androidContext(this@YatteApplication)
             modules(allModules)
+        }
+
+        // 期限切れ削除: 起動時に1回 + 1日1回
+        ExpiredTaskCleanupScheduler.enqueueStartup(this)
+        ExpiredTaskCleanupScheduler.enqueueDaily(this)
+
+        // DB上の未発火アラームを復元してOS側に再スケジュール（再起動後など）
+        CoroutineScope(Dispatchers.Default).launch {
+            val koin =
+                org.koin.core.context.GlobalContext
+                    .get()
+            val getScheduledAlarmsUseCase = koin.get<GetScheduledAlarmsUseCase>()
+            val scheduler = koin.get<AlarmScheduler>()
+            val alarms = getScheduledAlarmsUseCase().first()
+            alarms.forEach { alarm ->
+                runCatching { scheduler.schedule(alarm) }
+            }
         }
     }
 }

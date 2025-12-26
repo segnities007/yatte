@@ -5,6 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
+import com.segnities007.yatte.domain.aggregate.alarm.model.Alarm
+import com.segnities007.yatte.domain.aggregate.alarm.model.AlarmId
+import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
+import com.segnities007.yatte.domain.aggregate.alarm.usecase.ScheduleAlarmUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.CreateTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.DeleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetTaskByIdUseCase
@@ -17,11 +21,16 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.LocalDateTime
 import kotlin.time.Instant
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
+import kotlin.time.Duration.Companion.minutes
 import kotlin.uuid.ExperimentalUuidApi
 import org.jetbrains.compose.resources.getString
 import yatte.presentation.core.generated.resources.*
@@ -35,6 +44,8 @@ class TaskFormViewModel(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val scheduleAlarmUseCase: ScheduleAlarmUseCase,
+    private val cancelAlarmUseCase: CancelAlarmUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TaskFormState())
@@ -125,6 +136,15 @@ class TaskFormViewModel(
             return
         }
 
+        // 週次タスクの場合、曜日が1つ以上選択されていることを確認
+        if (currentState.taskType == TaskType.WEEKLY_LOOP && currentState.selectedWeekDays.isEmpty()) {
+            viewModelScope.launch {
+                val message = getString(TaskRes.string.error_weekdays_required)
+                _events.send(TaskFormEvent.ShowError(message))
+            }
+            return
+        }
+
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
 
@@ -143,6 +163,9 @@ class TaskFormViewModel(
                 skipUntil = null,
             )
 
+            // 編集時は既存アラームをキャンセルしてから再スケジュール
+            cancelAlarmUseCase.byTaskId(task.id)
+
             val result = if (currentState.isEditMode) {
                 updateTaskUseCase(task)
             } else {
@@ -151,6 +174,10 @@ class TaskFormViewModel(
 
             result
                 .onSuccess {
+                    // タスク保存に成功したらアラームをスケジュール
+                    buildAlarm(task, now)?.let { alarm ->
+                        scheduleAlarmUseCase(alarm)
+                    }
                     _state.update { it.copy(isLoading = false) }
                     sendEvent(TaskFormEvent.TaskSaved)
                 }
@@ -168,6 +195,7 @@ class TaskFormViewModel(
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
+            cancelAlarmUseCase.byTaskId(TaskId(taskId))
             val result = deleteTaskUseCase(TaskId(taskId))
             result
                 .onSuccess {
@@ -192,5 +220,41 @@ class TaskFormViewModel(
     private fun currentLocalDateTime(): kotlinx.datetime.LocalDateTime {
         val instant = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
         return instant.toLocalDateTime(TimeZone.currentSystemDefault())
+    }
+
+    private fun buildAlarm(task: Task, now: LocalDateTime): Alarm? {
+        val scheduledAt = when (task.taskType) {
+            TaskType.ONE_TIME -> LocalDateTime(task.createdAt.date, task.time)
+            TaskType.WEEKLY_LOOP -> nextOccurrence(now, task.time, task.weekDays)
+        }
+
+        val notifyAt = subtractMinutes(scheduledAt, task.minutesBefore)
+
+        return Alarm(
+            id = AlarmId.generate(),
+            taskId = task.id,
+            scheduledAt = scheduledAt,
+            notifyAt = notifyAt,
+        )
+    }
+
+    private fun subtractMinutes(dateTime: LocalDateTime, minutesBefore: Int): LocalDateTime {
+        val tz = TimeZone.currentSystemDefault()
+        val instant = dateTime.toInstant(tz)
+        return (instant - minutesBefore.minutes).toLocalDateTime(tz)
+    }
+
+    private fun nextOccurrence(now: LocalDateTime, time: LocalTime, weekDays: List<DayOfWeek>): LocalDateTime {
+        val today = now.date
+        for (i in 0..6) {
+            val date = today.plus(DatePeriod(days = i))
+            if (!weekDays.contains(date.dayOfWeek)) continue
+
+            val candidate = LocalDateTime(date, time)
+            if (candidate >= now) return candidate
+        }
+
+        val fallback = today.plus(DatePeriod(days = 7))
+        return LocalDateTime(fallback, time)
     }
 }

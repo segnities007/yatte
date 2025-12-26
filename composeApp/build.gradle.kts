@@ -50,9 +50,14 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.core.ktx)
+            implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.android)
             implementation(projects.data.core)
             implementation(projects.data.aggregate.settings)
+            implementation(projects.domain.core)
+            implementation(projects.domain.aggregate.alarm)
+            implementation(projects.domain.aggregate.task)
         }
 
         commonMain.dependencies {
@@ -73,6 +78,7 @@ kotlin {
             implementation(projects.di)
             implementation(projects.presentation.core)
             implementation(projects.presentation.navigation)
+            implementation(projects.domain.aggregate.settings)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -80,7 +86,9 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
-            runtimeOnly(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.datetime)
+            implementation(projects.domain.aggregate.alarm)
+            implementation(projects.domain.aggregate.task)
         }
     }
 }

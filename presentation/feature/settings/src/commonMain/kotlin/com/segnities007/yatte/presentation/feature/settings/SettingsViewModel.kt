@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ResetAllDataUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.UpdateSettingsUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,7 @@ import yatte.presentation.feature.settings.generated.resources.Res as SettingsRe
 class SettingsViewModel(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val updateSettingsUseCase: UpdateSettingsUseCase,
+    private val resetAllDataUseCase: ResetAllDataUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
@@ -41,8 +43,12 @@ class SettingsViewModel(
             is SettingsIntent.UpdateMinutesBefore -> updateMinutesBefore(intent.minutes)
             is SettingsIntent.ToggleNotificationSound -> toggleNotificationSound(intent.enabled)
             is SettingsIntent.ToggleNotificationVibration -> toggleNotificationVibration(intent.enabled)
+            is SettingsIntent.UpdateCustomSoundUri -> updateCustomSoundUri(intent.uri)
             is SettingsIntent.UpdateThemeMode -> updateThemeMode(intent.mode)
             is SettingsIntent.NavigateBack -> sendEvent(SettingsEvent.NavigateBack)
+            is SettingsIntent.RequestResetData -> showResetConfirmation()
+            is SettingsIntent.ConfirmResetData -> confirmResetData()
+            is SettingsIntent.CancelResetData -> hideResetConfirmation()
         }
     }
 
@@ -88,6 +94,14 @@ class SettingsViewModel(
         }
     }
 
+    private fun updateCustomSoundUri(uri: String?) {
+        viewModelScope.launch {
+            val newSettings = _state.value.settings.copy(customSoundUri = uri)
+            _state.update { it.copy(settings = newSettings) }
+            saveSettings(newSettings)
+        }
+    }
+
     private suspend fun saveSettings(settings: UserSettings) {
         updateSettingsUseCase(settings)
             .onFailure { error ->
@@ -99,6 +113,28 @@ class SettingsViewModel(
     private fun sendEvent(event: SettingsEvent) {
         viewModelScope.launch {
             _events.send(event)
+        }
+    }
+
+    private fun showResetConfirmation() {
+        _state.update { it.copy(showResetConfirmation = true) }
+    }
+
+    private fun hideResetConfirmation() {
+        _state.update { it.copy(showResetConfirmation = false) }
+    }
+
+    private fun confirmResetData() {
+        viewModelScope.launch {
+            hideResetConfirmation()
+            resetAllDataUseCase()
+                .onSuccess {
+                    sendEvent(SettingsEvent.ShowResetSuccess)
+                }
+                .onFailure { error ->
+                    val message = error.message ?: getString(SettingsRes.string.error_settings_save_failed)
+                    sendEvent(SettingsEvent.ShowError(message))
+                }
         }
     }
 }

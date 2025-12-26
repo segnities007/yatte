@@ -6,12 +6,14 @@ package com.segnities007.yatte.domain.aggregate.settings.model
  * @property defaultMinutesBefore デフォルトのアラーム前通知時間（0〜60分）
  * @property notificationSound 通知音を鳴らすかどうか
  * @property notificationVibration バイブレーションするかどうか
+ * @property customSoundUri カスタム通知音のURI（nullの場合はデフォルト音源）
  * @property themeMode テーマモード
  */
 data class UserSettings(
     val defaultMinutesBefore: Int = 10,
     val notificationSound: Boolean = true,
     val notificationVibration: Boolean = true,
+    val customSoundUri: String? = null,
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
 ) {
     init {

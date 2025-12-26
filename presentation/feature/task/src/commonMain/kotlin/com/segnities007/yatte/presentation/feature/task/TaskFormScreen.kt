@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,22 +23,25 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
+import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
+import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
 import kotlinx.datetime.DayOfWeek
 import org.koin.compose.viewmodel.koinViewModel
 import org.jetbrains.compose.resources.getString
@@ -53,6 +57,7 @@ internal fun TaskFormScreen(
     taskId: String? = null,
     viewModel: TaskFormViewModel = koinViewModel(),
     actions: TaskActions,
+    isNavigationVisible: Boolean = true, // Default true if not provided (though always provided by nav)
     onShowSnackbar: (String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -75,55 +80,15 @@ internal fun TaskFormScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
-                    title = {
-                        Text(
-                            if (state.isEditMode) {
-                                stringResource(TaskRes.string.title_edit_task)
-                            } else {
-                                stringResource(TaskRes.string.title_add_task)
-                            }
-                        )
-                    },
-                navigationIcon = {
-                    IconButton(onClick = { viewModel.onIntent(TaskFormIntent.Cancel) }) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(CoreRes.string.common_back),
-                        )
-                    }
-                },
-                actions = {
-                    if (state.isEditMode) {
-                        IconButton(onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) }) {
-                            Icon(
-                                Icons.Default.Delete,
-                                contentDescription = stringResource(CoreRes.string.common_delete),
-                            )
-                        }
-                    }
-                    IconButton(onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) }) {
-                        Icon(
-                            Icons.Default.Check,
-                            contentDescription = stringResource(CoreRes.string.common_save),
-                        )
-                    }
-                },
-            )
-        },
-    ) { padding ->
+    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
+    val headerPaddingValues = PaddingValues(top = statusBarHeight + headerHeight)
+
+    androidx.compose.foundation.layout.Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(headerPaddingValues)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -246,6 +211,44 @@ internal fun TaskFormScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
         }
+
+        FloatingHeaderBar(
+            isVisible = isNavigationVisible,
+            title = {
+                Text(
+                    if (state.isEditMode) {
+                        stringResource(TaskRes.string.title_edit_task)
+                    } else {
+                        stringResource(TaskRes.string.title_add_task)
+                    }
+                )
+            },
+            navigationIcon = {
+                IconButton(onClick = { viewModel.onIntent(TaskFormIntent.Cancel) }) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(CoreRes.string.common_back),
+                    )
+                }
+            },
+            actions = {
+                if (state.isEditMode) {
+                    IconButton(onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) }) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = stringResource(CoreRes.string.common_delete),
+                        )
+                    }
+                }
+                IconButton(onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) }) {
+                    Icon(
+                        Icons.Default.Check,
+                        contentDescription = stringResource(CoreRes.string.common_save),
+                    )
+                }
+            },
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
@@ -258,5 +261,4 @@ private fun DayOfWeek.toDisplayString(): String = when (this) {
     DayOfWeek.FRIDAY -> stringResource(TaskRes.string.weekday_fri_short)
     DayOfWeek.SATURDAY -> stringResource(TaskRes.string.weekday_sat_short)
     DayOfWeek.SUNDAY -> stringResource(TaskRes.string.weekday_sun_short)
-    else -> ""
 }

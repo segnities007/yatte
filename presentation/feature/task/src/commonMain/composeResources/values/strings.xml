@@ -28,5 +28,6 @@
     <string name="error_task_not_found">タスクが見つかりません</string>
     <string name="error_task_load_failed">タスクの読み込みに失敗しました</string>
     <string name="error_title_required">タイトルを入力してください</string>
+    <string name="error_weekdays_required">曜日を1つ以上選択してください</string>
     <string name="error_save_failed">保存に失敗しました</string>
 </resources>

@@ -1,6 +1,7 @@
 <resources>
     <string name="cd_prev_day">前日</string>
     <string name="cd_next_day">翌日</string>
+    <string name="cd_add_task">タスク追加</string>
 
     <string name="weekday_mon_short">月</string>
     <string name="weekday_tue_short">火</string>
@@ -13,6 +14,7 @@
     <string name="date_header_format">%1$d月%2$d日（%3$s）</string>
 
     <string name="cd_complete">完了</string>
+    <string name="cd_skip">スキップ</string>
 
     <string name="empty_no_tasks">この日のタスクはありません</string>
 

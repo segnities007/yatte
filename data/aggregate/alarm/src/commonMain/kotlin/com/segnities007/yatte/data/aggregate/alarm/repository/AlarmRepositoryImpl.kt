@@ -27,6 +27,12 @@ class AlarmRepositoryImpl(
     override suspend fun schedule(alarm: Alarm) =
         dao.insert(alarm.toEntity())
 
+    override suspend fun getById(alarmId: AlarmId): Alarm? =
+        dao.getById(alarmId.value)?.toDomain()
+
+    override suspend fun getByTaskId(taskId: TaskId): Alarm? =
+        dao.getByTaskId(taskId.value)?.toDomain()
+
     override suspend fun cancel(alarmId: AlarmId) =
         dao.deleteById(alarmId.value)
 

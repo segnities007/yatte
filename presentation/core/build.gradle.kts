@@ -20,10 +20,15 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(projects.domain.core)
+            implementation(projects.domain.aggregate.settings)
         }
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+
+        androidMain.dependencies {
+            implementation(libs.androidx.activity.compose)
         }
     }
 }

@@ -15,25 +15,29 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
+import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.history.model.History
+import com.segnities007.yatte.presentation.feature.history.component.HistoryTimeline
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -47,6 +51,8 @@ import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 internal fun HistoryScreen(
     viewModel: HistoryViewModel = koinViewModel(),
     actions: HistoryActions,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    isNavigationVisible: Boolean,
     onShowSnackbar: (String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -64,23 +70,21 @@ internal fun HistoryScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                ),
-                title = { Text(stringResource(HistoryRes.string.title_history)) },
-            )
-        },
-    ) { padding ->
+    // ヘッダー分の高さとマージンを考慮したパディング
+    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
+    val listContentPadding = PaddingValues(
+        top = statusBarHeight + headerHeight,
+        bottom = contentPadding.calculateBottomPadding(),
+        start = 16.dp,
+        end = 16.dp,
+    )
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
+            modifier = Modifier.fillMaxSize(),
         ) {
             when {
                 state.isLoading -> {
@@ -94,13 +98,27 @@ internal fun HistoryScreen(
                     )
                 }
                 else -> {
-                    HistoryList(
+                    HistoryTimeline(
                         items = state.historyItems,
-                        onDelete = { viewModel.onIntent(HistoryIntent.DeleteHistory(it)) },
+                        contentPadding = listContentPadding,
                     )
                 }
             }
         }
+
+        FloatingHeaderBar(
+            title = { Text(stringResource(HistoryRes.string.title_history)) },
+            isVisible = isNavigationVisible,
+            actions = {
+                IconButton(onClick = { viewModel.onIntent(HistoryIntent.ExportHistory) }) {
+                    Icon(
+                        Icons.Default.Share,
+                        contentDescription = stringResource(HistoryRes.string.cd_export),
+                    )
+                }
+            },
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
