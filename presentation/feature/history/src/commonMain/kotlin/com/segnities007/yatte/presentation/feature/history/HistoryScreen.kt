@@ -25,31 +25,40 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.history.model.History
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import yatte.presentation.core.generated.resources.common_delete
+import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.history.generated.resources.*
+import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HistoryScreen(
+internal fun HistoryScreen(
     viewModel: HistoryViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = {},
+    actions: HistoryActions,
     onShowSnackbar: (String) -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is HistoryEvent.NavigateBack -> onNavigateBack()
+                is HistoryEvent.NavigateBack -> actions.onBack()
                 is HistoryEvent.ShowError -> onShowSnackbar(event.message)
-                is HistoryEvent.ShowExportSuccess -> onShowSnackbar("${event.format}形式でエクスポートしました")
+                is HistoryEvent.ShowExportSuccess -> onShowSnackbar(
+                    getString(HistoryRes.string.snackbar_export_success, event.format),
+                )
                 is HistoryEvent.ShowClearConfirmation -> {}
             }
         }
@@ -58,12 +67,13 @@ fun HistoryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("完了履歴") },
-                navigationIcon = {
-                    IconButton(onClick = { viewModel.onIntent(HistoryIntent.NavigateBack) }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
-                    }
-                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
+                title = { Text(stringResource(HistoryRes.string.title_history)) },
             )
         },
     ) { padding ->
@@ -146,7 +156,7 @@ private fun HistoryCard(
             IconButton(onClick = onDelete) {
                 Icon(
                     Icons.Default.Delete,
-                    contentDescription = "削除",
+                    contentDescription = stringResource(CoreRes.string.common_delete),
                     tint = MaterialTheme.colorScheme.error,
                 )
             }
@@ -163,12 +173,12 @@ private fun EmptyHistoryView(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "📋",
+            text = stringResource(HistoryRes.string.common_empty_emoji),
             style = MaterialTheme.typography.displayLarge,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "履歴がありません",
+            text = stringResource(HistoryRes.string.empty_no_history),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

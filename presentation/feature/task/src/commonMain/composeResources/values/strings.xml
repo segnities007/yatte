@@ -1,0 +1,32 @@
+<resources>
+    <string name="title_add_task">タスク追加</string>
+    <string name="title_edit_task">タスク編集</string>
+
+    <string name="snackbar_task_deleted">タスクを削除しました</string>
+
+    <string name="field_task_name">タスク名</string>
+    <string name="label_execute_time">実行時間</string>
+    <string name="label_hour">時</string>
+    <string name="label_minute">分</string>
+
+    <string name="label_task_type">タスクタイプ</string>
+    <string name="task_type_one_time">単発</string>
+    <string name="task_type_weekly">週次繰り返し</string>
+
+    <string name="label_repeat_weekdays">繰り返す曜日</string>
+
+    <string name="notification_minutes_before">通知: %1$d分前</string>
+
+    <string name="weekday_mon_short">月</string>
+    <string name="weekday_tue_short">火</string>
+    <string name="weekday_wed_short">水</string>
+    <string name="weekday_thu_short">木</string>
+    <string name="weekday_fri_short">金</string>
+    <string name="weekday_sat_short">土</string>
+    <string name="weekday_sun_short">日</string>
+
+    <string name="error_task_not_found">タスクが見つかりません</string>
+    <string name="error_task_load_failed">タスクの読み込みに失敗しました</string>
+    <string name="error_title_required">タイトルを入力してください</string>
+    <string name="error_save_failed">保存に失敗しました</string>
+</resources>

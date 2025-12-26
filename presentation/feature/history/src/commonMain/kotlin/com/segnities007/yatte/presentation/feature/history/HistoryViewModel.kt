@@ -16,6 +16,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.getString
+import yatte.presentation.core.generated.resources.error_delete_failed
+import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.history.generated.resources.*
+import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
+
 class HistoryViewModel(
     private val getHistoryTimelineUseCase: GetHistoryTimelineUseCase,
     private val deleteHistoryUseCase: DeleteHistoryUseCase,
@@ -62,10 +68,11 @@ class HistoryViewModel(
 
     private fun deleteHistory(history: History) {
         viewModelScope.launch {
-            deleteHistoryUseCase(history.id)
-                .onFailure { error ->
-                    sendEvent(HistoryEvent.ShowError(error.message ?: "削除に失敗しました"))
-                }
+            val result = deleteHistoryUseCase(history.id)
+            result.exceptionOrNull()?.let { error ->
+                val message = error.message ?: getString(CoreRes.string.error_delete_failed)
+                sendEvent(HistoryEvent.ShowError(message))
+            }
         }
     }
 
@@ -73,7 +80,8 @@ class HistoryViewModel(
         viewModelScope.launch {
             clearAllHistoryUseCase()
                 .onFailure { error ->
-                    sendEvent(HistoryEvent.ShowError(error.message ?: "全削除に失敗しました"))
+                    val message = error.message ?: getString(HistoryRes.string.error_clear_all_failed)
+                    sendEvent(HistoryEvent.ShowError(message))
                 }
         }
     }
@@ -85,7 +93,8 @@ class HistoryViewModel(
                     sendEvent(HistoryEvent.ShowExportSuccess("json"))
                 }
                 .onFailure { error ->
-                    sendEvent(HistoryEvent.ShowError(error.message ?: "エクスポートに失敗しました"))
+                    val message = error.message ?: getString(HistoryRes.string.error_export_failed)
+                    sendEvent(HistoryEvent.ShowError(message))
                 }
         }
     }

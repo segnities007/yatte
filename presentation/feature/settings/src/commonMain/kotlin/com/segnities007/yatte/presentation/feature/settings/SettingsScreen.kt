@@ -24,31 +24,38 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.nav_settings
+import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.settings.generated.resources.*
+import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(
+internal fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = {},
+    actions: SettingsActions,
     onShowSnackbar: (String) -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is SettingsEvent.NavigateBack -> onNavigateBack()
+                is SettingsEvent.NavigateBack -> actions.onBack()
                 is SettingsEvent.ShowError -> onShowSnackbar(event.message)
-                is SettingsEvent.ShowSaveSuccess -> onShowSnackbar("設定を保存しました")
+                is SettingsEvent.ShowSaveSuccess -> onShowSnackbar(getString(SettingsRes.string.snackbar_settings_saved))
             }
         }
     }
@@ -56,12 +63,13 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("設定") },
-                navigationIcon = {
-                    IconButton(onClick = { viewModel.onIntent(SettingsIntent.NavigateBack) }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
-                    }
-                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
+                title = { Text(stringResource(CoreRes.string.nav_settings)) },
             )
         },
     ) { padding ->
@@ -73,15 +81,15 @@ fun SettingsScreen(
         ) {
             // 通知設定
             Text(
-                text = "通知",
+                text = stringResource(SettingsRes.string.section_notifications),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 color = MaterialTheme.colorScheme.primary,
             )
 
             ListItem(
-                headlineContent = { Text("通知音") },
-                supportingContent = { Text("タスク通知時に音を鳴らす") },
+                headlineContent = { Text(stringResource(SettingsRes.string.notification_sound_title)) },
+                supportingContent = { Text(stringResource(SettingsRes.string.notification_sound_desc)) },
                 trailingContent = {
                     Switch(
                         checked = state.settings.notificationSound,
@@ -91,8 +99,8 @@ fun SettingsScreen(
             )
 
             ListItem(
-                headlineContent = { Text("バイブレーション") },
-                supportingContent = { Text("タスク通知時に振動する") },
+                headlineContent = { Text(stringResource(SettingsRes.string.notification_vibration_title)) },
+                supportingContent = { Text(stringResource(SettingsRes.string.notification_vibration_desc)) },
                 trailingContent = {
                     Switch(
                         checked = state.settings.notificationVibration,
@@ -102,7 +110,14 @@ fun SettingsScreen(
             )
 
             ListItem(
-                headlineContent = { Text("デフォルト通知時間: ${state.settings.defaultMinutesBefore}分前") },
+                headlineContent = {
+                    Text(
+                        stringResource(
+                            SettingsRes.string.default_minutes_before,
+                            state.settings.defaultMinutesBefore,
+                        )
+                    )
+                },
                 supportingContent = {
                     Slider(
                         value = state.settings.defaultMinutesBefore.toFloat(),
@@ -117,14 +132,14 @@ fun SettingsScreen(
 
             // テーマ設定
             Text(
-                text = "外観",
+                text = stringResource(SettingsRes.string.section_appearance),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 color = MaterialTheme.colorScheme.primary,
             )
 
             ListItem(
-                headlineContent = { Text("テーマ") },
+                headlineContent = { Text(stringResource(SettingsRes.string.theme_title)) },
                 supportingContent = {
                     SingleChoiceSegmentedButtonRow(
                         modifier = Modifier
@@ -140,7 +155,7 @@ fun SettingsScreen(
                                     count = ThemeMode.entries.size,
                                 ),
                             ) {
-                                Text(mode.toJapanese())
+                                Text(mode.toDisplayString())
                             }
                         }
                     }
@@ -150,8 +165,9 @@ fun SettingsScreen(
     }
 }
 
-private fun ThemeMode.toJapanese(): String = when (this) {
-    ThemeMode.LIGHT -> "ライト"
-    ThemeMode.DARK -> "ダーク"
-    ThemeMode.SYSTEM -> "システム"
+@Composable
+private fun ThemeMode.toDisplayString(): String = when (this) {
+    ThemeMode.LIGHT -> stringResource(SettingsRes.string.theme_light)
+    ThemeMode.DARK -> stringResource(SettingsRes.string.theme_dark)
+    ThemeMode.SYSTEM -> stringResource(SettingsRes.string.theme_system)
 }

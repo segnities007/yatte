@@ -8,5 +8,5 @@ import org.koin.dsl.module
  * Task FeatureのViewModelモジュール
  */
 val taskViewModelModule = module {
-    viewModel { TaskFormViewModel(get(), get(), get()) }
+    viewModel { TaskFormViewModel(get(), get(), get(), get()) }
 }

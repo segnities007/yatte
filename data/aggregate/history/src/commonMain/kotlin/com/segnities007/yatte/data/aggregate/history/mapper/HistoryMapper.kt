@@ -4,7 +4,7 @@ import com.segnities007.yatte.data.core.database.entity.HistoryEntity
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime

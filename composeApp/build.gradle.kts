@@ -72,10 +72,7 @@ kotlin {
             // Project modules
             implementation(projects.di)
             implementation(projects.presentation.core)
-            implementation(projects.presentation.feature.home)
-            implementation(projects.presentation.feature.task)
-            implementation(projects.presentation.feature.history)
-            implementation(projects.presentation.feature.settings)
+            implementation(projects.presentation.navigation)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -83,12 +80,13 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+            runtimeOnly(libs.kotlinx.datetime)
         }
     }
 }
 
 android {
-    namespace = "com.segnites007.yatte"
+    namespace = "com.segnities007.yatte"
     compileSdk =
         libs.versions.android.compileSdk
             .get()
@@ -159,11 +157,11 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.segnites007.yatte.MainKt"
+        mainClass = "com.segnities007.yatte.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.segnites007.yatte"
+            packageName = "com.segnities007.yatte"
             packageVersion = "1.0.0"
         }
     }

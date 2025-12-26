@@ -1,0 +1,25 @@
+<resources>
+    <string name="cd_prev_day">前日</string>
+    <string name="cd_next_day">翌日</string>
+
+    <string name="weekday_mon_short">月</string>
+    <string name="weekday_tue_short">火</string>
+    <string name="weekday_wed_short">水</string>
+    <string name="weekday_thu_short">木</string>
+    <string name="weekday_fri_short">金</string>
+    <string name="weekday_sat_short">土</string>
+    <string name="weekday_sun_short">日</string>
+
+    <string name="date_header_format">%1$d月%2$d日（%3$s）</string>
+
+    <string name="cd_complete">完了</string>
+
+    <string name="empty_no_tasks">この日のタスクはありません</string>
+
+    <string name="empty_tasks_emoji">🎉</string>
+
+    <string name="snackbar_task_completed">%1$s を完了しました</string>
+
+    <string name="error_task_complete_failed">タスク完了に失敗しました</string>
+    <string name="error_skip_failed">スキップに失敗しました</string>
+</resources>

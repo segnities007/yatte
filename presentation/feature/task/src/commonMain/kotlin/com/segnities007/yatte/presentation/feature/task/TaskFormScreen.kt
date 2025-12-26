@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -28,25 +29,33 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import kotlinx.datetime.DayOfWeek
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.*
+import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.task.generated.resources.*
+import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun TaskFormScreen(
+internal fun TaskFormScreen(
     taskId: String? = null,
     viewModel: TaskFormViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = {},
+    actions: TaskActions,
     onShowSnackbar: (String) -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(taskId) {
         taskId?.let { viewModel.loadTask(it) }
@@ -55,8 +64,12 @@ fun TaskFormScreen(
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is TaskFormEvent.TaskSaved -> onNavigateBack()
-                is TaskFormEvent.Cancelled -> onNavigateBack()
+                is TaskFormEvent.TaskSaved -> actions.onBack()
+                is TaskFormEvent.TaskDeleted -> {
+                    onShowSnackbar(getString(TaskRes.string.snackbar_task_deleted))
+                    actions.onBack()
+                }
+                is TaskFormEvent.Cancelled -> actions.onBack()
                 is TaskFormEvent.ShowError -> onShowSnackbar(event.message)
             }
         }
@@ -65,15 +78,43 @@ fun TaskFormScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (state.isEditMode) "タスク編集" else "タスク追加") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
+                    title = {
+                        Text(
+                            if (state.isEditMode) {
+                                stringResource(TaskRes.string.title_edit_task)
+                            } else {
+                                stringResource(TaskRes.string.title_add_task)
+                            }
+                        )
+                    },
                 navigationIcon = {
                     IconButton(onClick = { viewModel.onIntent(TaskFormIntent.Cancel) }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "戻る")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(CoreRes.string.common_back),
+                        )
                     }
                 },
                 actions = {
+                    if (state.isEditMode) {
+                        IconButton(onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) }) {
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = stringResource(CoreRes.string.common_delete),
+                            )
+                        }
+                    }
                     IconButton(onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) }) {
-                        Icon(Icons.Default.Check, contentDescription = "保存")
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = stringResource(CoreRes.string.common_save),
+                        )
                     }
                 },
             )
@@ -91,14 +132,64 @@ fun TaskFormScreen(
             OutlinedTextField(
                 value = state.title,
                 onValueChange = { viewModel.onIntent(TaskFormIntent.UpdateTitle(it)) },
-                label = { Text("タスク名") },
+                label = { Text(stringResource(TaskRes.string.field_task_name)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
             )
 
+            // 時間指定
+            Text(
+                text = stringResource(TaskRes.string.label_execute_time),
+                style = MaterialTheme.typography.labelLarge,
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                // 時間選択
+                OutlinedTextField(
+                    value = state.time.hour.toString().padStart(2, '0'),
+                    onValueChange = { input ->
+                        val hour = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
+                        if (hour in 0..23) {
+                            viewModel.onIntent(
+                                TaskFormIntent.UpdateTime(
+                                    kotlinx.datetime.LocalTime(hour, state.time.minute),
+                                ),
+                            )
+                        }
+                    },
+                    label = { Text(stringResource(TaskRes.string.label_hour)) },
+                    modifier = Modifier.weight(1f),
+                    singleLine = true,
+                )
+                Text(
+                    text = ":",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(top = 16.dp),
+                )
+                // 分選択
+                OutlinedTextField(
+                    value = state.time.minute.toString().padStart(2, '0'),
+                    onValueChange = { input ->
+                        val minute = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
+                        if (minute in 0..59) {
+                            viewModel.onIntent(
+                                TaskFormIntent.UpdateTime(
+                                    kotlinx.datetime.LocalTime(state.time.hour, minute),
+                                ),
+                            )
+                        }
+                    },
+                    label = { Text(stringResource(TaskRes.string.label_minute)) },
+                    modifier = Modifier.weight(1f),
+                    singleLine = true,
+                )
+            }
+
             // タスクタイプ
             Text(
-                text = "タスクタイプ",
+                text = stringResource(TaskRes.string.label_task_type),
                 style = MaterialTheme.typography.labelLarge,
             )
             SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
@@ -111,7 +202,13 @@ fun TaskFormScreen(
                             count = TaskType.entries.size,
                         ),
                     ) {
-                        Text(if (type == TaskType.ONE_TIME) "単発" else "週次繰り返し")
+                        Text(
+                            if (type == TaskType.ONE_TIME) {
+                                stringResource(TaskRes.string.task_type_one_time)
+                            } else {
+                                stringResource(TaskRes.string.task_type_weekly)
+                            }
+                        )
                     }
                 }
             }
@@ -119,7 +216,7 @@ fun TaskFormScreen(
             // 週次の場合: 曜日選択
             if (state.taskType == TaskType.WEEKLY_LOOP) {
                 Text(
-                    text = "繰り返す曜日",
+                    text = stringResource(TaskRes.string.label_repeat_weekdays),
                     style = MaterialTheme.typography.labelLarge,
                 )
                 FlowRow(
@@ -129,7 +226,7 @@ fun TaskFormScreen(
                         FilterChip(
                             selected = day in state.selectedWeekDays,
                             onClick = { viewModel.onIntent(TaskFormIntent.ToggleWeekDay(day)) },
-                            label = { Text(day.toJapanese()) },
+                            label = { Text(day.toDisplayString()) },
                         )
                     }
                 }
@@ -137,7 +234,7 @@ fun TaskFormScreen(
 
             // 通知時間（何分前）
             Text(
-                text = "通知: ${state.minutesBefore}分前",
+                text = stringResource(TaskRes.string.notification_minutes_before, state.minutesBefore),
                 style = MaterialTheme.typography.labelLarge,
             )
             Slider(
@@ -152,13 +249,14 @@ fun TaskFormScreen(
     }
 }
 
-private fun DayOfWeek.toJapanese(): String = when (this) {
-    DayOfWeek.MONDAY -> "月"
-    DayOfWeek.TUESDAY -> "火"
-    DayOfWeek.WEDNESDAY -> "水"
-    DayOfWeek.THURSDAY -> "木"
-    DayOfWeek.FRIDAY -> "金"
-    DayOfWeek.SATURDAY -> "土"
-    DayOfWeek.SUNDAY -> "日"
+@Composable
+private fun DayOfWeek.toDisplayString(): String = when (this) {
+    DayOfWeek.MONDAY -> stringResource(TaskRes.string.weekday_mon_short)
+    DayOfWeek.TUESDAY -> stringResource(TaskRes.string.weekday_tue_short)
+    DayOfWeek.WEDNESDAY -> stringResource(TaskRes.string.weekday_wed_short)
+    DayOfWeek.THURSDAY -> stringResource(TaskRes.string.weekday_thu_short)
+    DayOfWeek.FRIDAY -> stringResource(TaskRes.string.weekday_fri_short)
+    DayOfWeek.SATURDAY -> stringResource(TaskRes.string.weekday_sat_short)
+    DayOfWeek.SUNDAY -> stringResource(TaskRes.string.weekday_sun_short)
     else -> ""
 }

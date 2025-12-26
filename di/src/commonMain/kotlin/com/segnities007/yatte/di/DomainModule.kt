@@ -42,7 +42,7 @@ val useCaseModule = module {
     factory { ExportHistoryUseCase(get()) }
 
     // Alarm UseCases
-    factory { ScheduleAlarmUseCase(get()) }
+    factory { ScheduleAlarmUseCase(get(), get()) }
     factory { CancelAlarmUseCase(get()) }
     factory { GetScheduledAlarmsUseCase(get()) }
 

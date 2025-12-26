@@ -1,24 +1,16 @@
 package com.segnities007.yatte.presentation.feature.home
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -28,36 +20,70 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import com.segnities007.yatte.domain.aggregate.task.model.Task
+import com.segnities007.yatte.presentation.feature.home.component.EmptyTasksView
+import com.segnities007.yatte.presentation.feature.home.component.TaskList
+import com.segnities007.yatte.presentation.feature.home.component.formatDate
+import kotlinx.coroutines.launch
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.todayIn
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.nav_history
+import yatte.presentation.core.generated.resources.nav_settings
+import yatte.presentation.core.generated.resources.Res as CoreRes
+import yatte.presentation.feature.home.generated.resources.*
+import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Clock
+
+private const val INITIAL_PAGE = 500
+private const val PAGE_COUNT = 1000
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
-    onNavigateToAddTask: () -> Unit = {},
-    onNavigateToHistory: () -> Unit = {},
-    onNavigateToSettings: () -> Unit = {},
+    actions: HomeActions,
     onShowSnackbar: (String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsState()
+    val today = remember { Clock.System.todayIn(TimeZone.currentSystemDefault()) }
+    val pagerState = rememberPagerState(initialPage = INITIAL_PAGE) { PAGE_COUNT }
+    val coroutineScope = rememberCoroutineScope()
+
+    // ページ変更時に日付を更新
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            val offset = page - INITIAL_PAGE
+            val date = today.plus(offset, DateTimeUnit.DAY)
+            viewModel.onIntent(HomeIntent.SelectDate(date))
+        }
+    }
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is HomeEvent.NavigateToAddTask -> onNavigateToAddTask()
-                is HomeEvent.NavigateToHistory -> onNavigateToHistory()
-                is HomeEvent.NavigateToSettings -> onNavigateToSettings()
+                is HomeEvent.NavigateToAddTask -> actions.onAddTask()
+                is HomeEvent.NavigateToHistory -> actions.onHistory()
+                is HomeEvent.NavigateToSettings -> actions.onSettings()
+                is HomeEvent.NavigateToEditTask -> actions.onEditTask(event.taskId)
                 is HomeEvent.ShowError -> onShowSnackbar(event.message)
-                is HomeEvent.ShowTaskCompleted -> onShowSnackbar("${event.taskTitle} を完了しました")
+                is HomeEvent.ShowTaskCompleted -> onShowSnackbar(
+                    getString(HomeRes.string.snackbar_task_completed, event.taskTitle),
+                )
             }
         }
     }
@@ -65,130 +91,83 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("今日のタスク") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
+                navigationIcon = {
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                        }
+                    }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(HomeRes.string.cd_prev_day),
+                        )
+                    }
+                },
+                title = {
+                    Text(text = state.selectedDate?.let { formatDate(it) } ?: "")
+                },
                 actions = {
+                    IconButton(onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = stringResource(HomeRes.string.cd_next_day),
+                        )
+                    }
                     IconButton(onClick = { viewModel.onIntent(HomeIntent.NavigateToHistory) }) {
-                        Icon(Icons.Default.History, contentDescription = "履歴")
+                        Icon(
+                            Icons.Default.History,
+                            contentDescription = stringResource(CoreRes.string.nav_history),
+                        )
                     }
                     IconButton(onClick = { viewModel.onIntent(HomeIntent.NavigateToSettings) }) {
-                        Icon(Icons.Default.Settings, contentDescription = "設定")
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = stringResource(CoreRes.string.nav_settings),
+                        )
                     }
                 },
             )
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { viewModel.onIntent(HomeIntent.NavigateToAddTask) },
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "タスク追加")
-            }
-        },
     ) { padding ->
-        Box(
+        HorizontalPager(
+            state = pagerState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-        ) {
-            when {
-                state.isLoading -> {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-                state.todayTasks.isEmpty() -> {
-                    EmptyTasksView(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-                else -> {
-                    TaskList(
-                        tasks = state.todayTasks,
-                        onCompleteTask = { viewModel.onIntent(HomeIntent.CompleteTask(it)) },
-                    )
+        ) { _ ->
+            Box(modifier = Modifier.fillMaxSize()) {
+                when {
+                    state.isLoading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                        )
+                    }
+                    state.tasks.isEmpty() -> {
+                        EmptyTasksView(
+                            modifier = Modifier.align(Alignment.Center),
+                        )
+                    }
+                    else -> {
+                        TaskList(
+                            tasks = state.tasks,
+                            onCompleteTask = { viewModel.onIntent(HomeIntent.CompleteTask(it)) },
+                            onTaskClick = { viewModel.onIntent(HomeIntent.NavigateToEditTask(it.id.value)) },
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-private fun TaskList(
-    tasks: List<Task>,
-    onCompleteTask: (Task) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-    ) {
-        items(tasks, key = { it.id.value }) { task ->
-            TaskCard(
-                task = task,
-                onComplete = { onCompleteTask(task) },
-            )
-        }
-    }
-}
 
-@Composable
-private fun TaskCard(
-    task: Task,
-    onComplete: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = task.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "${task.time.hour}:${task.time.minute.toString().padStart(2, '0')}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            IconButton(onClick = onComplete) {
-                Icon(
-                    Icons.Default.Check,
-                    contentDescription = "完了",
-                    tint = MaterialTheme.colorScheme.primary,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun EmptyTasksView(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = "🎉",
-            style = MaterialTheme.typography.displayLarge,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "今日のタスクはありません",
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-}

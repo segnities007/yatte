@@ -9,4 +9,6 @@ val appModules: List<Module> = listOf(
     databaseModule,
     repositoryModule,
     useCaseModule,
+    alarmSchedulerModule,
 )
+

@@ -8,7 +8,7 @@ import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 class TaskRepositoryImpl(

@@ -14,6 +14,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import yatte.presentation.feature.settings.generated.resources.*
+import org.jetbrains.compose.resources.getString
+import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
+
 class SettingsViewModel(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val updateSettingsUseCase: UpdateSettingsUseCase,
@@ -87,7 +91,8 @@ class SettingsViewModel(
     private suspend fun saveSettings(settings: UserSettings) {
         updateSettingsUseCase(settings)
             .onFailure { error ->
-                sendEvent(SettingsEvent.ShowError(error.message ?: "設定の保存に失敗しました"))
+                val message = error.message ?: getString(SettingsRes.string.error_settings_save_failed)
+                sendEvent(SettingsEvent.ShowError(message))
             }
     }
 

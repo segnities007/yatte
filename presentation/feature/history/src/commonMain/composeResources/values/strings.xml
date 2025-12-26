@@ -1,0 +1,11 @@
+<resources>
+    <string name="title_history">完了履歴</string>
+
+    <string name="common_empty_emoji">📋</string>
+    <string name="empty_no_history">履歴がありません</string>
+
+    <string name="snackbar_export_success">%1$s形式でエクスポートしました</string>
+
+    <string name="error_clear_all_failed">全削除に失敗しました</string>
+    <string name="error_export_failed">エクスポートに失敗しました</string>
+</resources>

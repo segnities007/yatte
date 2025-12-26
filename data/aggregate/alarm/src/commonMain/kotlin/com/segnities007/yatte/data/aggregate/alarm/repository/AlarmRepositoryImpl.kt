@@ -10,7 +10,7 @@ import com.segnities007.yatte.domain.aggregate.alarm.repository.AlarmRepository
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 
 /**
  * AlarmRepository の実装（Room永続化）。
