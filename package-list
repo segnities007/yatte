@@ -1,0 +1,85 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl.Companion///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/-companion/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl.Companion/getRequiredConverters/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/-companion/get-required-converters.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/AlarmDao_Impl/#androidx.room.RoomDatabase/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/-alarm-dao_-impl.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/deleteById/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/delete-by-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/deleteByTaskId/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/delete-by-task-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/deleteTriggeredAlarms/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/delete-triggered-alarms.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/getById/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/get-by-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/getByTaskId/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/get-by-task-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/getScheduledAlarms/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/get-scheduled-alarms.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/insert/#com.segnities007.yatte.data.core.database.entity.AlarmEntity/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/insert.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/markAsTriggered/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/mark-as-triggered.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl.Companion///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/-companion/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl.Companion/getRequiredConverters/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/-companion/get-required-converters.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl/HistoryDao_Impl/#androidx.room.RoomDatabase/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/-history-dao_-impl.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl/deleteAll/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/delete-all.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl/deleteById/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/delete-by-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl/getAll/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/get-all.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl/getByDate/#kotlin.Long#kotlin.Long/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/get-by-date.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl/insert/#com.segnities007.yatte.data.core.database.entity.HistoryEntity/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/insert.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl.Companion///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/-companion/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl.Companion/getRequiredConverters/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/-companion/get-required-converters.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/TaskDao_Impl/#androidx.room.RoomDatabase/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/-task-dao_-impl.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/deleteAll/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/delete-all.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/deleteById/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/delete-by-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/deleteExpired/#kotlin.Long/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/delete-expired.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/getAll/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/get-all.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/getById/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/get-by-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/insert/#com.segnities007.yatte.data.core.database.entity.TaskEntity/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/insert.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/setAlarmTriggeredAtIfOneTimeTask/#kotlin.String#kotlin.Long/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/set-alarm-triggered-at-if-one-time-task.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/update/#com.segnities007.yatte.data.core.database.entity.TaskEntity/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-task-dao_-impl/update.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl///PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/index.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/AppDatabase_Impl/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/-app-database_-impl.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/alarmDao/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/alarm-dao.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/clearAllTables/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[android-release]-app-database_-impl/clear-all-tables.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/createAutoMigrations/#kotlin.collections.Map[kotlin.reflect.KClass[androidx.room.migration.AutoMigrationSpec],androidx.room.migration.AutoMigrationSpec]/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/create-auto-migrations.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/getRequiredAutoMigrationSpecClasses/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/get-required-auto-migration-spec-classes.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/historyDao/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/history-dao.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/taskDao/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/task-dao.html
+module:composeApp
+com.segnities007.yatte
+com.segnities007.yatte.platform.alarm
+com.segnities007.yatte.platform.audio
+com.segnities007.yatte.platform.cleanup
+com.segnities007.yatte.platform.di
+com.segnities007.yatte.platform.notification
+com.segnities007.yatte.platform.receiver
+module:alarm
+com.segnities007.yatte.domain.aggregate.alarm.model
+com.segnities007.yatte.domain.aggregate.alarm.repository
+com.segnities007.yatte.domain.aggregate.alarm.scheduler
+com.segnities007.yatte.domain.aggregate.alarm.usecase
+module:history
+com.segnities007.yatte.presentation.feature.history
+com.segnities007.yatte.presentation.feature.history.component
+com.segnities007.yatte.presentation.feature.history.di
+module:settings
+com.segnities007.yatte.presentation.feature.settings
+com.segnities007.yatte.presentation.feature.settings.component
+com.segnities007.yatte.presentation.feature.settings.di
+module:task
+com.segnities007.yatte.presentation.feature.task
+com.segnities007.yatte.presentation.feature.task.component
+com.segnities007.yatte.presentation.feature.task.di
+module:core
+com.segnities007.yatte.presentation.core.component
+com.segnities007.yatte.presentation.core.platform
+com.segnities007.yatte.presentation.core.theme
+yatte.presentation.core.generated.resources
+module:di
+com.segnities007.yatte.di
+module:home
+com.segnities007.yatte.presentation.feature.home
+com.segnities007.yatte.presentation.feature.home.component
+com.segnities007.yatte.presentation.feature.home.di
+module:management
+com.segnities007.yatte.presentation.feature.management
+com.segnities007.yatte.presentation.feature.management.di
+module:navigation
+com.segnities007.yatte.presentation.navigation
+com.segnities007.yatte.presentation.navigation.di

@@ -1,0 +1,439 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Task</title>
+<link href="../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../../index.html" tabindex="1">
+                    yatte
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector common-like" data-active="" aria-pressed="true" data-filter=":domain:aggregate:task/commonMain">common</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option common-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":domain:aggregate:task/commonMain" data-filter=":domain:aggregate:task/commonMain">
+                                <span class="checkbox--icon"></span>
+                                common
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    yatte
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="task::com.segnities007.yatte.domain.aggregate.task.model/Task///PointingToDeclaration//-780467057">
+  <div class="breadcrumbs"><a href="../../index.html">task</a><span class="delimiter">/</span><a href="../index.html">com.segnities007.yatte.domain.aggregate.task.model</a><span class="delimiter">/</span><span class="current">Task</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Task</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Task</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>id<span class="token operator">: </span><a href="../-task-id/index.html">TaskId</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>title<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>time<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalTime///PointingToDeclaration/">LocalTime</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>minutesBefore<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">10</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>taskType<span class="token operator">: </span><a href="../-task-type/index.html">TaskType</a><span class="token operator"> = </span>TaskType.ONE_TIME<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>weekDays<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="kotlinx.datetime/DayOfWeek///PointingToDeclaration/">DayOfWeek</span><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>isCompleted<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>createdAt<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>alarmTriggeredAt<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>skipUntil<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDate///PointingToDeclaration/">LocalDate</span><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><p class="paragraph">タスクのドメインモデル</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="tableheader">Constructors</h2>
+        <div class="table"><a data-name="-877063563%2FConstructors%2F-780467057" anchor-label="Task" id="-877063563%2FConstructors%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-task.html"><span><span>Task</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-877063563%2FConstructors%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="../-task-id/index.html">TaskId</a><span class="token punctuation">, </span></span><span class="parameter ">title<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">time<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalTime///PointingToDeclaration/">LocalTime</span><span class="token punctuation">, </span></span><span class="parameter ">minutesBefore<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">10</span><span class="token punctuation">, </span></span><span class="parameter ">taskType<span class="token operator">: </span><a href="../-task-type/index.html">TaskType</a><span class="token operator"> = </span>TaskType.ONE_TIME<span class="token punctuation">, </span></span><span class="parameter ">weekDays<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="kotlinx.datetime/DayOfWeek///PointingToDeclaration/">DayOfWeek</span><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter ">isCompleted<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">createdAt<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token punctuation">, </span></span><span class="parameter ">alarmTriggeredAt<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">skipUntil<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDate///PointingToDeclaration/">LocalDate</span><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="-1906724278%2FClasslikes%2F-780467057" anchor-label="Companion" id="-1906724278%2FClasslikes%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1906724278%2FClasslikes%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="-723747330%2FProperties%2F-780467057" anchor-label="alarmTriggeredAt" id="-723747330%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="alarm-triggered-at.html"><span>alarm</span><wbr><span>Triggered</span><wbr><span><span>At</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-723747330%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="alarm-triggered-at.html">alarmTriggeredAt</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">アラームが発火した日時（nullの場合は未発火）</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1793932328%2FProperties%2F-780467057" anchor-label="createdAt" id="1793932328%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="created-at.html"><span>created</span><wbr><span><span>At</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1793932328%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="created-at.html">createdAt</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span></div><div class="brief "><p class="paragraph">作成日時</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1029079164%2FProperties%2F-780467057" anchor-label="id" id="1029079164%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="id.html"><span><span>id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1029079164%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="id.html">id</a><span class="token operator">: </span><a href="../-task-id/index.html">TaskId</a></div><div class="brief "><p class="paragraph">タスクの一意識別子</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1224635806%2FProperties%2F-780467057" anchor-label="isCompleted" id="-1224635806%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-completed.html"><span>is</span><wbr><span><span>Completed</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1224635806%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="is-completed.html">isCompleted</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">完了フラグ</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1632785787%2FProperties%2F-780467057" anchor-label="minutesBefore" id="-1632785787%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="minutes-before.html"><span>minutes</span><wbr><span><span>Before</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1632785787%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="minutes-before.html">minutesBefore</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></div><div class="brief "><p class="paragraph">アラームの何分前に通知するか（0以上60以下）</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2017382596%2FProperties%2F-780467057" anchor-label="skipUntil" id="2017382596%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="skip-until.html"><span>skip</span><wbr><span><span>Until</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2017382596%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="skip-until.html">skipUntil</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDate///PointingToDeclaration/">LocalDate</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">この日付までスキップ（週次タスク用、nullの場合はスキップなし）</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="624054328%2FProperties%2F-780467057" anchor-label="taskType" id="624054328%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="task-type.html"><span>task</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="624054328%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="task-type.html">taskType</a><span class="token operator">: </span><a href="../-task-type/index.html">TaskType</a></div><div class="brief "><p class="paragraph">タスクの種類（1回限り or 毎週繰り返し）</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-170381174%2FProperties%2F-780467057" anchor-label="time" id="-170381174%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="time.html"><span><span>time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-170381174%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="time.html">time</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalTime///PointingToDeclaration/">LocalTime</span></div><div class="brief "><p class="paragraph">アラームを鳴らす時刻</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="798303403%2FProperties%2F-780467057" anchor-label="title" id="798303403%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="title.html"><span><span>title</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="798303403%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="title.html">title</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">タスクのタイトル（1文字以上100文字以下）</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1880835668%2FProperties%2F-780467057" anchor-label="weekDays" id="-1880835668%2FProperties%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="week-days.html"><span>week</span><wbr><span><span>Days</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1880835668%2FProperties%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="week-days.html">weekDays</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="kotlinx.datetime/DayOfWeek///PointingToDeclaration/">DayOfWeek</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">繰り返しの曜日（WEEKLY_LOOPの場合は1つ以上必須）</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-788934082%2FFunctions%2F-780467057" anchor-label="cancelSkip" id="-788934082%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cancel-skip.html"><span>cancel</span><wbr><span><span>Skip</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-788934082%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="cancel-skip.html"><span class="token function">cancelSkip</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Task</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1227221346%2FFunctions%2F-780467057" anchor-label="complete" id="-1227221346%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="complete.html"><span><span>complete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1227221346%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="complete.html"><span class="token function">complete</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Task</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-331664053%2FFunctions%2F-780467057" anchor-label="isActiveOn" id="-331664053%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-active-on.html"><span>is</span><wbr><span>Active</span><wbr><span><span>On</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-331664053%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-active-on.html"><span class="token function">isActiveOn</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">date<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDate///PointingToDeclaration/">LocalDate</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">指定した日にアクティブかどうか</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="608517856%2FFunctions%2F-780467057" anchor-label="isSkipped" id="608517856%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-skipped.html"><span>is</span><wbr><span><span>Skipped</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="608517856%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-skipped.html"><span class="token function">isSkipped</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">today<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDate///PointingToDeclaration/">LocalDate</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">現在スキップ中かどうか</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1494115802%2FFunctions%2F-780467057" anchor-label="markAlarmTriggered" id="1494115802%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="mark-alarm-triggered.html"><span>mark</span><wbr><span>Alarm</span><wbr><span><span>Triggered</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1494115802%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="mark-alarm-triggered.html"><span class="token function">markAlarmTriggered</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">triggeredAt<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Task</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1893633960%2FFunctions%2F-780467057" anchor-label="resetCompletion" id="-1893633960%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reset-completion.html"><span>reset</span><wbr><span><span>Completion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1893633960%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="reset-completion.html"><span class="token function">resetCompletion</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Task</a></div><div class="brief "><p class="paragraph">完了状態をリセットする（週次タスク用）</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="972991748%2FFunctions%2F-780467057" anchor-label="shouldBeDeleted" id="972991748%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="should-be-deleted.html"><span>should</span><wbr><span>Be</span><wbr><span><span>Deleted</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="972991748%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="should-be-deleted.html"><span class="token function">shouldBeDeleted</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">now<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDateTime///PointingToDeclaration/">LocalDateTime</span><span class="token punctuation">, </span></span><span class="parameter ">timeZone<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/TimeZone///PointingToDeclaration/">TimeZone</span><span class="token operator"> = </span>TimeZone.currentSystemDefault()</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">24時間経過後に削除対象かどうか</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-859735013%2FFunctions%2F-780467057" anchor-label="skip" id="-859735013%2FFunctions%2F-780467057" data-filterable-set=":domain:aggregate:task/commonMain"></a>
+          <div class="table-row table-row_content" data-filterable-current=":domain:aggregate:task/commonMain" data-filterable-set=":domain:aggregate:task/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="skip.html"><span><span>skip</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-859735013%2FFunctions%2F-780467057"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":domain:aggregate:task/commonMain"><div class="symbol monospace"><span class="token keyword">fun </span><a href="skip.html"><span class="token function">skip</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">until<span class="token operator">: </span><span data-unresolved-link="kotlinx.datetime/LocalDate///PointingToDeclaration/">LocalDate</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html">Task</a></div><div class="brief "><p class="paragraph">指定した日まで週次タスクをスキップする</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2025 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
