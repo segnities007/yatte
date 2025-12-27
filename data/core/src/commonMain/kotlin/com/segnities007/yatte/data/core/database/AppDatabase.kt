@@ -17,7 +17,7 @@ import com.segnities007.yatte.data.core.database.entity.TaskEntity
         HistoryEntity::class,
         AlarmEntity::class,
     ],
-    version = 1,
+    version = 3,
     exportSchema = true,
 )
 @ConstructedBy(AppDatabaseConstructor::class)

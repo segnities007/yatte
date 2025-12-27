@@ -27,8 +27,8 @@ fun AppFloatingActionButton(
 ) {
     AnimatedVisibility(
         visible = isVisible,
-        enter = slideInVertically { it * 2 } + fadeIn(),
-        exit = slideOutVertically { it * 2 } + fadeOut(),
+        enter = slideInHorizontally { it } + fadeIn(),
+        exit = slideOutHorizontally { it } + fadeOut(),
         modifier = modifier,
     ) {
         Box(

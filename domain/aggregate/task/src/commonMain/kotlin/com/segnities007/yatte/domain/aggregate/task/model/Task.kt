@@ -16,7 +16,7 @@ import kotlinx.datetime.toInstant
  * @property minutesBefore アラームの何分前に通知するか（0以上60以下）
  * @property taskType タスクの種類（1回限り or 毎週繰り返し）
  * @property weekDays 繰り返しの曜日（WEEKLY_LOOPの場合は1つ以上必須）
- * @property isCompleted 完了フラグ
+ * @property completedDates 完了した日付のセット（日付ごとの完了状態を管理）
  * @property createdAt 作成日時
  * @property alarmTriggeredAt アラームが発火した日時（nullの場合は未発火）
  * @property skipUntil この日付までスキップ（週次タスク用、nullの場合はスキップなし）
@@ -28,7 +28,7 @@ data class Task(
     val minutesBefore: Int = 10,
     val taskType: TaskType = TaskType.ONE_TIME,
     val weekDays: List<DayOfWeek> = emptyList(),
-    val isCompleted: Boolean = false,
+    val completedDates: Set<LocalDate> = emptySet(),
     val createdAt: LocalDateTime,
     val alarmTriggeredAt: LocalDateTime? = null,
     val skipUntil: LocalDate? = null,
@@ -47,12 +47,35 @@ data class Task(
         private const val MAX_TITLE_LENGTH = 100
         private const val MAX_MINUTES_BEFORE = 60
     }
-    fun complete(): Task = copy(isCompleted = true)
 
     /**
-     * 完了状態をリセットする（週次タスク用）
+     * 指定した日付でタスクを完了する
+     *
+     * @param date 完了する日付
+     * @return 完了状態が更新されたタスク
      */
-    fun resetCompletion(): Task = copy(isCompleted = false, alarmTriggeredAt = null)
+    fun complete(date: LocalDate): Task = copy(completedDates = completedDates + date)
+
+    /**
+     * 指定した日付の完了状態をリセットする
+     *
+     * @param date リセットする日付
+     * @return 完了状態がリセットされたタスク
+     */
+    fun resetCompletion(date: LocalDate): Task = copy(completedDates = completedDates - date)
+
+    /**
+     * 全ての完了状態をリセットする（週次タスク用）
+     */
+    fun resetAllCompletions(): Task = copy(completedDates = emptySet(), alarmTriggeredAt = null)
+
+    /**
+     * 指定した日に完了済みかどうか
+     *
+     * @param date チェックする日付
+     * @return 完了済みの場合はtrue
+     */
+    fun isCompletedOn(date: LocalDate): Boolean = completedDates.contains(date)
 
     fun markAlarmTriggered(triggeredAt: LocalDateTime): Task =
         copy(alarmTriggeredAt = triggeredAt)
@@ -88,8 +111,8 @@ data class Task(
      * @return アクティブな場合はtrue
      */
     fun isActiveOn(date: LocalDate): Boolean {
-        // 完了済みタスクはアクティブでない
-        if (isCompleted) return false
+        // その日に完了済みならアクティブでない
+        if (isCompletedOn(date)) return false
 
         // スキップ中はアクティブでない
         if (isSkipped(date)) return false
@@ -129,7 +152,3 @@ data class Task(
         return elapsedSeconds >= thresholdSeconds
     }
 }
-
-
-
-

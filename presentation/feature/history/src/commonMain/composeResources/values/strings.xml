@@ -3,10 +3,15 @@
 
     <string name="common_empty_emoji">📋</string>
     <string name="cd_export">エクスポート</string>
-    <string name="empty_no_history">履歴がありません</string>
+    <string name="empty_no_history">まだ履歴がありません</string>
+    <string name="empty_history_description">タスクを完了すると\nここに表示されます</string>
 
     <string name="snackbar_export_success">%1$s形式でエクスポートしました</string>
 
     <string name="error_clear_all_failed">全削除に失敗しました</string>
     <string name="error_export_failed">エクスポートに失敗しました</string>
+
+    <string name="status_completed">完了</string>
+    <string name="status_skipped">スキップ</string>
+    <string name="status_expired">時間切れ</string>
 </resources>

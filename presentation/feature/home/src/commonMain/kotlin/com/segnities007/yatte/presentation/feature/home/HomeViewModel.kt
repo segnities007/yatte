@@ -7,7 +7,7 @@ import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
 import com.segnities007.yatte.domain.aggregate.history.usecase.AddHistoryUseCase
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.usecase.CompleteTaskUseCase
-import com.segnities007.yatte.domain.aggregate.task.usecase.GetTodayTasksUseCase
+import com.segnities007.yatte.domain.aggregate.task.usecase.GetAllTasksUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.SkipTaskUseCase
 import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
 import kotlinx.coroutines.channels.Channel
@@ -32,7 +32,7 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 class HomeViewModel(
-    private val getTodayTasksUseCase: GetTodayTasksUseCase,
+    private val getAllTasksUseCase: GetAllTasksUseCase,
     private val completeTaskUseCase: CompleteTaskUseCase,
     private val skipTaskUseCase: SkipTaskUseCase,
     private val addHistoryUseCase: AddHistoryUseCase,
@@ -57,7 +57,7 @@ class HomeViewModel(
         when (intent) {
             is HomeIntent.LoadTasks -> loadTasks()
             is HomeIntent.SelectDate -> selectDate(intent.date)
-            is HomeIntent.CompleteTask -> completeTask(intent.task)
+            is HomeIntent.CompleteTask -> completeTask(intent.task, intent.date)
             is HomeIntent.SkipTask -> skipTask(intent.task, intent.until)
             is HomeIntent.NavigateToAddTask -> sendEvent(HomeEvent.NavigateToAddTask)
             is HomeIntent.NavigateToHistory -> sendEvent(HomeEvent.NavigateToHistory)
@@ -69,24 +69,17 @@ class HomeViewModel(
 
     private fun selectDate(date: LocalDate) {
         _state.update { it.copy(selectedDate = date) }
-        loadTasks()
     }
 
     private fun loadTasks() {
         loadTasksJob?.cancel()
         loadTasksJob = viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
-            val selectedDate = _state.value.selectedDate
-            getTodayTasksUseCase().collect { allTasks ->
-                // 選択された日付に該当するタスクをフィルタ
-                val tasksForDate = if (selectedDate != null) {
-                    allTasks.filter { it.isActiveOn(selectedDate) }
-                } else {
-                    allTasks
-                }
+            getAllTasksUseCase().collect { allTasks ->
+                // 全タスクを保持し、フィルタリングはUI側で行う
                 _state.update {
                     it.copy(
-                        tasks = tasksForDate,
+                        allTasks = allTasks,
                         isLoading = false,
                     )
                 }
@@ -95,9 +88,9 @@ class HomeViewModel(
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    private fun completeTask(task: Task) {
+    private fun completeTask(task: Task, date: LocalDate) {
         viewModelScope.launch {
-            completeTaskUseCase(task.id)
+            completeTaskUseCase(task.id, date)
                 .onSuccess { completedTask ->
                     // 手動完了時は必ずアラームをキャンセル
                     cancelAlarmUseCase.byTaskId(completedTask.id)
