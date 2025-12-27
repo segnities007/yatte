@@ -32,6 +32,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -70,19 +72,29 @@ internal fun HistoryScreen(
         }
     }
 
-    // ヘッダー分の高さとマージンを考慮したパディング
-    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
-    val listContentPadding = PaddingValues(
-        top = statusBarHeight + headerHeight,
-        bottom = contentPadding.calculateBottomPadding(),
-        start = 16.dp,
-        end = 16.dp,
-    )
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    YatteScaffold(
+        isNavigationVisible = isNavigationVisible,
+        contentPadding = contentPadding,
+        header = { isVisible ->
+            FloatingHeaderBar(
+                title = { Text(stringResource(HistoryRes.string.title_history)) },
+                isVisible = isVisible,
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.onIntent(HistoryIntent.ExportHistory) },
+                        modifier = Modifier.bounceClick()
+                    ) {
+                        Icon(
+                            Icons.Default.Share,
+                            contentDescription = stringResource(HistoryRes.string.cd_export),
+                        )
+                    }
+                },
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
+    ) { listContentPadding ->
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
@@ -105,20 +117,6 @@ internal fun HistoryScreen(
                 }
             }
         }
-
-        FloatingHeaderBar(
-            title = { Text(stringResource(HistoryRes.string.title_history)) },
-            isVisible = isNavigationVisible,
-            actions = {
-                IconButton(onClick = { viewModel.onIntent(HistoryIntent.ExportHistory) }) {
-                    Icon(
-                        Icons.Default.Share,
-                        contentDescription = stringResource(HistoryRes.string.cd_export),
-                    )
-                }
-            },
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }
 

@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.YatteScaffold
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.core.generated.resources.nav_settings
@@ -102,11 +103,6 @@ internal fun SettingsScreen(
         )
     }
 
-    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
-    val topPadding = statusBarHeight + headerHeight
-    val bottomPadding = contentPadding.calculateBottomPadding()
-
     // ファイルピッカーランチャー
     val filePickerLauncher = rememberFilePickerLauncher(
         type = FileType.Audio,
@@ -117,18 +113,30 @@ internal fun SettingsScreen(
         },
     )
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
+    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    YatteScaffold(
+        isNavigationVisible = isNavigationVisible,
+        contentPadding = contentPadding,
+        header = { isVisible ->
+            FloatingHeaderBar(
+                title = { Text(stringResource(CoreRes.string.nav_settings)) },
+                isVisible = isVisible,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
+    ) { listContentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
+                .padding(
+                    top = listContentPadding.calculateTopPadding(),
+                    bottom = listContentPadding.calculateBottomPadding(),
+                    start = 16.dp,
+                    end = 16.dp,
+                ),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            // トップのスペーサー（ヘッダー分）
-            Spacer(modifier = Modifier.height(topPadding))
             SettingsSectionCard(
                 icon = Icons.Default.Notifications,
                 title = stringResource(SettingsRes.string.section_notifications),
@@ -232,16 +240,7 @@ internal fun SettingsScreen(
                     }
                 }
             }
-
-            // 下部の余白（ボトムナビゲーション分）
-            Spacer(modifier = Modifier.height(bottomPadding))
         }
-
-        FloatingHeaderBar(
-            title = { Text(stringResource(CoreRes.string.nav_settings)) },
-            isVisible = isNavigationVisible,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }
 

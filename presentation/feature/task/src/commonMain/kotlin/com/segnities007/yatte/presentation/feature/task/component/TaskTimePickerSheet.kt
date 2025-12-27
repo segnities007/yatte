@@ -22,6 +22,7 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -32,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.YatteButton
 import kotlinx.datetime.LocalTime
@@ -39,6 +41,10 @@ import kotlinx.datetime.LocalTime
 private enum class TimePickerMode {
     Dial, Input
 }
+
+private val SelectorYellow = Color(0xFFFBC02D) // Vivid Yellow
+private val SelectorContent = Color.Black
+private val ClockDialBg = Color.White // Fix for "Black UI" issue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,6 +65,7 @@ fun TaskTimePickerSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
+        containerColor = MaterialTheme.colorScheme.surface,
     ) {
         Column(
             modifier = Modifier
@@ -94,12 +101,56 @@ fun TaskTimePickerSheet(
             // Picker
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(480.dp) // Increased height to prevent UI clipping
             ) {
-                if (mode == TimePickerMode.Dial) {
-                    TimePicker(state = timePickerState)
-                } else {
-                    TimeInput(state = timePickerState)
+                // Force override Primary/Tertiary colors to ensure Selector is Yellow
+                // This handles cases where TimePickerDefaults might be ignored or fallback to default Primary
+                MaterialTheme(
+                    colorScheme = MaterialTheme.colorScheme.copy(
+                        primary = SelectorYellow,
+                        onPrimary = SelectorContent,
+                        tertiary = SelectorYellow,
+                        onTertiary = SelectorContent,
+                    )
+                ) {
+                    if (mode == TimePickerMode.Dial) {
+                        TimePicker(
+                            state = timePickerState,
+                            colors = TimePickerDefaults.colors(
+                                clockDialColor = MaterialTheme.colorScheme.surface,
+                                clockDialSelectedContentColor = SelectorContent,
+                                clockDialUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                selectorColor = SelectorYellow,
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorBorderColor = SelectorYellow,
+                                periodSelectorSelectedContainerColor = SelectorYellow,
+                                periodSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorSelectedContentColor = SelectorContent,
+                                periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                timeSelectorSelectedContainerColor = SelectorYellow,
+                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                timeSelectorSelectedContentColor = SelectorContent,
+                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        )
+                    } else {
+                        TimeInput(
+                            state = timePickerState,
+                            colors = TimePickerDefaults.colors(
+                                periodSelectorBorderColor = SelectorYellow,
+                                periodSelectorSelectedContainerColor = SelectorYellow,
+                                periodSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorSelectedContentColor = SelectorContent,
+                                periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                timeSelectorSelectedContainerColor = SelectorYellow,
+                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                timeSelectorSelectedContentColor = SelectorContent,
+                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        )
+                    }
                 }
             }
 

@@ -50,6 +50,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.YatteScaffold
 
 import kotlinx.datetime.DayOfWeek
 import org.koin.compose.viewmodel.koinViewModel
@@ -96,19 +97,71 @@ internal fun TaskFormScreen(
         }
     }
 
-    // FloatingHeaderBarの高さのみ考慮（ContainerHeight + TopMargin）
-    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin
-
-    Box(modifier = Modifier.fillMaxSize()) {
+    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    // TaskFormScreen は BottomNavigation が非表示のため contentPadding = 0
+    YatteScaffold(
+        isNavigationVisible = isNavigationVisible,
+        contentPadding = PaddingValues(0.dp),
+        header = { isVisible ->
+            FloatingHeaderBar(
+                isVisible = isVisible,
+                title = {
+                    Text(
+                        if (state.isEditMode) {
+                            stringResource(TaskRes.string.title_edit_task)
+                        } else {
+                            stringResource(TaskRes.string.title_add_task)
+                        }
+                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = { viewModel.onIntent(TaskFormIntent.Cancel) },
+                        modifier = Modifier.bounceClick()
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(CoreRes.string.common_back),
+                        )
+                    }
+                },
+                actions = {
+                    if (state.isEditMode) {
+                        IconButton(
+                            onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) },
+                            modifier = Modifier.bounceClick()
+                        ) {
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = stringResource(CoreRes.string.common_delete),
+                            )
+                        }
+                    }
+                    IconButton(
+                        onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) },
+                        modifier = Modifier.bounceClick()
+                    ) {
+                        Icon(
+                            Icons.Default.Check,
+                            contentDescription = stringResource(CoreRes.string.common_save),
+                        )
+                    }
+                },
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
+    ) { listContentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(
+                    top = listContentPadding.calculateTopPadding(),
+                    start = 16.dp,
+                    end = 16.dp,
+                )
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            // ヘッダー分のスペースを確保（スクロール時にコンテンツがヘッダー下を通過可能）
-            Spacer(modifier = Modifier.height(headerHeight))
             // タイトル
             OutlinedTextField(
                 value = state.title,
@@ -133,15 +186,13 @@ internal fun TaskFormScreen(
                     .clip(RoundedCornerShape(16.dp))
                     .bounceClick()
                     .clickable { showTimeSheet = true }
-                // Removed padding(vertical=12.dp) from here to apply it inside Surface or ensure Surface covers it
             ) {
                 Surface(
-                    color = MaterialTheme.colorScheme.secondaryContainer, // Distinct background color
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    // Better visual representation
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.padding(vertical = 16.dp)
@@ -236,53 +287,6 @@ internal fun TaskFormScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
         }
-
-        FloatingHeaderBar(
-            isVisible = isNavigationVisible,
-            title = {
-                Text(
-                    if (state.isEditMode) {
-                        stringResource(TaskRes.string.title_edit_task)
-                    } else {
-                        stringResource(TaskRes.string.title_add_task)
-                    }
-                )
-            },
-            navigationIcon = {
-                IconButton(
-                    onClick = { viewModel.onIntent(TaskFormIntent.Cancel) },
-                    modifier = Modifier.bounceClick()
-                ) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(CoreRes.string.common_back),
-                    )
-                }
-            },
-            actions = {
-                if (state.isEditMode) {
-                    IconButton(
-                        onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) },
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            Icons.Default.Delete,
-                            contentDescription = stringResource(CoreRes.string.common_delete),
-                        )
-                    }
-                }
-                IconButton(
-                    onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) },
-                    modifier = Modifier.bounceClick()
-                ) {
-                    Icon(
-                        Icons.Default.Check,
-                        contentDescription = stringResource(CoreRes.string.common_save),
-                    )
-                }
-            },
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -45,7 +46,7 @@ fun HistoryTimeline(
     val sortedItems = items.sortedByDescending { it.completedAt }
 
     LazyColumn(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxSize(), // Ensure it fills the screen to capture nested scroll events properly
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {

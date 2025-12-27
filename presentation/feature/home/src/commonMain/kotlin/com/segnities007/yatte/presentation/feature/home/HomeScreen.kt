@@ -37,9 +37,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.YatteScaffold
 import com.segnities007.yatte.presentation.feature.home.component.EmptyTasksView
 import com.segnities007.yatte.presentation.feature.home.component.TaskList
 import com.segnities007.yatte.presentation.feature.home.component.formatDate
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
@@ -99,20 +101,62 @@ internal fun HomeScreen(
         }
     }
 
-    // ヘッダー分の高さとマージンを考慮したパディング
-    // FNB用のcontentPadding(bottom)に加えて、Topのパディングを追加してリストに渡す
-    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
-    val listContentPadding = PaddingValues(
-        top = statusBarHeight + headerHeight,
-        bottom = contentPadding.calculateBottomPadding(),
-        start = 16.dp,
-        end = 16.dp,
-    )
-
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    YatteScaffold(
+        isNavigationVisible = isNavigationVisible,
+        contentPadding = contentPadding,
+        header = { isVisible ->
+            FloatingHeaderBar(
+                isVisible = isVisible,
+                title = {
+                    val dateText = if (state.selectedDate != null) {
+                        formatDate(state.selectedDate!!)
+                    } else {
+                        ""
+                    }
+                    Text(
+                        text = dateText,
+                        modifier = Modifier.clickable {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(INITIAL_PAGE)
+                            }
+                        }
+                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                            }
+                        },
+                        modifier = Modifier.bounceClick()
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(HomeRes.string.cd_prev_day),
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                            }
+                        },
+                        modifier = Modifier.bounceClick()
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = stringResource(HomeRes.string.cd_next_day),
+                        )
+                    }
+                },
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
+    ) { listContentPadding ->
         // コンテンツ (背面)
         HorizontalPager(
             state = pagerState,
@@ -150,51 +194,6 @@ internal fun HomeScreen(
                 }
             }
         }
-
-        // Floating Header (前面)
-        FloatingHeaderBar(
-            isVisible = isNavigationVisible,
-            title = {
-                val dateText = if (state.selectedDate != null) {
-                    formatDate(state.selectedDate!!)
-                } else {
-                    ""
-                }
-                Text(
-                    text = dateText,
-                    modifier = Modifier.clickable {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(INITIAL_PAGE)
-                        }
-                    }
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                    }
-                }) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(HomeRes.string.cd_prev_day),
-                    )
-                }
-            },
-            actions = {
-                IconButton(onClick = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
-                }) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = stringResource(HomeRes.string.cd_next_day),
-                    )
-                }
-            },
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }
 
