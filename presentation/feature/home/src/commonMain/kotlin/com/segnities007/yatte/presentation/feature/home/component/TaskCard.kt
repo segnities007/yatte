@@ -28,6 +28,7 @@ import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -188,7 +189,10 @@ private fun TaskCardContent(
             }
             Row {
                 if (onSkipClick != null) {
-                    IconButton(onClick = onSkipClick) {
+                    IconButton(
+                        onClick = onSkipClick,
+                        modifier = Modifier.bounceClick()
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                             contentDescription = stringResource(HomeRes.string.cd_skip),
@@ -196,7 +200,10 @@ private fun TaskCardContent(
                         )
                     }
                 }
-                IconButton(onClick = onCompleteClick) {
+                IconButton(
+                    onClick = onCompleteClick,
+                    modifier = Modifier.bounceClick()
+                ) {
                     Icon(
                         Icons.Default.Check,
                         contentDescription = stringResource(HomeRes.string.cd_complete),

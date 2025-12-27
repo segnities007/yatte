@@ -23,6 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import yatte.presentation.feature.management.generated.resources.*
@@ -53,37 +55,34 @@ fun TaskManagementScreen(
         }
     }
 
-    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
-    val listContentPadding = PaddingValues(
-        top = statusBarHeight + headerHeight,
-        bottom = contentPadding.calculateBottomPadding(),
-        start = 16.dp,
-        end = 16.dp,
-    )
-
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    YatteScaffold(
+        isNavigationVisible = isNavigationVisible,
+        contentPadding = contentPadding,
+        header = { isVisible ->
+            FloatingHeaderBar(
+                title = { Text(stringResource(CoreRes.string.nav_manage)) },
+                isVisible = isVisible,
+                actions = {
+                    IconButton(
+                        onClick = actions.onAddTask,
+                        modifier = Modifier.bounceClick()
+                    ) {
+                        Icon(
+                            Icons.Default.Add,
+                            contentDescription = stringResource(CoreRes.string.cd_add_task),
+                        )
+                    }
+                },
+                modifier = Modifier.align(Alignment.TopCenter),
+            )
+        }
+    ) { listContentPadding ->
         TaskManagementList(
             tasks = state.tasks,
             contentPadding = listContentPadding,
             onTaskClick = { viewModel.onIntent(TaskManagementIntent.NavigateToEditTask(it.id.value)) },
             modifier = Modifier.fillMaxSize(),
-        )
-
-        FloatingHeaderBar(
-            title = { Text(stringResource(CoreRes.string.nav_manage)) },
-            isVisible = isNavigationVisible,
-            actions = {
-                IconButton(onClick = actions.onAddTask) {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = stringResource(CoreRes.string.cd_add_task),
-                    )
-                }
-            },
-            modifier = Modifier.align(Alignment.TopCenter),
         )
     }
 }

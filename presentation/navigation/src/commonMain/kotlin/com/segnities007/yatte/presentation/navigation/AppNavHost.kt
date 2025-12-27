@@ -110,7 +110,7 @@ fun AppNavHost(
                 .fillMaxSize()
                 .nestedScroll(nestedScrollConnection),
             contentWindowInsets = WindowInsets(0),
-            snackbarHost = { SnackbarHost(snackbarHostState) },
+            // SnackbarHost は Box overlay に移動してFNBの上に配置
         ) { contentPadding ->
             NavHost(
                 navController = navController,
@@ -133,7 +133,7 @@ fun AppNavHost(
 
                 taskScreens(
                     actions = actions.taskActions,
-                    isNavigationVisible = true,
+                    isNavigationVisible = isFnbVisible,
                     onShowSnackbar = onShowSnackbar,
                 )
 
@@ -175,7 +175,7 @@ fun AppNavHost(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp),
+                .padding(bottom = 32.dp), // Increased from 16.dp for better reachability
         )
 
         // FAB Overlay
@@ -184,8 +184,16 @@ fun AppNavHost(
             onClick = actions.homeActions.onAddTask,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                // FNBの上部に配置 (112dp + margin)
-                .padding(bottom = 120.dp, end = 24.dp),
+                // FNBの上部に配置 (112dp + margin) -> adjusted to match new BottomBar padding
+                .padding(bottom = 136.dp, end = 24.dp),
+        )
+        
+        // Snackbar Overlay (FNBの上に表示)
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 140.dp), // FNB(112dp) + margin より上に配置
         )
         
         // Confetti Overlay

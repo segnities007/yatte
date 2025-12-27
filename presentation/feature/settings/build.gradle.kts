@@ -29,6 +29,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             // Project
             implementation(projects.presentation.core)
+            implementation(projects.presentation.designsystem)
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.settings)
             implementation(projects.di)

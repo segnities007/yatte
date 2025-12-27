@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.settings.generated.resources.*
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 
 /**
  * カスタム通知音選択コンポーネント
@@ -71,7 +72,10 @@ fun SoundPicker(
                     }
                     if (currentSoundUri != null) {
                         Spacer(modifier = Modifier.width(8.dp))
-                        IconButton(onClick = onClearSound) {
+                        IconButton(
+                            onClick = onClearSound,
+                            modifier = Modifier.bounceClick()
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
                                 contentDescription = stringResource(SettingsRes.string.custom_sound_clear),
