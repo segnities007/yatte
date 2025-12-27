@@ -19,4 +19,8 @@ data class HistoryEntity(
 
     @ColumnInfo(name = "completed_at")
     val completedAt: Long,
+
+    @ColumnInfo(name = "status", defaultValue = "COMPLETED")
+    val status: String = "COMPLETED",
 )
+

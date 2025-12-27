@@ -117,7 +117,13 @@ internal fun HomeScreen(
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
-        ) { _ ->
+        ) { page ->
+            // このページの日付を計算
+            val offset = page - INITIAL_PAGE
+            val pageDate = today.plus(offset, DateTimeUnit.DAY)
+            // その日のタスクをフィルタリング
+            val tasksForPage = state.tasksForDate(pageDate)
+
             Box(modifier = Modifier.fillMaxSize()) {
                 when {
                     state.isLoading -> {
@@ -125,18 +131,18 @@ internal fun HomeScreen(
                             modifier = Modifier.align(Alignment.Center),
                         )
                     }
-                    state.tasks.isEmpty() -> {
+                    tasksForPage.isEmpty() -> {
                         EmptyTasksView(
                             modifier = Modifier.align(Alignment.Center),
                         )
                     }
                     else -> {
                         TaskList(
-                            tasks = state.tasks,
+                            tasks = tasksForPage,
                             contentPadding = listContentPadding,
-                            onCompleteTask = { viewModel.onIntent(HomeIntent.CompleteTask(it)) },
+                            onCompleteTask = { viewModel.onIntent(HomeIntent.CompleteTask(it, pageDate)) },
                             onSkipTask = { task ->
-                                viewModel.onIntent(HomeIntent.SkipTask(task, state.selectedDate ?: today))
+                                viewModel.onIntent(HomeIntent.SkipTask(task, pageDate))
                             },
                             onTaskClick = { viewModel.onIntent(HomeIntent.NavigateToEditTask(it.id.value)) },
                         )

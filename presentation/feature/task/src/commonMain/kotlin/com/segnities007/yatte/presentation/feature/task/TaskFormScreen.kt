@@ -1,6 +1,7 @@
 package com.segnities007.yatte.presentation.feature.task
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -80,19 +81,19 @@ internal fun TaskFormScreen(
         }
     }
 
-    val statusBarHeight = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin + FloatingHeaderBarDefaults.BottomSpacing
-    val headerPaddingValues = PaddingValues(top = statusBarHeight + headerHeight)
+    // FloatingHeaderBarの高さのみ考慮（ContainerHeight + TopMargin）
+    val headerHeight = FloatingHeaderBarDefaults.ContainerHeight + FloatingHeaderBarDefaults.TopMargin
 
-    androidx.compose.foundation.layout.Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(headerPaddingValues)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            // ヘッダー分のスペースを確保（スクロール時にコンテンツがヘッダー下を通過可能）
+            Spacer(modifier = Modifier.height(headerHeight))
             // タイトル
             OutlinedTextField(
                 value = state.title,

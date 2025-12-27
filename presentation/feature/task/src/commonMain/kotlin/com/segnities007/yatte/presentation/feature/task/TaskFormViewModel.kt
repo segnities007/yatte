@@ -157,7 +157,7 @@ class TaskFormViewModel(
                 minutesBefore = currentState.minutesBefore,
                 taskType = currentState.taskType,
                 weekDays = currentState.selectedWeekDays.toList(),
-                isCompleted = false,
+                completedDates = emptySet(),
                 createdAt = now,
                 alarmTriggeredAt = null,
                 skipUntil = null,

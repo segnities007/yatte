@@ -3,6 +3,7 @@ package com.segnities007.yatte.data.aggregate.history.mapper
 import com.segnities007.yatte.data.core.database.entity.HistoryEntity
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
+import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
@@ -22,6 +23,11 @@ fun HistoryEntity.toDomain(): History {
         taskId = TaskId(taskId),
         title = title,
         completedAt = Instant.fromEpochMilliseconds(completedAt).toLocalDateTime(timeZone),
+        status = try {
+            HistoryStatus.valueOf(status)
+        } catch (e: IllegalArgumentException) {
+            HistoryStatus.COMPLETED
+        },
     )
 }
 
@@ -38,5 +44,7 @@ fun History.toEntity(): HistoryEntity {
         taskId = taskId.value,
         title = title,
         completedAt = completedAt.toInstant(timeZone).toEpochMilliseconds(),
+        status = status.name,
     )
 }
+

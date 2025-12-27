@@ -1,11 +1,13 @@
 package com.segnities007.yatte.presentation.feature.history.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -21,8 +24,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.history.model.History
+import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
+import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.feature.history.generated.resources.*
+import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
 /**
  * タイムラインビュー - 時間軸に沿ってタスク完了履歴を表示
@@ -57,8 +65,11 @@ private fun TimelineItem(
     isLast: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val lineColor = MaterialTheme.colorScheme.primary
-    val dotColor = MaterialTheme.colorScheme.primary
+    val statusColor = when (history.status) {
+        HistoryStatus.COMPLETED -> MaterialTheme.colorScheme.primary
+        HistoryStatus.SKIPPED -> MaterialTheme.colorScheme.tertiary
+        HistoryStatus.EXPIRED -> MaterialTheme.colorScheme.error
+    }
 
     Row(
         modifier = modifier
@@ -89,7 +100,7 @@ private fun TimelineItem(
                 // 上の線（最初の項目以外）
                 if (!isFirst) {
                     drawLine(
-                        color = lineColor,
+                        color = statusColor,
                         start = Offset(centerX, 0f),
                         end = Offset(centerX, size.height / 2 - 8.dp.toPx()),
                         strokeWidth = 2.dp.toPx(),
@@ -98,7 +109,7 @@ private fun TimelineItem(
                 // 下の線（最後の項目以外）
                 if (!isLast) {
                     drawLine(
-                        color = lineColor,
+                        color = statusColor,
                         start = Offset(centerX, size.height / 2 + 8.dp.toPx()),
                         end = Offset(centerX, size.height),
                         strokeWidth = 2.dp.toPx(),
@@ -108,7 +119,7 @@ private fun TimelineItem(
             // ドット
             Canvas(modifier = Modifier.width(16.dp).height(16.dp)) {
                 drawCircle(
-                    color = dotColor,
+                    color = statusColor,
                     radius = 8.dp.toPx(),
                     center = Offset(size.width / 2, size.height / 2),
                 )
@@ -122,19 +133,72 @@ private fun TimelineItem(
                 .padding(vertical = 8.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         ) {
-            Column(
-                modifier = Modifier.padding(12.dp),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = history.title,
-                    style = MaterialTheme.typography.titleSmall,
-                )
-                Text(
-                    text = "${history.completedAt.date}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                // 左側: タイトルと日付
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = history.title,
+                        style = MaterialTheme.typography.titleSmall,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "${history.completedAt.date.monthNumber}/${history.completedAt.date.dayOfMonth}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                // 右側: ステータスバッジ
+                Spacer(modifier = Modifier.width(8.dp))
+                StatusBadge(status = history.status)
             }
         }
+    }
+}
+
+@Composable
+private fun StatusBadge(
+    status: HistoryStatus,
+    modifier: Modifier = Modifier,
+) {
+    val (backgroundColor, text) = when (status) {
+        HistoryStatus.COMPLETED -> Pair(
+            MaterialTheme.colorScheme.primaryContainer,
+            stringResource(HistoryRes.string.status_completed),
+        )
+        HistoryStatus.SKIPPED -> Pair(
+            MaterialTheme.colorScheme.tertiaryContainer,
+            stringResource(HistoryRes.string.status_skipped),
+        )
+        HistoryStatus.EXPIRED -> Pair(
+            MaterialTheme.colorScheme.errorContainer,
+            stringResource(HistoryRes.string.status_expired),
+        )
+    }
+
+    val textColor = when (status) {
+        HistoryStatus.COMPLETED -> MaterialTheme.colorScheme.onPrimaryContainer
+        HistoryStatus.SKIPPED -> MaterialTheme.colorScheme.onTertiaryContainer
+        HistoryStatus.EXPIRED -> MaterialTheme.colorScheme.onErrorContainer
+    }
+
+    Box(
+        modifier = modifier
+            .background(
+                color = backgroundColor,
+                shape = RoundedCornerShape(4.dp),
+            )
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+            color = textColor,
+        )
     }
 }

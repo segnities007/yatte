@@ -93,9 +93,14 @@ fun AppNavHost(
 
     // ルートによる表示制御とスクロールによる表示制御を合成
     // 特定のルート（詳細画面など）では常に非表示にする場合はここで制御
-    val isBottomBarVisible = showNavBar && isFnbVisible
+    // タスク追加/編集画面かどうかを判定
+    val isTaskFormScreen = currentRoute?.contains("AddTaskRoute") == true ||
+            currentRoute?.contains("EditTaskRoute") == true
 
-    val showFab = currentNavItem == NavItem.HOME && isBottomBarVisible
+    // タスクフォーム画面ではBottomBarを非表示
+    val isBottomBarVisible = showNavBar && isFnbVisible && !isTaskFormScreen
+
+    val showFab = currentNavItem == NavItem.HOME && isBottomBarVisible && !isTaskFormScreen
 
     Scaffold(
         modifier = modifier
@@ -134,7 +139,7 @@ fun AppNavHost(
 
                 taskScreens(
                     actions = actions.taskActions,
-                    isNavigationVisible = isBottomBarVisible,
+                    isNavigationVisible = true, // TaskFormScreenは独自のヘッダーを持つため常に表示
                     onShowSnackbar = onShowSnackbar,
                 )
 

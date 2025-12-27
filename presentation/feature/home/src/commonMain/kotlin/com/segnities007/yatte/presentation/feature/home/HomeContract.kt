@@ -8,10 +8,17 @@ import kotlinx.datetime.LocalDate
  */
 data class HomeState(
     val selectedDate: LocalDate? = null,
-    val tasks: List<Task> = emptyList(),
+    val allTasks: List<Task> = emptyList(),
     val isLoading: Boolean = true,
     val error: String? = null,
-)
+) {
+    /**
+     * 指定した日付のタスクをフィルタリングして返す
+     */
+    fun tasksForDate(date: LocalDate): List<Task> {
+        return allTasks.filter { it.isActiveOn(date) }
+    }
+}
 
 /**
  * ホーム画面のインテント（ユーザーアクション）
@@ -19,7 +26,7 @@ data class HomeState(
 sealed interface HomeIntent {
     data object LoadTasks : HomeIntent
     data class SelectDate(val date: LocalDate) : HomeIntent
-    data class CompleteTask(val task: Task) : HomeIntent
+    data class CompleteTask(val task: Task, val date: LocalDate) : HomeIntent
     data class SkipTask(val task: Task, val until: LocalDate) : HomeIntent
     data object NavigateToAddTask : HomeIntent
     data object NavigateToHistory : HomeIntent

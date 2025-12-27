@@ -26,8 +26,8 @@ data class TaskEntity(
     @ColumnInfo(name = "week_days")
     val weekDays: String,
 
-    @ColumnInfo(name = "is_completed")
-    val isCompleted: Boolean,
+    @ColumnInfo(name = "completed_dates", defaultValue = "")
+    val completedDates: String = "",
 
     @ColumnInfo(name = "created_at")
     val createdAt: Long,
@@ -38,3 +38,4 @@ data class TaskEntity(
     @ColumnInfo(name = "skip_until")
     val skipUntil: Long?,
 )
+

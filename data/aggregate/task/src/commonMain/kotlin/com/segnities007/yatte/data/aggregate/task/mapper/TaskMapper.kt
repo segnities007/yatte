@@ -21,6 +21,7 @@ import kotlinx.datetime.toLocalDateTime
  * - DBには時刻を `epoch millis (Long)` で保存し、取り出すときは `TimeZone.currentSystemDefault()` で復元する。
  * - `skipUntil` は日付のみを `epochDays` として保存する（タイムゾーンの影響を受けない）。
  * - `weekDays` はJSONではなく「カンマ区切りの列挙名」で保存する。
+ * - `completedDates` は「カンマ区切りのISO日付」で保存する。
  */
 fun TaskEntity.toDomain(): Task {
     val timeZone = TimeZone.currentSystemDefault()
@@ -34,7 +35,7 @@ fun TaskEntity.toDomain(): Task {
         minutesBefore = minutesBefore,
         taskType = TaskType.valueOf(taskType),
         weekDays = parseWeekDays(weekDays),
-        isCompleted = isCompleted,
+        completedDates = parseCompletedDates(completedDates),
         createdAt = createdDateTime,
         alarmTriggeredAt = alarmTriggeredAt?.let {
             Instant.fromEpochMilliseconds(it).toLocalDateTime(timeZone)
@@ -64,7 +65,7 @@ fun Task.toEntity(): TaskEntity {
         minutesBefore = minutesBefore,
         taskType = taskType.name,
         weekDays = weekDays.toJsonString(),
-        isCompleted = isCompleted,
+        completedDates = completedDates.toJsonString(),
         createdAt = createdAt.toInstant(timeZone).toEpochMilliseconds(),
         alarmTriggeredAt = alarmTriggeredAt?.toInstant(timeZone)?.toEpochMilliseconds(),
         skipUntil = skipUntil?.toEpochDays()?.toLong(),
@@ -84,3 +85,17 @@ private fun List<DayOfWeek>.toJsonString(): String =
 private fun parseWeekDays(json: String): List<DayOfWeek> =
     if (json.isBlank()) emptyList()
     else json.split(",").map { DayOfWeek.valueOf(it.trim()) }
+
+/**
+ * 完了日付セットを「カンマ区切りのISO日付」として保存する。
+ */
+private fun Set<LocalDate>.toJsonString(): String =
+    joinToString(",") { it.toString() }
+
+/**
+ * 「カンマ区切りのISO日付」から完了日付セットを復元する。
+ */
+private fun parseCompletedDates(json: String): Set<LocalDate> =
+    if (json.isBlank()) emptySet()
+    else json.split(",").map { LocalDate.parse(it.trim()) }.toSet()
+

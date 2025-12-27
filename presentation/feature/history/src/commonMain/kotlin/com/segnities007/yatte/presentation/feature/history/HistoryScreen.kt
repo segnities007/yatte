@@ -187,18 +187,31 @@ private fun EmptyHistoryView(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(32.dp),
+        modifier = modifier.padding(48.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // 大きなアイコン
         Text(
             text = stringResource(HistoryRes.string.common_empty_emoji),
-            style = MaterialTheme.typography.displayLarge,
+            style = MaterialTheme.typography.displayLarge.copy(
+                fontSize = MaterialTheme.typography.displayLarge.fontSize * 1.5f,
+            ),
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+        // タイトル
         Text(
             text = stringResource(HistoryRes.string.empty_no_history),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        // 説明文
+        Text(
+            text = stringResource(HistoryRes.string.empty_history_description),
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
         )
     }
 }
+
