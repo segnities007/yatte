@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -20,21 +19,6 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(libs.navigation.compose)
-            implementation(libs.kotlinx.datetime)
-            // Koin
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            // Project
-            implementation(projects.presentation.core)
-            implementation(projects.presentation.designsystem)
-            implementation(projects.domain.core)
-            implementation(projects.domain.aggregate.alarm)
-            implementation(projects.domain.aggregate.task)
-            implementation(projects.di)
         }
 
         val androidMain by getting {
@@ -51,7 +35,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.segnities007.yatte.presentation.feature.task"
+    namespace = "com.segnities007.yatte.presentation.designsystem"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

@@ -11,6 +11,7 @@ import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCa
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.domain.aggregate.task.repository.TaskRepository
+import com.segnities007.yatte.domain.aggregate.task.usecase.CompleteTaskUseCase
 import com.segnities007.yatte.platform.AndroidKoinBootstrapper
 import com.segnities007.yatte.platform.notification.AlarmNotification
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +41,12 @@ class AlarmReceiver : BroadcastReceiver() {
         context: Context,
         intent: Intent,
     ) {
-        if (intent.action != AlarmConstants.ACTION_ALARM_FIRED) return
+        if (intent.action != AlarmConstants.ACTION_ALARM_FIRED &&
+            intent.action != AlarmConstants.ACTION_ALARM_EXTEND &&
+            intent.action != AlarmConstants.ACTION_ALARM_COMPLETE
+        ) {
+            return
+        }
 
         AndroidKoinBootstrapper.ensureStarted(context)
 
@@ -53,49 +59,28 @@ class AlarmReceiver : BroadcastReceiver() {
         val alarmRepository = koin.get<AlarmRepository>()
         val taskRepository = koin.get<TaskRepository>()
         val scheduleAlarmUseCase = koin.get<ScheduleAlarmUseCase>()
+        val completeTaskUseCase = koin.get<CompleteTaskUseCase>()
         val getSettingsUseCase = koin.get<GetSettingsUseCase>()
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val alarm = alarmRepository.getById(alarmId)
-                val taskId = alarm?.taskId ?: return@launch
-
-                // 発火記録（24h削除の起点）
-                alarmRepository.markAsTriggered(alarmId)
-
-                // 通知（権限未許可なら表示しない）
-                val task = taskRepository.getById(TaskId(taskId.value))
-                val title = task?.title ?: taskId.value
-
-                // 設定取得
-                val settings = getSettingsUseCase().first()
-                val soundUri = settings.customSoundUri
-                val isSoundEnabled = settings.notificationSound
-                val isVibrationEnabled = settings.notificationVibration
-
-                AlarmNotification.show(
-                    context = context,
-                    title = "やって: $title",
-                    content = "タスクの時間です",
-                    soundUri = soundUri,
-                    isSoundEnabled = isSoundEnabled,
-                    isVibrationEnabled = isVibrationEnabled,
-                )
-
-                // 週次タスクなら次回分を再スケジュール
-                if (task != null && task.taskType == TaskType.WEEKLY_LOOP) {
-                    val now = currentLocalDateTime()
-                    val next = nextOccurrence(now, task.time, task.weekDays)
-                    val nextAlarm =
-                        com.segnities007.yatte.domain.aggregate.alarm.model.Alarm(
-                            id =
-                                com.segnities007.yatte.domain.aggregate.alarm.model.AlarmId
-                                    .generate(),
-                            taskId = task.id,
-                            scheduledAt = next,
-                            notifyAt = subtractMinutes(next, task.minutesBefore),
-                        )
-                    scheduleAlarmUseCase(nextAlarm)
+                if (intent.action == AlarmConstants.ACTION_ALARM_EXTEND) {
+                    val taskIdStr = getTaskIdFromIntent(intent) ?: return@launch
+                    val taskId = TaskId(taskIdStr)
+                    handleExtendAction(taskId, scheduleAlarmUseCase, context)
+                } else if (intent.action == AlarmConstants.ACTION_ALARM_COMPLETE) {
+                    val taskIdStr = getTaskIdFromIntent(intent) ?: return@launch
+                    val taskId = TaskId(taskIdStr)
+                    handleCompleteAction(taskId, completeTaskUseCase, context)
+                } else {
+                    handleAlarmFired(
+                        alarmId,
+                        alarmRepository,
+                        taskRepository,
+                        scheduleAlarmUseCase,
+                        getSettingsUseCase,
+                        context,
+                    )
                 }
             } finally {
                 goAsync.finish()
@@ -106,6 +91,107 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun getTaskIdFromIntent(intent: Intent): String? = intent.getStringExtra(AlarmConstants.EXTRA_TASK_TITLE)
 
     private fun getAlarmIdFromIntent(intent: Intent): String? = intent.getStringExtra(AlarmConstants.EXTRA_ALARM_ID)
+
+    private suspend fun handleExtendAction(
+        taskId: TaskId,
+        scheduleAlarmUseCase: ScheduleAlarmUseCase,
+        context: Context,
+    ) {
+        // Cancel notification
+        androidx.core.app.NotificationManagerCompat
+            .from(context)
+            .cancelAll()
+
+        // Reschedule 10 mins later
+        val newAlarm =
+            Alarm(
+                id =
+                    AlarmId
+                        .generate(),
+                taskId = taskId,
+                scheduledAt =
+                    currentLocalDateTime()
+                        .toInstant(
+                            TimeZone.currentSystemDefault(),
+                        ).plus(10.minutes)
+                        .toLocalDateTime(TimeZone.currentSystemDefault()),
+                // Schedule time isn't strictly used for one-off but for reference
+                notifyAt =
+                    currentLocalDateTime()
+                        .toInstant(
+                            TimeZone.currentSystemDefault(),
+                        ).plus(10.minutes)
+                        .toLocalDateTime(TimeZone.currentSystemDefault()),
+            )
+        scheduleAlarmUseCase(newAlarm)
+    }
+
+    private suspend fun handleCompleteAction(
+        taskId: TaskId,
+        completeTaskUseCase: CompleteTaskUseCase,
+        context: Context,
+    ) {
+        // Cancel notification
+        androidx.core.app.NotificationManagerCompat
+            .from(context)
+            .cancelAll()
+
+        // Complete task
+        val today = currentLocalDateTime().date
+        completeTaskUseCase(taskId, today)
+    }
+
+    private suspend fun handleAlarmFired(
+        alarmId: AlarmId,
+        alarmRepository: AlarmRepository,
+        taskRepository: TaskRepository,
+        scheduleAlarmUseCase: ScheduleAlarmUseCase,
+        getSettingsUseCase: GetSettingsUseCase,
+        context: Context,
+    ) {
+        val alarm = alarmRepository.getById(alarmId)
+        val taskId = alarm?.taskId ?: return
+
+        // 発火記録（24h削除の起点）
+        alarmRepository.markAsTriggered(alarmId)
+
+        // 通知（権限未許可なら表示しない）
+        val task = taskRepository.getById(TaskId(taskId.value))
+        val title = task?.title ?: taskId.value
+
+        // 設定取得
+        val settings = getSettingsUseCase().first()
+        val soundUri = settings.customSoundUri
+        val isSoundEnabled = settings.notificationSound
+        val isVibrationEnabled = settings.notificationVibration
+
+        AlarmNotification.show(
+            context = context,
+            title = "やって: $title",
+            content = "タスクの時間です",
+            soundUri = soundUri,
+            isSoundEnabled = isSoundEnabled,
+            isVibrationEnabled = isVibrationEnabled,
+            alarmId = alarmId.value,
+            taskId = taskId.value,
+        )
+
+        // 週次タスクなら次回分を再スケジュール
+        if (task != null && task.taskType == TaskType.WEEKLY_LOOP) {
+            val now = currentLocalDateTime()
+            val next = nextOccurrence(now, task.time, task.weekDays)
+            val nextAlarm =
+                Alarm(
+                    id =
+                        AlarmId
+                            .generate(),
+                    taskId = task.id,
+                    scheduledAt = next,
+                    notifyAt = subtractMinutes(next, task.minutesBefore),
+                )
+            scheduleAlarmUseCase(nextAlarm)
+        }
+    }
 }
 
 private fun currentLocalDateTime(): LocalDateTime {

@@ -30,6 +30,7 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             // Project - Feature modules (api for transitive export)
             implementation(projects.presentation.core)
+            implementation(projects.presentation.designsystem)
             api(projects.presentation.feature.home)
             api(projects.presentation.feature.task)
             api(projects.presentation.feature.history)

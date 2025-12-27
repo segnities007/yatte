@@ -216,30 +216,42 @@ root/
 | KMP対応 | ✅ Android / iOS / Desktop |
 | DAO | suspend関数で定義 |
 
-### エンティティ（予定）
+### エンティティ
 
 ```kotlin
 // タスク
-@Entity
+@Entity(tableName = "tasks")
 data class TaskEntity(
     @PrimaryKey val id: String,
     val title: String,
-    val time: Long, // Epoch Milliseconds
-    val minutesBefore: Int,
-    val isWeeklyLoop: Boolean,
-    val weekDays: String, // List -> JSON String or TypeConverter
-    val isCompleted: Boolean,
-    val createdAt: Long,
-    val alarmTriggeredAt: Long?
+    @ColumnInfo(name = "alarm_time") val alarmTime: Long,
+    @ColumnInfo(name = "minutes_before") val minutesBefore: Int,
+    @ColumnInfo(name = "task_type") val taskType: String,
+    @ColumnInfo(name = "week_days") val weekDays: String,
+    @ColumnInfo(name = "completed_dates") val completedDates: String,
+    @ColumnInfo(name = "created_at") val createdAt: Long,
+    @ColumnInfo(name = "alarm_triggered_at") val alarmTriggeredAt: Long?,
+    @ColumnInfo(name = "skip_until") val skipUntil: Long?
 )
 
 // 履歴
-@Entity
+@Entity(tableName = "histories")
 data class HistoryEntity(
     @PrimaryKey val id: String,
-    val taskId: String,
+    @ColumnInfo(name = "task_id") val taskId: String,
     val title: String,
-    val completedAt: Long
+    @ColumnInfo(name = "completed_at") val completedAt: Long,
+    val status: String
+)
+
+// アラーム
+@Entity(tableName = "alarms")
+data class AlarmEntity(
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "task_id") val taskId: String,
+    @ColumnInfo(name = "scheduled_at") val scheduledAt: Long,
+    @ColumnInfo(name = "notify_at") val notifyAt: Long,
+    @ColumnInfo(name = "is_triggered") val isTriggered: Boolean
 )
 ```
 
@@ -250,40 +262,58 @@ data class HistoryEntity(
 ### Task集約
 
 ```kotlin
-// Entity
+// ドメインモデル
 data class Task(
     val id: TaskId,
     val title: String,
     val time: LocalTime,
-    val minutesBefore: Int,
-    val taskType: TaskType,
-    val weekDays: List<DayOfWeek>,
-    val isCompleted: Boolean,
+    val minutesBefore: Int = 10,
+    val taskType: TaskType = TaskType.ONE_TIME,
+    val weekDays: List<DayOfWeek> = emptyList(),
+    val completedDates: Set<LocalDate> = emptySet(),
     val createdAt: LocalDateTime,
-    val alarmTriggeredAt: LocalDateTime?
-)
+    val alarmTriggeredAt: LocalDateTime? = null,
+    val skipUntil: LocalDate? = null
+) {
+    // バリデーション
+    init {
+        require(title.isNotBlank()) { "タイトルは必須です" }
+        require(title.length <= 100) { "タイトルは100文字以下" }
+        require(minutesBefore in 0..60) { "通知時間は0〜60分" }
+        if (taskType == TaskType.WEEKLY_LOOP) {
+            require(weekDays.isNotEmpty()) { "週次タスクには曜日必須" }
+        }
+    }
+    
+    // メソッド
+    fun complete(date: LocalDate): Task
+    fun resetCompletion(date: LocalDate): Task
+    fun isCompletedOn(date: LocalDate): Boolean
+    fun isActiveOn(date: LocalDate): Boolean
+    fun skip(until: LocalDate): Task
+    fun cancelSkip(): Task
+    fun shouldBeDeleted(now: LocalDateTime, timeZone: TimeZone): Boolean
+}
 
 // Value Object
 @JvmInline
-value class TaskId(val value: String)
+value class TaskId(val value: String) {
+    companion object {
+        fun generate(): TaskId = TaskId(Uuid.random().toString())
+    }
+}
 
 enum class TaskType { ONE_TIME, WEEKLY_LOOP }
 
 // UseCase
-class CreateTaskUseCase(private val repo: TaskRepository) {
-    suspend operator fun invoke(task: Task): Result<TaskId>
-}
-
-class GetTodayTasksUseCase(private val repo: TaskRepository) {
-    operator fun invoke(): Flow<List<Task>>
-}
-
-class CompleteTaskUseCase(
-    private val taskRepo: TaskRepository,
-    private val historyRepo: HistoryRepository
-) {
-    suspend operator fun invoke(taskId: TaskId): Result<Unit>
-}
+class CreateTaskUseCase(repo: TaskRepository)
+class UpdateTaskUseCase(repo: TaskRepository)
+class DeleteTaskUseCase(repo: TaskRepository)
+class CompleteTaskUseCase(taskRepo: TaskRepository, historyRepo: HistoryRepository)
+class SkipTaskUseCase(repo: TaskRepository)
+class GetTodayTasksUseCase(repo: TaskRepository)
+class GetAllTasksUseCase(repo: TaskRepository)
+class GetTaskByIdUseCase(repo: TaskRepository)
 ```
 
 ### History集約
@@ -293,28 +323,96 @@ data class History(
     val id: HistoryId,
     val taskId: TaskId,
     val title: String,
-    val completedAt: LocalDateTime
-)
+    val completedAt: LocalDateTime,
+    val status: HistoryStatus = HistoryStatus.COMPLETED
+) {
+    init {
+        require(title.isNotBlank()) { "タイトルは必須です" }
+    }
+}
 
 @JvmInline
-value class HistoryId(val value: String)
-
-class GetHistoryTimelineUseCase(private val repo: HistoryRepository) {
-    operator fun invoke(date: LocalDate): Flow<List<History>>
+value class HistoryId(val value: String) {
+    companion object {
+        fun generate(): HistoryId = HistoryId(Uuid.random().toString())
+    }
 }
+
+enum class HistoryStatus {
+    COMPLETED,  // ユーザーが完了マーク
+    SKIPPED,    // スキップ
+    EXPIRED     // 24時間経過で自動削除
+}
+
+// UseCase
+class AddHistoryUseCase(repo: HistoryRepository)
+class DeleteHistoryUseCase(repo: HistoryRepository)
+class ClearAllHistoryUseCase(repo: HistoryRepository)
+class GetHistoryTimelineUseCase(repo: HistoryRepository)
+class ExportHistoryUseCase(repo: HistoryRepository)  // CSV/JSON出力
 ```
 
 ### Settings集約
 
 ```kotlin
 data class UserSettings(
-    val defaultMinutesBefore: Int,
-    val notificationSound: Boolean,
-    val notificationVibration: Boolean,
-    val themeMode: ThemeMode
-)
+    val defaultMinutesBefore: Int = 10,
+    val notificationSound: Boolean = true,
+    val notificationVibration: Boolean = true,
+    val customSoundUri: String? = null,
+    val themeMode: ThemeMode = ThemeMode.SYSTEM
+) {
+    init {
+        require(defaultMinutesBefore in 0..60)
+    }
+    
+    companion object {
+        val DEFAULT = UserSettings()
+    }
+}
 
 enum class ThemeMode { LIGHT, DARK, SYSTEM }
+
+// UseCase
+class GetSettingsUseCase(repo: SettingsRepository)
+class UpdateSettingsUseCase(repo: SettingsRepository)
+class ResetAllDataUseCase(taskRepo: TaskRepository, historyRepo: HistoryRepository, alarmRepo: AlarmRepository)
+```
+
+### Alarm集約
+
+```kotlin
+data class Alarm(
+    val id: AlarmId,
+    val taskId: TaskId,
+    val scheduledAt: LocalDateTime,
+    val notifyAt: LocalDateTime,
+    val isTriggered: Boolean = false
+) {
+    init {
+        require(notifyAt <= scheduledAt) { "通知時刻は予定時刻より前" }
+    }
+    
+    fun markAsTriggered(): Alarm
+}
+
+@JvmInline
+value class AlarmId(val value: String) {
+    companion object {
+        fun generate(): AlarmId = AlarmId(Uuid.random().toString())
+    }
+}
+
+// UseCase
+class ScheduleAlarmUseCase(repo: AlarmRepository, scheduler: AlarmScheduler)
+class CancelAlarmUseCase(repo: AlarmRepository, scheduler: AlarmScheduler)
+class GetScheduledAlarmsUseCase(repo: AlarmRepository)
+
+// Platform Interface
+interface AlarmScheduler {
+    fun schedule(alarm: Alarm)
+    fun cancel(alarmId: AlarmId)
+}
 ```
 
 ---

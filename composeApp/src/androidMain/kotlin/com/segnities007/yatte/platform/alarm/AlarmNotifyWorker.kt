@@ -44,6 +44,8 @@ class AlarmNotifyWorker(
             context = applicationContext,
             title = "やって: $title",
             content = "タスクの時間です",
+            alarmId = alarmId.value,
+            taskId = taskId?.value ?: "",
         )
 
         return Result.success()

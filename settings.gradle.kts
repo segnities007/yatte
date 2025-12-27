@@ -50,6 +50,7 @@ include(":data:aggregate:alarm")
 include(":data:aggregate:settings")
 
 // Presentation Layer
+include(":presentation:designsystem")
 include(":presentation:core")
 include(":presentation:navigation")
 include(":presentation:feature:home")

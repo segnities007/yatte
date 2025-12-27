@@ -3,12 +3,16 @@ package com.segnities007.yatte.platform.notification
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.segnities007.yatte.platform.alarm.AlarmConstants
+import com.segnities007.yatte.platform.alarm.AlarmReceiver
 
 internal object AlarmNotification {
     private const val CHANNEL_ID = "yatte_alarm"
@@ -21,6 +25,8 @@ internal object AlarmNotification {
         soundUri: String? = null,
         isSoundEnabled: Boolean = true,
         isVibrationEnabled: Boolean = true,
+        alarmId: String,
+        taskId: String,
     ) {
         val channelId = getChannelId(soundUri, isSoundEnabled, isVibrationEnabled)
         ensureChannel(context, channelId, soundUri, isSoundEnabled, isVibrationEnabled)
@@ -41,6 +47,38 @@ internal object AlarmNotification {
                 .setContentText(content)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+        // Extend Action (10分延長)
+        val extendIntent =
+            Intent(context, AlarmReceiver::class.java).apply {
+                action = AlarmConstants.ACTION_ALARM_EXTEND
+                putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId)
+                putExtra(AlarmConstants.EXTRA_TASK_TITLE, taskId) // reusing key for taskId
+            }
+        val extendPendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                (alarmId + "extend").hashCode(),
+                extendIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+        builder.addAction(android.R.drawable.ic_menu_recent_history, "10分後に通知", extendPendingIntent)
+
+        // Complete Action
+        val completeIntent =
+            Intent(context, AlarmReceiver::class.java).apply {
+                action = AlarmConstants.ACTION_ALARM_COMPLETE
+                putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId)
+                putExtra(AlarmConstants.EXTRA_TASK_TITLE, taskId) // reusing key for taskId
+            }
+        val completePendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                (alarmId + "complete").hashCode(),
+                completeIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
+        builder.addAction(android.R.drawable.checkbox_on_background, "完了", completePendingIntent)
 
         if (isSoundEnabled && soundUri != null) {
             builder.setSound(android.net.Uri.parse(soundUri))

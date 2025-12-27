@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
+import kotlinx.datetime.number
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.history.generated.resources.*
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
@@ -148,7 +149,7 @@ private fun TimelineItem(
                     )
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = "${history.completedAt.date.monthNumber}/${history.completedAt.date.dayOfMonth}",
+                        text = "${history.completedAt.date.month.number}/${history.completedAt.date.day}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
