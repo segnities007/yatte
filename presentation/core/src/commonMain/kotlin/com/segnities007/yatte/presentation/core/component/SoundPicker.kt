@@ -1,12 +1,9 @@
-package com.segnities007.yatte.presentation.feature.settings.component
+package com.segnities007.yatte.presentation.core.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -21,9 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.feature.settings.generated.resources.*
-import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 
 /**
@@ -38,6 +32,11 @@ fun SoundPicker(
     currentSoundUri: String?,
     onSelectSound: () -> Unit,
     onClearSound: () -> Unit,
+    title: String,
+    selectedText: String,
+    defaultText: String,
+    selectButtonText: String,
+    clearContentDescription: String,
     modifier: Modifier = Modifier,
 ) {
     ListItem(
@@ -50,15 +49,15 @@ fun SoundPicker(
             )
         },
         headlineContent = {
-            Text(stringResource(SettingsRes.string.custom_sound_title))
+            Text(title)
         },
         supportingContent = {
             Column {
                 Text(
                     text = if (currentSoundUri != null) {
-                        stringResource(SettingsRes.string.custom_sound_selected)
+                        selectedText
                     } else {
-                        stringResource(SettingsRes.string.custom_sound_default)
+                        defaultText
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -68,7 +67,7 @@ fun SoundPicker(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     OutlinedButton(onClick = onSelectSound) {
-                        Text(stringResource(SettingsRes.string.custom_sound_select))
+                        Text(selectButtonText)
                     }
                     if (currentSoundUri != null) {
                         Spacer(modifier = Modifier.width(8.dp))
@@ -78,7 +77,7 @@ fun SoundPicker(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = stringResource(SettingsRes.string.custom_sound_clear),
+                                contentDescription = clearContentDescription,
                                 tint = MaterialTheme.colorScheme.error,
                             )
                         }

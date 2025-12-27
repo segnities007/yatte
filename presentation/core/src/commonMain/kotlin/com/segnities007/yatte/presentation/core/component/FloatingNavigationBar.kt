@@ -27,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.core.generated.resources.*
@@ -49,13 +51,13 @@ enum class NavItem(
  * 画面下部に浮かぶ形式のナビゲーション（FABは別途配置）
  */
 private object FnbLayoutDefaults {
-    val ContainerHeight = (64 + 8).dp
-    val ContainerShape = RoundedCornerShape(32.dp) // より丸く
-    val ContainerHorizontalMargin = 24.dp
-    val ContainerVerticalMargin = 16.dp
-    val ItemIconSize = 28.dp // 少し大きめだがバランス重視
-    val ItemButtonSize = 56.dp // タップしやすいサイズ
-    const val ContainerAlpha = 1.0f // 不透明
+    val ContainerHeight = 72.dp
+    val ContainerShape = RoundedCornerShape(YatteSpacing.xl)
+    val ContainerHorizontalMargin = YatteSpacing.lg
+    val ContainerVerticalMargin = YatteSpacing.md
+    val ItemIconSize = 28.dp
+    val ItemButtonSize = 56.dp
+    const val ContainerAlpha = 1.0f
 }
 
 @Composable
@@ -74,17 +76,17 @@ fun FloatingNavigationBar(
         contentAlignment = Alignment.Center,
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth(), // 必要に応じて幅を制限してもよい
+            modifier = Modifier.fillMaxWidth(),
             shape = FnbLayoutDefaults.ContainerShape,
             color = MaterialTheme.colorScheme.surface,
-            shadowElevation = 4.dp, // 浮遊感
+            shadowElevation = 4.dp,
             tonalElevation = 4.dp,
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(FnbLayoutDefaults.ContainerHeight)
-                    .padding(horizontal = 8.dp), // 両端の余白
+                    .padding(horizontal = YatteSpacing.xs),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -127,11 +129,11 @@ private fun NavItemButton(
 
     Box(
         modifier = modifier
-            .size(FnbLayoutDefaults.ItemButtonSize) // 固定サイズで円形を保証
+            .size(FnbLayoutDefaults.ItemButtonSize)
             .clip(androidx.compose.foundation.shape.CircleShape)
-            .clickable { onClick() }
+            .bounceClick(onTap = onClick)
             .background(backgroundColor)
-            .padding(8.dp),
+            .padding(YatteSpacing.xs),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -142,4 +144,3 @@ private fun NavItemButton(
         )
     }
 }
-

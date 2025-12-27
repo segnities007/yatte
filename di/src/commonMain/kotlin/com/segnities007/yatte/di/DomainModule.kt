@@ -9,6 +9,7 @@ import com.segnities007.yatte.domain.aggregate.history.usecase.DeleteHistoryUseC
 import com.segnities007.yatte.domain.aggregate.history.usecase.ExportHistoryUseCase
 import com.segnities007.yatte.domain.aggregate.history.usecase.GetHistoryTimelineUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.CompleteTaskUseCase
+import com.segnities007.yatte.domain.aggregate.task.usecase.UncompleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.CreateTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.DeleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetAllTasksUseCase
@@ -33,6 +34,7 @@ val useCaseModule = module {
     factory { UpdateTaskUseCase(get()) }
     factory { DeleteTaskUseCase(get()) }
     factory { CompleteTaskUseCase(get()) }
+    factory { UncompleteTaskUseCase(get()) }
     factory { SkipTaskUseCase(get()) }
 
     // History UseCases
@@ -51,4 +53,9 @@ val useCaseModule = module {
     factory { GetSettingsUseCase(get()) }
     factory { UpdateSettingsUseCase(get()) }
     factory { ResetAllDataUseCase(get(), get()) }
+
+    // Category UseCases
+    factory { com.segnities007.yatte.domain.aggregate.category.usecase.GetAllCategoriesUseCase(get()) }
+    factory { com.segnities007.yatte.domain.aggregate.category.usecase.AddCategoryUseCase(get()) }
+    factory { com.segnities007.yatte.domain.aggregate.category.usecase.DeleteCategoryUseCase(get()) }
 }

@@ -2,6 +2,7 @@ package com.segnities007.yatte.presentation.feature.settings
 
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
+import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
 
 /**
  * 設定画面の状態
@@ -22,6 +23,8 @@ sealed interface SettingsIntent {
     data class ToggleNotificationSound(val enabled: Boolean) : SettingsIntent
     data class ToggleNotificationVibration(val enabled: Boolean) : SettingsIntent
     data class UpdateCustomSoundUri(val uri: String?) : SettingsIntent
+    data class UpdateSnoozeDuration(val minutes: Int) : SettingsIntent
+    data class UpdateVibrationPattern(val pattern: VibrationPattern) : SettingsIntent
     data class UpdateThemeMode(val mode: ThemeMode) : SettingsIntent
     data object NavigateBack : SettingsIntent
     data object RequestResetData : SettingsIntent

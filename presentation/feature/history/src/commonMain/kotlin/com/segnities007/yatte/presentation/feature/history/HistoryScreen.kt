@@ -18,7 +18,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,11 +28,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import androidx.compose.runtime.remember
+import com.segnities007.yatte.presentation.core.component.HeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.core.component.YatteScaffold
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -72,35 +76,43 @@ internal fun HistoryScreen(
         }
     }
 
-    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    // グローバルHeaderの設定（SideEffectで即座に更新）
+    val setHeaderConfig = LocalSetHeaderConfig.current
+    val historyTitle = stringResource(HistoryRes.string.title_history)
+    val exportDesc = stringResource(HistoryRes.string.cd_export)
+    
+    val headerConfig = remember {
+        HeaderConfig(
+            title = { Text(historyTitle) },
+            actions = {
+                IconButton(
+                    onClick = { viewModel.onIntent(HistoryIntent.ExportHistory) },
+                    modifier = Modifier.bounceClick()
+                ) {
+                    Icon(
+                        Icons.Default.Share,
+                        contentDescription = exportDesc,
+                    )
+                }
+            },
+        )
+    }
+    
+    SideEffect {
+        setHeaderConfig(headerConfig)
+    }
+
+    // YatteScaffold を使用（Headerはグローバルなので省略）
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = contentPadding,
-        header = { isVisible ->
-            FloatingHeaderBar(
-                title = { Text(stringResource(HistoryRes.string.title_history)) },
-                isVisible = isVisible,
-                actions = {
-                    IconButton(
-                        onClick = { viewModel.onIntent(HistoryIntent.ExportHistory) },
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            Icons.Default.Share,
-                            contentDescription = stringResource(HistoryRes.string.cd_export),
-                        )
-                    }
-                },
-                modifier = Modifier.align(Alignment.TopCenter)
-            )
-        }
     ) { listContentPadding ->
         Box(
             modifier = Modifier.fillMaxSize(),
         ) {
             when {
                 state.isLoading -> {
-                    CircularProgressIndicator(
+                    YatteLoadingIndicator(
                         modifier = Modifier.align(Alignment.Center),
                     )
                 }
@@ -128,8 +140,8 @@ private fun HistoryList(
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(YatteSpacing.md),
+        verticalArrangement = Arrangement.spacedBy(YatteSpacing.sm),
     ) {
         items(items, key = { it.id.value }) { history ->
             HistoryCard(
@@ -153,7 +165,7 @@ private fun HistoryCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(YatteSpacing.md),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -162,20 +174,19 @@ private fun HistoryCard(
                     text = history.title,
                     style = MaterialTheme.typography.titleMedium,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(YatteSpacing.xxs))
                 Text(
                     text = "${history.completedAt.date} ${history.completedAt.hour}:${history.completedAt.minute.toString().padStart(2, '0')}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            IconButton(onClick = onDelete) {
-                Icon(
-                    Icons.Default.Delete,
-                    contentDescription = stringResource(CoreRes.string.common_delete),
-                    tint = MaterialTheme.colorScheme.error,
-                )
-            }
+            YatteIconButton(
+                icon = Icons.Default.Delete,
+                onClick = onDelete,
+                contentDescription = stringResource(CoreRes.string.common_delete),
+                tint = MaterialTheme.colorScheme.error,
+            )
         }
     }
 }
@@ -185,7 +196,7 @@ private fun EmptyHistoryView(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(48.dp),
+        modifier = modifier.padding(YatteSpacing.xxl),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // 大きなアイコン
@@ -195,14 +206,14 @@ private fun EmptyHistoryView(
                 fontSize = MaterialTheme.typography.displayLarge.fontSize * 1.5f,
             ),
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(YatteSpacing.lg))
         // タイトル
         Text(
             text = stringResource(HistoryRes.string.empty_no_history),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onSurface,
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(YatteSpacing.xs))
         // 説明文
         Text(
             text = stringResource(HistoryRes.string.empty_history_description),

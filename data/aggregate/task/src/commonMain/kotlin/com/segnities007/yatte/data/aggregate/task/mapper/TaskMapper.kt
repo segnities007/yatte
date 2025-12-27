@@ -4,6 +4,7 @@ import com.segnities007.yatte.data.core.database.entity.TaskEntity
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
+import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
 import kotlinx.datetime.DayOfWeek
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
@@ -43,6 +44,8 @@ fun TaskEntity.toDomain(): Task {
         skipUntil = skipUntil?.let {
             LocalDate.fromEpochDays(it.toInt())
         },
+        soundUri = soundUri,
+        categoryId = categoryId?.let { CategoryId(it) },
     )
 }
 
@@ -69,6 +72,8 @@ fun Task.toEntity(): TaskEntity {
         createdAt = createdAt.toInstant(timeZone).toEpochMilliseconds(),
         alarmTriggeredAt = alarmTriggeredAt?.toInstant(timeZone)?.toEpochMilliseconds(),
         skipUntil = skipUntil?.toEpochDays()?.toLong(),
+        soundUri = soundUri,
+        categoryId = categoryId?.value,
     )
 }
 

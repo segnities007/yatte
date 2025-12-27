@@ -9,7 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
  * アプリ共通の空状態表示コンポーネント
@@ -24,14 +24,14 @@ fun AppEmptyState(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(32.dp),
+        modifier = modifier.padding(YatteSpacing.xl),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = emoji,
             style = MaterialTheme.typography.displayLarge,
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(YatteSpacing.md))
         Text(
             text = message,
             style = MaterialTheme.typography.titleMedium,
@@ -39,3 +39,4 @@ fun AppEmptyState(
         )
     }
 }
+

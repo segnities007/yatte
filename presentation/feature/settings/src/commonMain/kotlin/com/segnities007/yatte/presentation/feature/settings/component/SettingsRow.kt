@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
  * スイッチ付き設定行
@@ -30,7 +30,7 @@ fun SettingsSwitchRow(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = YatteSpacing.xs),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -69,13 +69,13 @@ fun SettingsSliderRow(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = YatteSpacing.xs),
     ) {
         Text(
             text = title,
             style = MaterialTheme.typography.bodyLarge,
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(YatteSpacing.xs))
         Slider(
             value = value.toFloat(),
             onValueChange = { onValueChange(it.toInt()) },
@@ -84,3 +84,4 @@ fun SettingsSliderRow(
         )
     }
 }
+

@@ -25,7 +25,6 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -35,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,8 +48,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.HeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.core.component.YatteScaffold
 
 import kotlinx.datetime.DayOfWeek
@@ -61,7 +61,12 @@ import yatte.presentation.core.generated.resources.Res as CoreRes
 import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.YatteTextField
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.feature.task.component.TaskTimePickerSheet
+import com.segnities007.yatte.presentation.core.component.SoundPicker
+import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -97,81 +102,99 @@ internal fun TaskFormScreen(
         }
     }
 
-    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    // グローバルHeaderの設定（SideEffectで即座に更新）
+    val setHeaderConfig = LocalSetHeaderConfig.current
+    val isEditMode = state.isEditMode
+    val titleAddTask = stringResource(TaskRes.string.title_add_task)
+    val titleEditTask = stringResource(TaskRes.string.title_edit_task)
+    val backDesc = stringResource(CoreRes.string.common_back)
+    val deleteDesc = stringResource(CoreRes.string.common_delete)
+    val saveDesc = stringResource(CoreRes.string.common_save)
+    
+    val headerConfig = remember(isEditMode) {
+        HeaderConfig(
+            title = {
+                Text(if (isEditMode) titleEditTask else titleAddTask)
+            },
+            navigationIcon = {
+                YatteIconButton(
+                    onClick = { viewModel.onIntent(TaskFormIntent.Cancel) },
+                    icon = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = backDesc,
+                )
+            },
+            actions = {
+                if (isEditMode) {
+                    YatteIconButton(
+                        onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) },
+                        icon = Icons.Default.Delete,
+                        contentDescription = deleteDesc,
+                    )
+                }
+                YatteIconButton(
+                    onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) },
+                    icon = Icons.Default.Check,
+                    contentDescription = saveDesc,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            },
+        )
+    }
+    
+    SideEffect {
+        setHeaderConfig(headerConfig)
+    }
+
+    // YatteScaffold を使用（Headerはグローバルなので省略）
     // TaskFormScreen は BottomNavigation が非表示のため contentPadding = 0
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = PaddingValues(0.dp),
-        header = { isVisible ->
-            FloatingHeaderBar(
-                isVisible = isVisible,
-                title = {
-                    Text(
-                        if (state.isEditMode) {
-                            stringResource(TaskRes.string.title_edit_task)
-                        } else {
-                            stringResource(TaskRes.string.title_add_task)
-                        }
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { viewModel.onIntent(TaskFormIntent.Cancel) },
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(CoreRes.string.common_back),
-                        )
-                    }
-                },
-                actions = {
-                    if (state.isEditMode) {
-                        IconButton(
-                            onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) },
-                            modifier = Modifier.bounceClick()
-                        ) {
-                            Icon(
-                                Icons.Default.Delete,
-                                contentDescription = stringResource(CoreRes.string.common_delete),
-                            )
-                        }
-                    }
-                    IconButton(
-                        onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) },
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            Icons.Default.Check,
-                            contentDescription = stringResource(CoreRes.string.common_save),
-                        )
-                    }
-                },
-                modifier = Modifier.align(Alignment.TopCenter)
-            )
-        }
     ) { listContentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    top = listContentPadding.calculateTopPadding(),
-                    start = 16.dp,
-                    end = 16.dp,
-                )
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                .verticalScroll(rememberScrollState())
+                .padding(listContentPadding),
+            verticalArrangement = Arrangement.spacedBy(YatteSpacing.md),
         ) {
             // タイトル
-            OutlinedTextField(
+            YatteTextField(
                 value = state.title,
                 onValueChange = { viewModel.onIntent(TaskFormIntent.UpdateTitle(it)) },
-                label = { Text(stringResource(TaskRes.string.field_task_name)) },
-                modifier = Modifier.fillMaxWidth(),
+                label = stringResource(TaskRes.string.field_task_name),
                 singleLine = true,
             )
 
-            // 時間指定
+            // カテゴリ選択
+            if (state.categories.isNotEmpty()) {
+                Text(
+                    text = "カテゴリ",
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
+                    verticalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
+                ) {
+                    // "なし" オプション
+                    FilterChip(
+                        selected = state.categoryId == null,
+                        onClick = { viewModel.onIntent(TaskFormIntent.UpdateCategory(null)) },
+                        label = { Text("なし") },
+                        modifier = Modifier.bounceClick(),
+                    )
+                    // カテゴリチップ
+                    state.categories.forEach { category ->
+                        FilterChip(
+                            selected = state.categoryId == category.id,
+                            onClick = { viewModel.onIntent(TaskFormIntent.UpdateCategory(category.id)) },
+                            label = { Text(category.name) },
+                            modifier = Modifier.bounceClick(),
+                        )
+                    }
+                }
+            }
+
             Text(
                 text = stringResource(TaskRes.string.label_execute_time),
                 style = MaterialTheme.typography.labelLarge,
@@ -183,19 +206,18 @@ internal fun TaskFormScreen(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .bounceClick()
-                    .clickable { showTimeSheet = true }
+                    .clip(RoundedCornerShape(YatteSpacing.md))
+                    .bounceClick(onTap = { showTimeSheet = true })
             ) {
                 Surface(
                     color = MaterialTheme.colorScheme.secondaryContainer,
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(YatteSpacing.md),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(vertical = 16.dp)
+                        modifier = Modifier.padding(vertical = YatteSpacing.md)
                     ) {
                         Text(
                             text = "${state.time.hour.toString().padStart(2, '0')}:${
@@ -259,8 +281,8 @@ internal fun TaskFormScreen(
                     style = MaterialTheme.typography.labelLarge,
                 )
                 FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
+                    verticalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
                 ) {
                     DayOfWeek.entries.forEach { day ->
                         FilterChip(
@@ -285,7 +307,27 @@ internal fun TaskFormScreen(
                 steps = 11,
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            // アラーム音選択
+            Spacer(modifier = Modifier.height(YatteSpacing.xs))
+            val soundPickerLauncher = rememberSoundPickerLauncher(
+                onResult = { uri ->
+                    if (uri != null) {
+                        viewModel.onIntent(TaskFormIntent.UpdateSoundUri(uri))
+                    }
+                }
+            )
+            SoundPicker(
+                currentSoundUri = state.soundUri,
+                onSelectSound = { soundPickerLauncher.launch() },
+                onClearSound = { viewModel.onIntent(TaskFormIntent.UpdateSoundUri(null)) },
+                title = stringResource(TaskRes.string.label_notification_sound),
+                selectedText = state.soundName ?: stringResource(TaskRes.string.sound_selected),
+                defaultText = stringResource(TaskRes.string.sound_default),
+                selectButtonText = stringResource(TaskRes.string.sound_select),
+                clearContentDescription = stringResource(TaskRes.string.sound_clear),
+            )
+
+            Spacer(modifier = Modifier.height(YatteSpacing.xl))
         }
     }
 }

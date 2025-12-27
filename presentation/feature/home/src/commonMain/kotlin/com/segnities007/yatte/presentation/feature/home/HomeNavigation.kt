@@ -1,6 +1,7 @@
 package com.segnities007.yatte.presentation.feature.home
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
@@ -32,6 +33,7 @@ fun NavGraphBuilder.homeScreen(
     actions: HomeActions,
     contentPadding: PaddingValues,
     isNavigationVisible: Boolean,
+    snackbarHostState: SnackbarHostState,
     onShowSnackbar: (String) -> Unit,
 ) {
     composable<HomeRoute> {
@@ -39,6 +41,7 @@ fun NavGraphBuilder.homeScreen(
             actions = actions,
             contentPadding = contentPadding,
             isNavigationVisible = isNavigationVisible,
+            snackbarHostState = snackbarHostState,
             onShowSnackbar = onShowSnackbar,
         )
     }

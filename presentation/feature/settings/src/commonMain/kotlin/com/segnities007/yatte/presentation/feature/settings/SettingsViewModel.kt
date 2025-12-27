@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
+import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.ResetAllDataUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.UpdateSettingsUseCase
@@ -44,6 +45,8 @@ class SettingsViewModel(
             is SettingsIntent.ToggleNotificationSound -> toggleNotificationSound(intent.enabled)
             is SettingsIntent.ToggleNotificationVibration -> toggleNotificationVibration(intent.enabled)
             is SettingsIntent.UpdateCustomSoundUri -> updateCustomSoundUri(intent.uri)
+            is SettingsIntent.UpdateSnoozeDuration -> updateSnoozeDuration(intent.minutes)
+            is SettingsIntent.UpdateVibrationPattern -> updateVibrationPattern(intent.pattern)
             is SettingsIntent.UpdateThemeMode -> updateThemeMode(intent.mode)
             is SettingsIntent.NavigateBack -> sendEvent(SettingsEvent.NavigateBack)
             is SettingsIntent.RequestResetData -> showResetConfirmation()
@@ -97,6 +100,22 @@ class SettingsViewModel(
     private fun updateCustomSoundUri(uri: String?) {
         viewModelScope.launch {
             val newSettings = _state.value.settings.copy(customSoundUri = uri)
+            _state.update { it.copy(settings = newSettings) }
+            saveSettings(newSettings)
+        }
+    }
+
+    private fun updateSnoozeDuration(minutes: Int) {
+        viewModelScope.launch {
+            val newSettings = _state.value.settings.copy(snoozeDuration = minutes)
+            _state.update { it.copy(settings = newSettings) }
+            saveSettings(newSettings)
+        }
+    }
+
+    private fun updateVibrationPattern(pattern: VibrationPattern) {
+        viewModelScope.launch {
+            val newSettings = _state.value.settings.copy(vibrationPattern = pattern)
             _state.update { it.copy(settings = newSettings) }
             saveSettings(newSettings)
         }

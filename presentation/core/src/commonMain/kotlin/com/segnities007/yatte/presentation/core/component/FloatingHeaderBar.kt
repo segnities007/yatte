@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
  * 共通のフローチングヘッダーバー
@@ -32,9 +33,9 @@ import androidx.compose.ui.unit.dp
  */
 object FloatingHeaderBarDefaults {
     val ContainerHeight = 64.dp
-    val TopMargin = 16.dp
-    val BottomSpacing = 16.dp
-    val HorizontalMargin = 24.dp
+    val TopMargin = YatteSpacing.md
+    val BottomSpacing = YatteSpacing.md
+    val HorizontalMargin = YatteSpacing.lg
 }
 
 @Composable
@@ -54,24 +55,24 @@ fun FloatingHeaderBar(
         Surface(
             modifier = Modifier
                 .statusBarsPadding()
-                .padding(top = 16.dp, start = 24.dp, end = 24.dp) // 画面端からのマージン (FNBと合わせる)
-                .heightIn(min = FloatingHeaderBarDefaults.ContainerHeight), // 最小高さを設定
-            shape = RoundedCornerShape(32.dp),
+                .padding(top = YatteSpacing.md, start = YatteSpacing.lg, end = YatteSpacing.lg)
+                .heightIn(min = FloatingHeaderBarDefaults.ContainerHeight),
+            shape = RoundedCornerShape(YatteSpacing.xl),
             color = MaterialTheme.colorScheme.surface,
             shadowElevation = 4.dp,
             tonalElevation = 4.dp,
         ) {
             Row(
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+                modifier = Modifier.padding(horizontal = YatteSpacing.xs, vertical = YatteSpacing.xs),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,
             ) {
                 // Navigation Icon
                 if (navigationIcon != null) {
                     navigationIcon()
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(YatteSpacing.xs))
                 } else {
-                    Spacer(modifier = Modifier.width(12.dp)) // アイコンがない場合の左余白確保
+                    Spacer(modifier = Modifier.width(YatteSpacing.sm))
                 }
 
                 // Title (Weight 1f to push actions to right)
@@ -93,10 +94,11 @@ fun FloatingHeaderBar(
                     actions()
                 }
 
-                if (actions == {}) { // actionsが空の場合の右余白
-                    Spacer(modifier = Modifier.width(12.dp))
+                if (actions == {}) {
+                    Spacer(modifier = Modifier.width(YatteSpacing.sm))
                 }
             }
         }
     }
 }
+

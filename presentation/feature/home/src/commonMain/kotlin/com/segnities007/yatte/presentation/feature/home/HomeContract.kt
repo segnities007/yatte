@@ -27,6 +27,7 @@ sealed interface HomeIntent {
     data object LoadTasks : HomeIntent
     data class SelectDate(val date: LocalDate) : HomeIntent
     data class CompleteTask(val task: Task, val date: LocalDate) : HomeIntent
+    data class UndoCompleteTask(val task: Task, val date: LocalDate) : HomeIntent
     data class SkipTask(val task: Task, val until: LocalDate) : HomeIntent
     data object NavigateToAddTask : HomeIntent
     data object NavigateToHistory : HomeIntent
@@ -44,6 +45,6 @@ sealed interface HomeEvent {
     data object NavigateToSettings : HomeEvent
     data class NavigateToEditTask(val taskId: String) : HomeEvent
     data class ShowError(val message: String) : HomeEvent
-    data class ShowTaskCompleted(val taskTitle: String) : HomeEvent
+    data class ShowTaskCompleted(val task: Task, val date: LocalDate) : HomeEvent
 }
 

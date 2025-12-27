@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,6 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
+import com.segnities007.yatte.presentation.designsystem.component.YatteCard
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.number
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.history.generated.resources.*
@@ -129,16 +130,15 @@ private fun TimelineItem(
         }
 
         // タスク情報カード
-        Card(
+        YatteCard(
             modifier = Modifier
                 .weight(1f)
-                .padding(vertical = 8.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                .padding(vertical = YatteSpacing.xs),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp),
+                    .padding(YatteSpacing.sm),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {

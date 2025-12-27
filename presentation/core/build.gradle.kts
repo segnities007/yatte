@@ -21,6 +21,8 @@ kotlin {
             implementation(compose.components.resources)
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.settings)
+            implementation(projects.presentation.designsystem)
+            implementation(libs.koin.core)
         }
 
         commonTest.dependencies {

@@ -23,4 +23,7 @@ data class AlarmEntity(
 
     @ColumnInfo(name = "is_triggered")
     val isTriggered: Boolean,
+
+    @ColumnInfo(name = "sound_uri")
+    val soundUri: String?,
 )

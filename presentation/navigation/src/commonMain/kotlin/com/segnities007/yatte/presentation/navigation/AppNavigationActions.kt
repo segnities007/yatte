@@ -22,16 +22,31 @@ import com.segnities007.yatte.presentation.feature.management.TaskManagementActi
  * 前提:
  * - `AppNavHost` 内で `remember(navController)` を使用してインスタンス化すること
  */
-class AppNavigationActions(private val navController: NavController) {
+class AppNavigationActions(
+    private val navController: NavController,
+    private val resetNavigationVisibility: () -> Unit = {},
+) {
     val homeActions: HomeActions = HomeActions(
-        onAddTask = { navController.navigate(AddTaskRoute) },
+        onAddTask = {
+            resetNavigationVisibility()
+            navController.navigate(AddTaskRoute)
+        },
         onHistory = { navController.navigate(HistoryRoute) },
         onSettings = { navController.navigate(SettingsRoute) },
-        onEditTask = { taskId -> navController.navigate(EditTaskRoute(taskId)) },
+        onEditTask = { taskId ->
+            resetNavigationVisibility()
+            navController.navigate(EditTaskRoute(taskId))
+        },
     )
     val taskManagementActions: TaskManagementActions = TaskManagementActions(
-        onAddTask = { navController.navigate(AddTaskRoute) },
-        onEditTask = { taskId -> navController.navigate(EditTaskRoute(taskId)) },
+        onAddTask = {
+            resetNavigationVisibility()
+            navController.navigate(AddTaskRoute)
+        },
+        onEditTask = { taskId ->
+            resetNavigationVisibility()
+            navController.navigate(EditTaskRoute(taskId))
+        },
     )
     val taskActions: TaskActions = TaskActions(
         onBack = { navController.popBackStack() },

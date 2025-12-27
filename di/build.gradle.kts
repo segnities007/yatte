@@ -23,6 +23,7 @@ kotlin {
             implementation(projects.domain.aggregate.history)
             implementation(projects.domain.aggregate.alarm)
             implementation(projects.domain.aggregate.settings)
+            implementation(projects.domain.aggregate.category)
 
             // Data
             implementation(projects.data.core)
@@ -30,6 +31,7 @@ kotlin {
             implementation(projects.data.aggregate.history)
             implementation(projects.data.aggregate.alarm)
             implementation(projects.data.aggregate.settings)
+            implementation(projects.data.aggregate.category)
 
             // DataStore
             implementation(libs.datastore.preferences)

@@ -10,6 +10,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.domain.core)
+            api(projects.domain.aggregate.category)
             api(libs.kotlinx.datetime)
             api(libs.kotlinx.coroutines.core)
         }

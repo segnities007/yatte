@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,9 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
+import com.segnities007.yatte.presentation.designsystem.component.YatteCard
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.management.generated.resources.*
@@ -31,13 +33,13 @@ import yatte.presentation.feature.management.generated.resources.Res as Manageme
 fun TaskManagementList(
     tasks: List<Task>,
     onTaskClick: (Task) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(16.dp),
+    contentPadding: PaddingValues = PaddingValues(YatteSpacing.md),
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = contentPadding,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(YatteSpacing.sm),
     ) {
         items(tasks, key = { it.id.value }) { task ->
             TaskManagementCard(
@@ -54,15 +56,14 @@ fun TaskManagementCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(
+    YatteCard(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(YatteSpacing.md),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -79,7 +80,7 @@ fun TaskManagementCard(
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(YatteSpacing.xxs))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -123,3 +124,4 @@ private fun DayOfWeek.toDisplayString(): String = when (this) {
     DayOfWeek.SATURDAY -> stringResource(ManagementRes.string.weekday_sat_short)
     DayOfWeek.SUNDAY -> stringResource(ManagementRes.string.weekday_sun_short)
 }
+

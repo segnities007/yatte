@@ -36,15 +36,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.YatteButton
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.LocalTime
 
 private enum class TimePickerMode {
     Dial, Input
 }
 
-private val SelectorYellow = Color(0xFFFBC02D) // Vivid Yellow
+private val SelectorYellow = Color(0xFFFBC02D)
 private val SelectorContent = Color.Black
-private val ClockDialBg = Color.White // Fix for "Black UI" issue
+private val ClockDialBg = Color.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,12 +71,12 @@ fun TaskTimePickerSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = YatteSpacing.md),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Mode Switcher
             SingleChoiceSegmentedButtonRow(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp)
+                modifier = Modifier.fillMaxWidth().padding(bottom = YatteSpacing.lg)
             ) {
                 TimePickerMode.entries.forEachIndexed { index, item ->
                     SegmentedButton(
@@ -90,7 +91,7 @@ fun TaskTimePickerSheet(
                             Icon(
                                 imageVector = if (item == TimePickerMode.Dial) Icons.Default.Schedule else Icons.Default.Keyboard,
                                 contentDescription = item.name,
-                                modifier = Modifier.padding(end = 8.dp)
+                                modifier = Modifier.padding(end = YatteSpacing.xs)
                             )
                             Text(text = if (item == TimePickerMode.Dial) "Clock" else "Input")
                         }
@@ -103,10 +104,8 @@ fun TaskTimePickerSheet(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(480.dp) // Increased height to prevent UI clipping
+                    .height(480.dp)
             ) {
-                // Force override Primary/Tertiary colors to ensure Selector is Yellow
-                // This handles cases where TimePickerDefaults might be ignored or fallback to default Primary
                 MaterialTheme(
                     colorScheme = MaterialTheme.colorScheme.copy(
                         primary = SelectorYellow,
@@ -154,18 +153,19 @@ fun TaskTimePickerSheet(
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(YatteSpacing.lg))
 
             // Confirm Button
             YatteButton(
-                text = "完了", // TODO: Resource
+                text = "完了",
                 onClick = {
                     onConfirm(LocalTime(timePickerState.hour, timePickerState.minute))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
             
-            Spacer(modifier = Modifier.height(48.dp)) // Bottom padding
+            Spacer(modifier = Modifier.height(YatteSpacing.xxl))
         }
     }
 }
+

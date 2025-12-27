@@ -1,6 +1,7 @@
 package com.segnities007.yatte
 
 import com.segnities007.yatte.di.appModules
+import com.segnities007.yatte.presentation.feature.category.di.categoryFeatureModule
 import com.segnities007.yatte.presentation.feature.history.di.historyViewModelModule
 import com.segnities007.yatte.presentation.feature.home.di.homeViewModelModule
 import com.segnities007.yatte.presentation.feature.management.di.taskManagementViewModelModule
@@ -22,4 +23,5 @@ val allModules: List<Module> =
             historyViewModelModule,
             settingsViewModelModule,
             taskManagementViewModelModule,
+            categoryFeatureModule,
         )

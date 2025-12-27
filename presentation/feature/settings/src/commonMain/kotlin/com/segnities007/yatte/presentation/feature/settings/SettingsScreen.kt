@@ -32,15 +32,21 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
+import com.segnities007.yatte.presentation.core.component.HeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.core.component.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.core.generated.resources.nav_settings
@@ -51,9 +57,8 @@ import org.koin.compose.viewmodel.koinViewModel
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsSectionCard
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsSliderRow
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsSwitchRow
-import com.segnities007.yatte.presentation.feature.settings.component.SoundPicker
-import com.segnities007.yatte.presentation.core.platform.FileType
-import com.segnities007.yatte.presentation.core.platform.rememberFilePickerLauncher
+import com.segnities007.yatte.presentation.core.component.SoundPicker
+import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,6 +94,7 @@ internal fun SettingsScreen(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error,
                     ),
+                    modifier = Modifier.bounceClick(),
                 ) {
                     Text(stringResource(SettingsRes.string.reset_dialog_confirm))
                 }
@@ -96,6 +102,7 @@ internal fun SettingsScreen(
             dismissButton = {
                 TextButton(
                     onClick = { viewModel.onIntent(SettingsIntent.CancelResetData) },
+                    modifier = Modifier.bounceClick(),
                 ) {
                     Text(stringResource(SettingsRes.string.reset_dialog_cancel))
                 }
@@ -103,9 +110,8 @@ internal fun SettingsScreen(
         )
     }
 
-    // ファイルピッカーランチャー
-    val filePickerLauncher = rememberFilePickerLauncher(
-        type = FileType.Audio,
+    // サウンドピッカーランチャー
+    val soundPickerLauncher = rememberSoundPickerLauncher(
         onResult = { uri ->
             if (uri != null) {
                 viewModel.onIntent(SettingsIntent.UpdateCustomSoundUri(uri))
@@ -113,17 +119,24 @@ internal fun SettingsScreen(
         },
     )
 
-    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    // グローバルHeaderの設定（SideEffectで即座に更新）
+    val setHeaderConfig = LocalSetHeaderConfig.current
+    val settingsTitle = stringResource(CoreRes.string.nav_settings)
+    
+    val headerConfig = remember {
+        HeaderConfig(
+            title = { Text(settingsTitle) },
+        )
+    }
+    
+    SideEffect {
+        setHeaderConfig(headerConfig)
+    }
+
+    // YatteScaffold を使用（Headerはグローバルなので省略）
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = contentPadding,
-        header = { isVisible ->
-            FloatingHeaderBar(
-                title = { Text(stringResource(CoreRes.string.nav_settings)) },
-                isVisible = isVisible,
-                modifier = Modifier.align(Alignment.TopCenter)
-            )
-        }
     ) { listContentPadding ->
         Column(
             modifier = Modifier
@@ -132,10 +145,10 @@ internal fun SettingsScreen(
                 .padding(
                     top = listContentPadding.calculateTopPadding(),
                     bottom = listContentPadding.calculateBottomPadding(),
-                    start = 16.dp,
-                    end = 16.dp,
+                    start = YatteSpacing.md,
+                    end = YatteSpacing.md,
                 ),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(YatteSpacing.md),
         ) {
             SettingsSectionCard(
                 icon = Icons.Default.Notifications,
@@ -164,17 +177,68 @@ internal fun SettingsScreen(
                     onValueChange = { viewModel.onIntent(SettingsIntent.UpdateMinutesBefore(it)) },
                 )
 
+                SettingsSliderRow(
+                    title = stringResource(
+                        SettingsRes.string.snooze_duration_title,
+                        state.settings.snoozeDuration,
+                    ),
+                    value = state.settings.snoozeDuration,
+                    valueRange = 1f..60f,
+                    steps = 59,
+                    onValueChange = { viewModel.onIntent(SettingsIntent.UpdateSnoozeDuration(it)) },
+                )
+
+                // 振動パターン（振動がONの場合のみ表示）
+                if (state.settings.notificationVibration) {
+                    Spacer(modifier = Modifier.height(YatteSpacing.xs))
+                    Text(
+                        text = stringResource(SettingsRes.string.vibration_pattern_title),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    SingleChoiceSegmentedButtonRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = YatteSpacing.xs),
+                    ) {
+                        // 5つは多いのでスクロール可能にするか、主要な3つにするか...
+                        // ここではとりあえず全部表示し、文字サイズを調整するか、スクロールコンテナに入れる
+                        // SegmentedButtonはスクロール非対応なので、RowでWrapする
+                        VibrationPattern.entries.forEachIndexed { index, pattern ->
+                            SegmentedButton(
+                                selected = state.settings.vibrationPattern == pattern,
+                                onClick = { viewModel.onIntent(SettingsIntent.UpdateVibrationPattern(pattern)) },
+                                shape = SegmentedButtonDefaults.itemShape(
+                                    index = index,
+                                    count = VibrationPattern.entries.size,
+                                ),
+                            ) {
+                                Text(
+                                    text = pattern.toDisplayString(),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    maxLines = 1,
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // カスタム通知音（通知音がONの場合のみ表示）
                 // カスタム通知音（通知音がONの場合のみ表示）
                 if (state.settings.notificationSound) {
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(YatteSpacing.xs))
                     SoundPicker(
                         currentSoundUri = state.settings.customSoundUri,
                         onSelectSound = {
-                            filePickerLauncher.launch()
+                            soundPickerLauncher.launch()
                         },
                         onClearSound = {
                             viewModel.onIntent(SettingsIntent.UpdateCustomSoundUri(null))
                         },
+                        title = stringResource(SettingsRes.string.custom_sound_title),
+                        selectedText = stringResource(SettingsRes.string.custom_sound_selected),
+                        defaultText = stringResource(SettingsRes.string.custom_sound_default),
+                        selectButtonText = stringResource(SettingsRes.string.custom_sound_select),
+                        clearContentDescription = stringResource(SettingsRes.string.custom_sound_clear),
                     )
                 }
             }
@@ -188,7 +252,7 @@ internal fun SettingsScreen(
                     text = stringResource(SettingsRes.string.theme_title),
                     style = MaterialTheme.typography.bodyLarge,
                 )
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(YatteSpacing.sm))
                 SingleChoiceSegmentedButtonRow(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
@@ -235,6 +299,7 @@ internal fun SettingsScreen(
                             contentColor = MaterialTheme.colorScheme.onErrorContainer,
                         ),
                         shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.bounceClick(),
                     ) {
                         Text(stringResource(SettingsRes.string.reset_button))
                     }
@@ -249,4 +314,13 @@ private fun ThemeMode.toDisplayString(): String = when (this) {
     ThemeMode.LIGHT -> stringResource(SettingsRes.string.theme_light)
     ThemeMode.DARK -> stringResource(SettingsRes.string.theme_dark)
     ThemeMode.SYSTEM -> stringResource(SettingsRes.string.theme_system)
+}
+
+@Composable
+private fun VibrationPattern.toDisplayString(): String = when (this) {
+    VibrationPattern.NORMAL -> stringResource(SettingsRes.string.vibration_pattern_normal)
+    VibrationPattern.SHORT -> stringResource(SettingsRes.string.vibration_pattern_short)
+    VibrationPattern.LONG -> stringResource(SettingsRes.string.vibration_pattern_long)
+    VibrationPattern.SOS -> stringResource(SettingsRes.string.vibration_pattern_sos)
+    VibrationPattern.HEARTBEAT -> stringResource(SettingsRes.string.vibration_pattern_heartbeat)
 }

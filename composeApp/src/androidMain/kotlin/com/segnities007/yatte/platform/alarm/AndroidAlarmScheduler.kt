@@ -27,13 +27,24 @@ class AndroidAlarmScheduler(
 ) : AlarmScheduler {
     override suspend fun schedule(alarm: Alarm) {
         val notifyAtMillis = alarm.notifyAt.toEpochMillis()
+        val nowMillis = System.currentTimeMillis()
+
+        android.util.Log.d("YatteAlarm", "=== Alarm Schedule ===")
+        android.util.Log.d("YatteAlarm", "AlarmId: ${alarm.id.value}")
+        android.util.Log.d("YatteAlarm", "TaskId: ${alarm.taskId.value}")
+        android.util.Log.d("YatteAlarm", "NotifyAt: ${alarm.notifyAt}")
+        android.util.Log.d("YatteAlarm", "NotifyAtMillis: $notifyAtMillis, NowMillis: $nowMillis")
+        android.util.Log.d("YatteAlarm", "Delay: ${(notifyAtMillis - nowMillis) / 1000}秒後")
+        android.util.Log.d("YatteAlarm", "canUseExactAlarm: ${canUseExactAlarm()}")
 
         if (canUseExactAlarm()) {
+            android.util.Log.d("YatteAlarm", "Using AlarmManager")
             scheduleWithAlarmManager(alarm, notifyAtMillis)
             return
         }
 
         // フォールバック: WorkManagerで通知
+        android.util.Log.d("YatteAlarm", "Using WorkManager (fallback)")
         scheduleWithWorkManager(alarm, notifyAtMillis)
     }
 
@@ -54,6 +65,7 @@ class AndroidAlarmScheduler(
             triggerAtMillis,
             pendingIntent,
         )
+        android.util.Log.d("YatteAlarm", "AlarmManager.setExactAndAllowWhileIdle called!")
     }
 
     private fun cancelAlarmManager(alarmId: AlarmId) {

@@ -20,6 +20,7 @@ import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.home.generated.resources.*
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
 
 /**
  * 日付表示ヘッダー（前日/翌日ボタン付き）
@@ -36,31 +37,23 @@ fun DateHeader(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IconButton(
+        YatteIconButton(
             onClick = onPreviousDay,
-            modifier = Modifier.bounceClick()
-        ) {
-            Icon(
-                Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(HomeRes.string.cd_prev_day),
-            )
-        }
+            icon = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = stringResource(HomeRes.string.cd_prev_day),
+        )
         Text(
             text = selectedDate?.let { formatDate(it) } ?: "",
             modifier = Modifier
                 .weight(1f)
-                .clickable { onTodayClick() },
+                .bounceClick(onTap = onTodayClick),
             textAlign = TextAlign.Center,
         )
-        IconButton(
+        YatteIconButton(
             onClick = onNextDay,
-            modifier = Modifier.bounceClick()
-        ) {
-            Icon(
-                Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = stringResource(HomeRes.string.cd_next_day),
-            )
-        }
+            icon = Icons.AutoMirrored.Filled.ArrowForward,
+            contentDescription = stringResource(HomeRes.string.cd_next_day),
+        )
     }
 }
 

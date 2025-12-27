@@ -18,6 +18,7 @@ data class Alarm(
     val scheduledAt: LocalDateTime,
     val notifyAt: LocalDateTime,
     val isTriggered: Boolean = false,
+    val soundUri: String? = null,
 ) {
     init {
         require(notifyAt <= scheduledAt) { "通知時刻は予定時刻より前である必要があります" }
