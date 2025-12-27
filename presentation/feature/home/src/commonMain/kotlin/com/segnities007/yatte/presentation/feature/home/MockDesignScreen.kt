@@ -50,6 +50,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.PI
 import kotlin.random.Random
 
 // --- Colors based on ui-design.md ---
@@ -342,7 +343,7 @@ fun ConfettiEffect(particles: List<ConfettiParticle>) {
     
     Canvas(modifier = Modifier.fillMaxSize()) {
         particles.forEach { p ->
-            val rad = p.angle * (Math.PI / 180)
+            val rad = p.angle * (PI / 180)
             val dist = progress.value * 100f * p.speed * 0.1f
             val x = p.startPosition.x + cos(rad).toFloat() * dist
             val y = p.startPosition.y + sin(rad).toFloat() * dist

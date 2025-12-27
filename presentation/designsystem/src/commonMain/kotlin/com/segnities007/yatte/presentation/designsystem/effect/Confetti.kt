@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.SpringSpecs
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.PI
 import kotlin.random.Random
 
 data class ConfettiParticle(
@@ -38,7 +39,7 @@ fun ConfettiEffect(
 
     Canvas(modifier = modifier.fillMaxSize()) {
         particles.forEach { p ->
-            val rad = p.angle * (Math.PI / 180)
+            val rad = p.angle * (PI / 180)
             // Distances and logic adapted from Mock
             val dist = progress.value * 100f * p.speed * 0.1f
             val x = p.startPosition.x + cos(rad).toFloat() * dist

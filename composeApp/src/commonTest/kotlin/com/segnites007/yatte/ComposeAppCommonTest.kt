@@ -1,4 +1,4 @@
-package com.segnites007.yatte
+package com.segnities007.yatte
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
