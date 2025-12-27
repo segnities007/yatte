@@ -18,6 +18,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Keyboard
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -28,11 +30,16 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.statusBars
@@ -43,6 +50,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
 import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+
 import kotlinx.datetime.DayOfWeek
 import org.koin.compose.viewmodel.koinViewModel
 import org.jetbrains.compose.resources.getString
@@ -51,6 +59,13 @@ import yatte.presentation.core.generated.resources.*
 import yatte.presentation.core.generated.resources.Res as CoreRes
 import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.feature.task.component.TaskTimePickerSheet
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -108,48 +123,54 @@ internal fun TaskFormScreen(
                 text = stringResource(TaskRes.string.label_execute_time),
                 style = MaterialTheme.typography.labelLarge,
             )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            var showTimeSheet by remember { mutableStateOf(false) }
+
+            // Time Display Button (Triggers Sheet)
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .bounceClick()
+                    .clickable { showTimeSheet = true }
+                // Removed padding(vertical=12.dp) from here to apply it inside Surface or ensure Surface covers it
             ) {
-                // 時間選択
-                OutlinedTextField(
-                    value = state.time.hour.toString().padStart(2, '0'),
-                    onValueChange = { input ->
-                        val hour = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
-                        if (hour in 0..23) {
-                            viewModel.onIntent(
-                                TaskFormIntent.UpdateTime(
-                                    kotlinx.datetime.LocalTime(hour, state.time.minute),
-                                ),
-                            )
-                        }
-                    },
-                    label = { Text(stringResource(TaskRes.string.label_hour)) },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true,
-                )
-                Text(
-                    text = ":",
-                    style = MaterialTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(top = 16.dp),
-                )
-                // 分選択
-                OutlinedTextField(
-                    value = state.time.minute.toString().padStart(2, '0'),
-                    onValueChange = { input ->
-                        val minute = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
-                        if (minute in 0..59) {
-                            viewModel.onIntent(
-                                TaskFormIntent.UpdateTime(
-                                    kotlinx.datetime.LocalTime(state.time.hour, minute),
-                                ),
-                            )
-                        }
-                    },
-                    label = { Text(stringResource(TaskRes.string.label_minute)) },
-                    modifier = Modifier.weight(1f),
-                    singleLine = true,
+                Surface(
+                    color = MaterialTheme.colorScheme.secondaryContainer, // Distinct background color
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    // Better visual representation
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    ) {
+                        Text(
+                            text = "${state.time.hour.toString().padStart(2, '0')}:${
+                                state.time.minute.toString().padStart(2, '0')
+                            }",
+                            style = MaterialTheme.typography.displayMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                        )
+                        Text(
+                            text = "タップして時間を変更",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                        )
+                    }
+                }
+            }
+
+            if (showTimeSheet) {
+                TaskTimePickerSheet(
+                    initialTime = state.time,
+                    onDismiss = { showTimeSheet = false },
+                    onConfirm = { newTime ->
+                        viewModel.onIntent(TaskFormIntent.UpdateTime(newTime))
+                        showTimeSheet = false
+                    }
                 )
             }
 
@@ -167,6 +188,7 @@ internal fun TaskFormScreen(
                             index = index,
                             count = TaskType.entries.size,
                         ),
+                        modifier = Modifier.bounceClick()
                     ) {
                         Text(
                             if (type == TaskType.ONE_TIME) {
@@ -187,12 +209,14 @@ internal fun TaskFormScreen(
                 )
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     DayOfWeek.entries.forEach { day ->
                         FilterChip(
                             selected = day in state.selectedWeekDays,
                             onClick = { viewModel.onIntent(TaskFormIntent.ToggleWeekDay(day)) },
                             label = { Text(day.toDisplayString()) },
+                            modifier = Modifier.bounceClick()
                         )
                     }
                 }
@@ -225,7 +249,10 @@ internal fun TaskFormScreen(
                 )
             },
             navigationIcon = {
-                IconButton(onClick = { viewModel.onIntent(TaskFormIntent.Cancel) }) {
+                IconButton(
+                    onClick = { viewModel.onIntent(TaskFormIntent.Cancel) },
+                    modifier = Modifier.bounceClick()
+                ) {
                     Icon(
                         Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = stringResource(CoreRes.string.common_back),
@@ -234,14 +261,20 @@ internal fun TaskFormScreen(
             },
             actions = {
                 if (state.isEditMode) {
-                    IconButton(onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) }) {
+                    IconButton(
+                        onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) },
+                        modifier = Modifier.bounceClick()
+                    ) {
                         Icon(
                             Icons.Default.Delete,
                             contentDescription = stringResource(CoreRes.string.common_delete),
                         )
                     }
                 }
-                IconButton(onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) }) {
+                IconButton(
+                    onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) },
+                    modifier = Modifier.bounceClick()
+                ) {
                     Icon(
                         Icons.Default.Check,
                         contentDescription = stringResource(CoreRes.string.common_save),

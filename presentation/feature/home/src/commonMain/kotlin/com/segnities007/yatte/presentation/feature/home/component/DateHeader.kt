@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.number
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.home.generated.resources.*
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
@@ -73,8 +74,8 @@ fun formatDate(date: LocalDate): String {
 
     return stringResource(
         HomeRes.string.date_header_format,
-        date.monthNumber,
-        date.dayOfMonth,
+        date.month.number,
+        date.day,
         dayOfWeekJapanese,
     )
 }

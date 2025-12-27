@@ -17,6 +17,9 @@
 | **画面** | [docs/screens.md](docs/screens.md) | 画面遷移、UI要件、ステータス |
 | **技術** | [docs/technical.md](docs/technical.md) | アーキテクチャ、技術スタック詳細 |
 | **デザイン** | [docs/ui-design.md](docs/ui-design.md) | カラーパレット、デザインシステム |
+| **モデル** | [docs/domain-models.md](docs/domain-models.md) | クラス図、状態遷移図、バリデーション |
+| **ユースケース** | [docs/usecases.md](docs/usecases.md) | 主要な利用シナリオとフロー |
+| **用語集** | [docs/glossary.md](docs/glossary.md) | ドメイン用語・技術用語の定義 |
 
 ### 開発・実装ガイドライン (`docs/guidelines/`)
 

@@ -40,6 +40,8 @@ import com.segnities007.yatte.presentation.feature.management.taskManagementScre
 import com.segnities007.yatte.presentation.feature.settings.SettingsRoute
 import com.segnities007.yatte.presentation.feature.settings.settingsScreen
 import com.segnities007.yatte.presentation.feature.task.taskScreens
+import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
+
 
 /**
  * アプリのメインナビゲーションホスト。
@@ -102,22 +104,14 @@ fun AppNavHost(
 
     val showFab = currentNavItem == NavItem.HOME && isBottomBarVisible && !isTaskFormScreen
 
-    Scaffold(
-        modifier = modifier
-            .fillMaxSize()
-            .nestedScroll(nestedScrollConnection),
-        contentWindowInsets = WindowInsets(0), // ヘッダー重複対策：ここでInsetsを適用しない
-        snackbarHost = { SnackbarHost(snackbarHostState) },
-    ) { _ -> // paddingは無視
-        Box(modifier = Modifier.fillMaxSize()) {
-            
-            // FNBの高さを考慮したコンテンツパディング
-            // FloatingNavigationBar: ~96dp + AppBottomBar padding 16dp = ~112dp
-            // 少し余裕を持って設定
-            val contentPadding = PaddingValues(
-                bottom = if (showNavBar) 128.dp else 0.dp
-            )
-
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            modifier = modifier
+                .fillMaxSize()
+                .nestedScroll(nestedScrollConnection),
+            contentWindowInsets = WindowInsets(0),
+            snackbarHost = { SnackbarHost(snackbarHostState) },
+        ) { contentPadding ->
             NavHost(
                 navController = navController,
                 startDestination = HomeRoute,
@@ -139,7 +133,7 @@ fun AppNavHost(
 
                 taskScreens(
                     actions = actions.taskActions,
-                    isNavigationVisible = true, // TaskFormScreenは独自のヘッダーを持つため常に表示
+                    isNavigationVisible = true,
                     onShowSnackbar = onShowSnackbar,
                 )
 
@@ -157,41 +151,44 @@ fun AppNavHost(
                     onShowSnackbar = onShowSnackbar,
                 )
             }
-
-            // FNB Overlay
-            AppBottomBar(
-                isVisible = isBottomBarVisible,
-                currentItem = currentNavItem,
-                onItemSelected = { item ->
-                    when (item) {
-                        NavItem.HOME -> navController.navigate(HomeRoute) {
-                            popUpTo(HomeRoute) { inclusive = true }
-                        }
-                        NavItem.MANAGE -> navController.navigate(TaskManagementRoute) {
-                            popUpTo(HomeRoute) { inclusive = false }
-                        }
-                        NavItem.HISTORY -> navController.navigate(HistoryRoute) {
-                            popUpTo(HomeRoute) { inclusive = false }
-                        }
-                        NavItem.SETTINGS -> navController.navigate(SettingsRoute) {
-                            popUpTo(HomeRoute) { inclusive = false }
-                        }
-                    }
-                },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 16.dp),
-            )
-
-            // FAB Overlay
-            AppFloatingActionButton(
-                isVisible = showFab,
-                onClick = actions.homeActions.onAddTask,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    // FNBの上部に配置 (112dp + margin)
-                    .padding(bottom = 120.dp, end = 24.dp),
-            )
         }
+
+        // FNB Overlay
+        AppBottomBar(
+            isVisible = isBottomBarVisible,
+            currentItem = currentNavItem,
+            onItemSelected = { item ->
+                when (item) {
+                    NavItem.HOME -> navController.navigate(HomeRoute) {
+                        popUpTo(HomeRoute) { inclusive = true }
+                    }
+                    NavItem.MANAGE -> navController.navigate(TaskManagementRoute) {
+                        popUpTo(HomeRoute) { inclusive = false }
+                    }
+                    NavItem.HISTORY -> navController.navigate(HistoryRoute) {
+                        popUpTo(HomeRoute) { inclusive = false }
+                    }
+                    NavItem.SETTINGS -> navController.navigate(SettingsRoute) {
+                        popUpTo(HomeRoute) { inclusive = false }
+                    }
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp),
+        )
+
+        // FAB Overlay
+        AppFloatingActionButton(
+            isVisible = showFab,
+            onClick = actions.homeActions.onAddTask,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                // FNBの上部に配置 (112dp + margin)
+                .padding(bottom = 120.dp, end = 24.dp),
+        )
+        
+        // Confetti Overlay
+        ConfettiHost()
     }
 }

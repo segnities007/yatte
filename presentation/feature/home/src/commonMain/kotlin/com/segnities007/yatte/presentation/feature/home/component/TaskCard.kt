@@ -41,6 +41,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
+import com.segnities007.yatte.presentation.designsystem.component.YatteCard
+import com.segnities007.yatte.presentation.designsystem.effect.ConfettiManager
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.home.generated.resources.*
@@ -87,17 +89,15 @@ fun TaskCard(
     ) {
         if (onDismiss != null) {
             // スワイプ削除対応
-            val dismissState = rememberSwipeToDismissBoxState(
-                confirmValueChange = { value ->
-                    if (value == SwipeToDismissBoxValue.EndToStart || 
-                        value == SwipeToDismissBoxValue.StartToEnd) {
-                        onDismiss()
-                        true
-                    } else {
-                        false
-                    }
-                },
-            )
+            val dismissState = rememberSwipeToDismissBoxState()
+
+            LaunchedEffect(dismissState.currentValue) {
+                if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart ||
+                    dismissState.currentValue == SwipeToDismissBoxValue.StartToEnd
+                ) {
+                    onDismiss()
+                }
+            }
 
             SwipeToDismissBox(
                 state = dismissState,
@@ -125,7 +125,10 @@ fun TaskCard(
                         task = task,
                         scale = scale,
                         onClick = onClick,
-                        onCompleteClick = { isCompleting = true },
+                        onCompleteClick = {
+                            isCompleting = true
+                            ConfettiManager.burst()
+                        },
                         onSkipClick = onSkip,
                         modifier = modifier,
                     )
@@ -136,7 +139,10 @@ fun TaskCard(
                 task = task,
                 scale = scale,
                 onClick = onClick,
-                onCompleteClick = { isCompleting = true },
+                onCompleteClick = {
+                    isCompleting = true
+                    ConfettiManager.burst()
+                },
                 onSkipClick = onSkip,
                 modifier = modifier,
             )
@@ -153,12 +159,12 @@ private fun TaskCardContent(
     onSkipClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
-    Card(
+    YatteCard(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
             .scale(scale),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = 2.dp,
     ) {
         Row(
             modifier = Modifier
