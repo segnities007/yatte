@@ -14,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.core.component.LocalLibraries
+import com.mikepenz.aboutlibraries.Libs
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -59,8 +61,9 @@ fun LicenseScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
+            libraries = LocalLibraries.current ?: Libs.Builder().build(),
             showLicenseBadges = false,
-            onLibraryClick = { library ->
+            onLibraryClick = { library: Library ->
                 selectedLibrary = library
             }
         )

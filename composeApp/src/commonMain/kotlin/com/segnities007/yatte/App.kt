@@ -14,6 +14,13 @@ import com.segnities007.yatte.presentation.navigation.AppNavHost
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.produceState
+import com.mikepenz.aboutlibraries.Libs
+import com.segnities007.yatte.presentation.core.component.LocalLibraries
+// import org.jetbrains.compose.resources.Res
+// import org.jetbrains.compose.resources.ExperimentalResourceApi
+// import com.segnities007.yatte.generated.resources.*
 
 @Composable
 @Preview
@@ -37,10 +44,23 @@ fun App() {
             }
         }
 
-        AppNavHost(
-            navController = navController,
-            snackbarHostState = snackbarHostState,
-            onShowSnackbar = showSnackbar,
-        )
+        val libraries by produceState<Libs?>(null) {
+            value = try {
+                // FIXME: Implement resource loading for JVM
+                // val bytes = Res.readBytes("files/aboutlibraries.json")
+                // Libs.Builder().withJson(bytes.decodeToString()).build()
+                Libs.Builder().build()
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+        CompositionLocalProvider(LocalLibraries provides libraries) {
+            AppNavHost(
+                navController = navController,
+                snackbarHostState = snackbarHostState,
+                onShowSnackbar = showSnackbar,
+            )
+        }
     }
 }
