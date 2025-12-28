@@ -1,5 +1,6 @@
 package com.segnities007.yatte.domain.aggregate.category.model
 
+import kotlin.time.Clock
 import kotlin.jvm.JvmInline
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
@@ -23,7 +24,7 @@ data class Category(
                 id = CategoryId(Uuid.random().toString()),
                 name = name,
                 color = color,
-                createdAt = System.currentTimeMillis(),
+                createdAt = Clock.System.now().toEpochMilliseconds(),
             )
         }
     }
