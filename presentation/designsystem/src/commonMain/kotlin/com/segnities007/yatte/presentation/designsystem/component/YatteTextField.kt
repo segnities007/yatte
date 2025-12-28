@@ -16,6 +16,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+
 /**
  * Yatte統一テキスト入力フィールド
  *
@@ -28,8 +31,6 @@ fun YatteTextField(
     modifier: Modifier = Modifier,
     label: String? = null,
     placeholder: String? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
     errorMessage: String? = null,
     enabled: Boolean = true,
@@ -39,7 +40,12 @@ fun YatteTextField(
     imeAction: ImeAction = ImeAction.Default,
     onImeAction: () -> Unit = {},
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -61,10 +67,26 @@ fun YatteTextField(
             imeAction = imeAction,
         ),
         keyboardActions = KeyboardActions(
-            onDone = { onImeAction() },
-            onGo = { onImeAction() },
-            onSearch = { onImeAction() },
-            onSend = { onImeAction() },
+            onDone = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+                onImeAction()
+            },
+            onGo = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+                onImeAction()
+            },
+            onSearch = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+                onImeAction()
+            },
+            onSend = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+                onImeAction()
+            },
         ),
         shape = RoundedCornerShape(YatteSpacing.sm),
         colors = OutlinedTextFieldDefaults.colors(
