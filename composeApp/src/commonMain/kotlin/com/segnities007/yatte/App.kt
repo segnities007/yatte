@@ -18,10 +18,11 @@ import com.segnities007.yatte.presentation.navigation.AppNavHost
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
-// import org.jetbrains.compose.resources.Res
-// import org.jetbrains.compose.resources.ExperimentalResourceApi
-// import com.segnities007.yatte.generated.resources.*
 
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import yatte.composeapp.generated.resources.Res
+
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 @Preview
 @Suppress("FunctionNaming", "ktlint:standard:function-naming")
@@ -45,15 +46,12 @@ fun App() {
         }
 
         val libraries by produceState<Libs?>(null) {
-            value =
-                try {
-                    // FIXME: Implement resource loading for JVM
-                    // val bytes = Res.readBytes("files/aboutlibraries.json")
-                    // Libs.Builder().withJson(bytes.decodeToString()).build()
-                    Libs.Builder().build()
-                } catch (e: Exception) {
-                    null
-                }
+            value = try {
+                val bytes = Res.readBytes("files/aboutlibraries.json")
+                Libs.Builder().withJson(bytes.decodeToString()).build()
+            } catch (e: Exception) {
+                null
+            }
         }
 
         CompositionLocalProvider(LocalLibraries provides libraries) {
