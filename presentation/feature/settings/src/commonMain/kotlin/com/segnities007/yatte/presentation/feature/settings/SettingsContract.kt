@@ -30,6 +30,8 @@ sealed interface SettingsIntent {
     data object RequestResetData : SettingsIntent
     data object ConfirmResetData : SettingsIntent
     data object CancelResetData : SettingsIntent
+    data object RequestExportHistory : SettingsIntent
+    data class ImportHistory(val json: String) : SettingsIntent
 }
 
 /**
@@ -40,4 +42,6 @@ sealed interface SettingsEvent {
     data class ShowError(val message: String) : SettingsEvent
     data object ShowSaveSuccess : SettingsEvent
     data object ShowResetSuccess : SettingsEvent
+    data class ShowExportReady(val json: String) : SettingsEvent
+    data class ShowImportSuccess(val count: Int) : SettingsEvent
 }

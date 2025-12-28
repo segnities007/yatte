@@ -20,10 +20,15 @@ import yatte.presentation.feature.settings.generated.resources.*
 import org.jetbrains.compose.resources.getString
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ExportUserDataUseCase
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ImportUserDataUseCase
+
 class SettingsViewModel(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val updateSettingsUseCase: UpdateSettingsUseCase,
     private val resetAllDataUseCase: ResetAllDataUseCase,
+    private val exportUserDataUseCase: ExportUserDataUseCase,
+    private val importUserDataUseCase: ImportUserDataUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
@@ -52,6 +57,40 @@ class SettingsViewModel(
             is SettingsIntent.RequestResetData -> showResetConfirmation()
             is SettingsIntent.ConfirmResetData -> confirmResetData()
             is SettingsIntent.CancelResetData -> hideResetConfirmation()
+            is SettingsIntent.RequestExportHistory -> exportHistory()
+            is SettingsIntent.ImportHistory -> importHistory(intent.json)
+        }
+    }
+
+    private fun exportHistory() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            exportUserDataUseCase.invoke()
+                .onSuccess { json ->
+                    _state.update { it.copy(isLoading = false) }
+                    sendEvent(SettingsEvent.ShowExportReady(json))
+                }
+                .onFailure { error ->
+                    _state.update { it.copy(isLoading = false) }
+                    val message = error.message ?: "Failed to export data" // TODO: Resource
+                    sendEvent(SettingsEvent.ShowError(message))
+                }
+        }
+    }
+
+    private fun importHistory(json: String) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            importUserDataUseCase.invoke(json)
+                .onSuccess { count ->
+                    _state.update { it.copy(isLoading = false) }
+                    sendEvent(SettingsEvent.ShowImportSuccess(count))
+                }
+                .onFailure { error ->
+                    _state.update { it.copy(isLoading = false) }
+                    val message = error.message ?: "Failed to import data" // TODO: Resource
+                    sendEvent(SettingsEvent.ShowError(message))
+                }
         }
     }
 

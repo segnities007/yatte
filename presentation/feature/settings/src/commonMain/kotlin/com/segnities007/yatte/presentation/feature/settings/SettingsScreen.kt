@@ -57,7 +57,9 @@ import org.koin.compose.viewmodel.koinViewModel
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsSectionCard
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsSliderRow
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsSwitchRow
+import com.segnities007.yatte.presentation.feature.settings.component.SettingsActionRow
 import com.segnities007.yatte.presentation.core.component.SoundPicker
+import com.segnities007.yatte.presentation.core.file.rememberFileHelper
 import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,16 +73,7 @@ internal fun SettingsScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is SettingsEvent.NavigateBack -> actions.onBack()
-                is SettingsEvent.ShowError -> onShowSnackbar(event.message)
-                is SettingsEvent.ShowSaveSuccess -> onShowSnackbar(getString(SettingsRes.string.snackbar_settings_saved))
-                is SettingsEvent.ShowResetSuccess -> onShowSnackbar(getString(SettingsRes.string.snackbar_reset_success))
-            }
-        }
-    }
+
 
     // リセット確認ダイアログ
     if (state.showResetConfirmation) {
@@ -118,6 +111,35 @@ internal fun SettingsScreen(
             }
         },
     )
+    
+    val fileHelper = rememberFileHelper()
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is SettingsEvent.NavigateBack -> actions.onBack()
+                is SettingsEvent.ShowError -> onShowSnackbar(event.message)
+                is SettingsEvent.ShowSaveSuccess -> onShowSnackbar(getString(SettingsRes.string.snackbar_settings_saved))
+                is SettingsEvent.ShowResetSuccess -> onShowSnackbar(getString(SettingsRes.string.snackbar_reset_success))
+                is SettingsEvent.ShowExportReady -> {
+                    // JSONを受け取ったらファイル保存フローを開始
+                    fileHelper.saveFile(
+                        fileName = "yatte_history_backup.json",
+                        content = event.json,
+                        onSuccess = {
+                            onShowSnackbar("エクスポート完了") // TODO: Resource
+                        },
+                        onError = { e ->
+                            onShowSnackbar("エクスポート失敗: ${e.message}")
+                        }
+                    )
+                }
+                is SettingsEvent.ShowImportSuccess -> {
+                    onShowSnackbar("${event.count}件の履歴をインポートしました") // TODO: Resource
+                }
+            }
+        }
+    }
 
     // グローバルHeaderの設定（SideEffectで即座に更新）
     val setHeaderConfig = LocalSetHeaderConfig.current
@@ -225,7 +247,6 @@ internal fun SettingsScreen(
                 }
 
                 // カスタム通知音（通知音がONの場合のみ表示）
-                // カスタム通知音（通知音がONの場合のみ表示）
                 if (state.settings.notificationSound) {
                     Spacer(modifier = Modifier.height(YatteSpacing.xs))
                     SoundPicker(
@@ -278,34 +299,69 @@ internal fun SettingsScreen(
                 icon = Icons.Default.Delete,
                 title = stringResource(SettingsRes.string.section_data),
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = stringResource(SettingsRes.string.reset_title),
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
-                        Text(
-                            text = stringResource(SettingsRes.string.reset_desc),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                // エクスポート・インポート
+                
+                // エクスポート
+                SettingsActionRow(
+                    title = "エクスポート", // TODO: Resource
+                    subtitle = "データをファイルに保存", // TODO: Resource
+                    action = {
+                        Button(
+                            onClick = { viewModel.onIntent(SettingsIntent.RequestExportHistory) },
+                            modifier = Modifier.bounceClick(),
+                        ) {
+                            Text("実行") // TODO: Resource
+                        }
                     }
-                    Button(
-                        onClick = { viewModel.onIntent(SettingsIntent.RequestResetData) },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                        ),
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier.bounceClick(),
-                    ) {
-                        Text(stringResource(SettingsRes.string.reset_button))
+                )
+
+                // インポート
+                SettingsActionRow(
+                    title = "インポート", // TODO: Resource
+                    subtitle = "ファイルから復元（追記）", // TODO: Resource
+                    action = {
+                        Button(
+                            onClick = {
+                                fileHelper.loadFile(
+                                    onLoaded = { json ->
+                                        viewModel.onIntent(SettingsIntent.ImportHistory(json))
+                                    },
+                                    onError = { e ->
+                                        onShowSnackbar("インポートに失敗しました: ${e.message}")
+                                    }
+                                )
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.secondary,
+                                contentColor = MaterialTheme.colorScheme.onSecondary,
+                            ),
+                            modifier = Modifier.bounceClick(),
+                        ) {
+                            Text("実行") // TODO: Resource
+                        }
                     }
-                }
+                )
+                
+                Spacer(modifier = Modifier.height(YatteSpacing.md))
+                
+                // リセット
+                SettingsActionRow(
+                    title = stringResource(SettingsRes.string.reset_title),
+                    subtitle = stringResource(SettingsRes.string.reset_desc),
+                    action = {
+                        Button(
+                            onClick = { viewModel.onIntent(SettingsIntent.RequestResetData) },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.errorContainer,
+                                contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                            ),
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier.bounceClick(),
+                        ) {
+                            Text(stringResource(SettingsRes.string.reset_button))
+                        }
+                    }
+                )
             }
         }
     }

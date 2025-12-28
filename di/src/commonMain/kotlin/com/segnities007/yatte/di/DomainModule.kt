@@ -43,6 +43,7 @@ val useCaseModule = module {
     factory { DeleteHistoryUseCase(get()) }
     factory { ClearAllHistoryUseCase(get()) }
     factory { ExportHistoryUseCase(get()) }
+    factory { com.segnities007.yatte.domain.aggregate.history.usecase.ImportHistoryUseCase(get()) }
 
     // Alarm UseCases
     factory { ScheduleAlarmUseCase(get(), get()) }
@@ -53,6 +54,8 @@ val useCaseModule = module {
     factory { GetSettingsUseCase(get()) }
     factory { UpdateSettingsUseCase(get()) }
     factory { ResetAllDataUseCase(get(), get()) }
+    factory { com.segnities007.yatte.domain.aggregate.settings.usecase.ExportUserDataUseCase(get(), get()) }
+    factory { com.segnities007.yatte.domain.aggregate.settings.usecase.ImportUserDataUseCase(get(), get()) }
 
     // Category UseCases
     factory { com.segnities007.yatte.domain.aggregate.category.usecase.GetAllCategoriesUseCase(get()) }

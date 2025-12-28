@@ -28,9 +28,9 @@ fun DateHeader(
     val today = Instant.fromEpochMilliseconds(nowMillis).toLocalDateTime(TimeZone.currentSystemDefault()).date
     
     val label = when (date) {
-        today -> "Today"
-        today.minus(DatePeriod(days = 1)) -> "Yesterday"
-        else -> "${date.month.name} ${date.day}, ${date.year}"
+        today -> "今日"
+        today.minus(DatePeriod(days = 1)) -> "昨日"
+        else -> "${date.year}年${date.month.ordinal + 1}月${date.day}日"
     }
 
     Box(
