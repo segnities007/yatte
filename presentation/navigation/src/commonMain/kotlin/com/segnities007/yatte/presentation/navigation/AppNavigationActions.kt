@@ -8,6 +8,7 @@ import com.segnities007.yatte.presentation.feature.task.EditTaskRoute
 import com.segnities007.yatte.presentation.feature.home.HomeActions
 import com.segnities007.yatte.presentation.feature.settings.SettingsActions
 import com.segnities007.yatte.presentation.feature.settings.SettingsRoute
+import com.segnities007.yatte.presentation.feature.settings.LicenseRoute
 import com.segnities007.yatte.presentation.feature.task.TaskActions
 import com.segnities007.yatte.presentation.feature.management.TaskManagementActions
 
@@ -56,5 +57,10 @@ class AppNavigationActions(
     )
     val settingsActions: SettingsActions = SettingsActions(
         onBack = { navController.popBackStack() },
+        onLicenseClick = {
+            navController.navigate(LicenseRoute) {
+                popUpTo(SettingsRoute) { inclusive = false }
+            }
+        },
     )
 }

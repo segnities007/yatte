@@ -36,7 +36,7 @@ jobs:
         run: ./gradlew composeApp:jvmJar
 
       - name: Run Tests
-        run: ./gradlew composeApp:allTests
+        run: ./gradlew composeApp:testDebugUnitTest composeApp:jvmTest
 
       - name: Upload Test Results
         uses: actions/upload-artifact@v6

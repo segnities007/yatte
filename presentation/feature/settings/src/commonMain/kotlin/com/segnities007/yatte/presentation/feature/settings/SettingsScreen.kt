@@ -299,6 +299,27 @@ internal fun SettingsScreen(
                 icon = Icons.Default.Delete,
                 title = stringResource(SettingsRes.string.section_data),
             ) {
+
+                // オープンソースライセンス
+                SettingsActionRow(
+                    title = "オープンソースライセンス", // TODO: Resource
+                    subtitle = "使用しているソフトウェアのライセンス", // TODO: Resource
+                    action = {
+                        Button(
+                            onClick = actions.onLicenseClick,
+                            modifier = Modifier.bounceClick(),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                            )
+                        ) {
+                            Text("表示") // TODO: Resource
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(YatteSpacing.md))
+
                 // エクスポート・インポート
                 
                 // エクスポート
