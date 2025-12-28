@@ -95,7 +95,7 @@
   <div class="cover ">
     <h1 class="cover"><span>repository</span><wbr><span><span>Module</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":di/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="repository-module.html">repositoryModule</a><span class="token operator">: </span><span data-unresolved-link="org.koin.core.module/Module///PointingToDeclaration/">Module</span></div><p class="paragraph">リポジトリモジュール。</p><p class="paragraph">Data層のRepositoryImplは、Domain層のRepositoryインターフェースを実装し、 Entity↔Model変換やクエリ条件（例: 今日のタスク、期限切れ削除）を担当する。</p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":di/commonMain"><div class="symbol monospace"><span class="token keyword">val </span><a href="repository-module.html">repositoryModule</a><span class="token operator">: </span><span data-unresolved-link="org.koin.core.module/Module///PointingToDeclaration/">Module</span></div><p class="paragraph">データベースモジュール。</p><p class="paragraph">前提:</p><ul><li><p class="paragraph">Androidでは <code class="lang-kotlin">createDatabase()</code> 実行前に <code class="lang-kotlin">initializeDatabase(context)</code> が必要。 （Application起動時に初期化してからKoinを開始する）</p></li></ul></div></div>
 </div>
     <div class="footer">
         <div class="footer--container">

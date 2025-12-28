@@ -12,6 +12,14 @@ $dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/getB
 $dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/getScheduledAlarms/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/get-scheduled-alarms.html
 $dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/insert/#com.segnities007.yatte.data.core.database.entity.AlarmEntity/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/insert.html
 $dokka.location:com.segnities007.yatte.data.core.database.dao/AlarmDao_Impl/markAsTriggered/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-alarm-dao_-impl/mark-as-triggered.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl.Companion///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/-companion/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl.Companion/getRequiredConverters/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/-companion/get-required-converters.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/index.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl/CategoryDao_Impl/#androidx.room.RoomDatabase/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/-category-dao_-impl.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl/delete/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/delete.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl/getAll/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/get-all.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl/getById/#kotlin.String/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/get-by-id.html
+$dokka.location:com.segnities007.yatte.data.core.database.dao/CategoryDao_Impl/insert/#com.segnities007.yatte.data.core.database.entity.CategoryEntity/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-category-dao_-impl/insert.html
 $dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl.Companion///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/-companion/index.html
 $dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl.Companion/getRequiredConverters/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/-companion/get-required-converters.html
 $dokka.location:com.segnities007.yatte.data.core.database.dao/HistoryDao_Impl///PointingToDeclaration/core/com.segnities007.yatte.data.core.database.dao/[jvm]-history-dao_-impl/index.html
@@ -36,6 +44,7 @@ $dokka.location:com.segnities007.yatte.data.core.database.dao/TaskDao_Impl/updat
 $dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl///PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/index.html
 $dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/AppDatabase_Impl/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/-app-database_-impl.html
 $dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/alarmDao/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/alarm-dao.html
+$dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/categoryDao/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/category-dao.html
 $dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/clearAllTables/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[android-release]-app-database_-impl/clear-all-tables.html
 $dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/createAutoMigrations/#kotlin.collections.Map[kotlin.reflect.KClass[androidx.room.migration.AutoMigrationSpec],androidx.room.migration.AutoMigrationSpec]/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/create-auto-migrations.html
 $dokka.location:com.segnities007.yatte.data.core.database/AppDatabase_Impl/getRequiredAutoMigrationSpecClasses/#/PointingToDeclaration/core/com.segnities007.yatte.data.core.database/[jvm]-app-database_-impl/get-required-auto-migration-spec-classes.html
@@ -68,7 +77,9 @@ com.segnities007.yatte.presentation.feature.task.component
 com.segnities007.yatte.presentation.feature.task.di
 module:core
 com.segnities007.yatte.presentation.core.component
+com.segnities007.yatte.presentation.core.file
 com.segnities007.yatte.presentation.core.platform
+com.segnities007.yatte.presentation.core.sound
 com.segnities007.yatte.presentation.core.theme
 yatte.presentation.core.generated.resources
 module:di
