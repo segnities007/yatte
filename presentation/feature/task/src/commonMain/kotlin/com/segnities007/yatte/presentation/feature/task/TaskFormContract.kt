@@ -1,5 +1,7 @@
 package com.segnities007.yatte.presentation.feature.task
 
+import com.segnities007.yatte.domain.aggregate.category.model.Category
+import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
@@ -17,6 +19,10 @@ data class TaskFormState(
     val error: String? = null,
     val isEditMode: Boolean = false,
     val editingTaskId: String? = null,
+    val soundUri: String? = null,
+    val soundName: String? = null,
+    val categoryId: CategoryId? = null,
+    val categories: List<Category> = emptyList(),
 )
 
 /**
@@ -28,6 +34,8 @@ sealed interface TaskFormIntent {
     data class UpdateMinutesBefore(val minutes: Int) : TaskFormIntent
     data class UpdateTaskType(val type: TaskType) : TaskFormIntent
     data class ToggleWeekDay(val day: DayOfWeek) : TaskFormIntent
+    data class UpdateSoundUri(val uri: String?) : TaskFormIntent
+    data class UpdateCategory(val categoryId: CategoryId?) : TaskFormIntent
     data object SaveTask : TaskFormIntent
     data object DeleteTask : TaskFormIntent
     data object Cancel : TaskFormIntent
@@ -42,3 +50,4 @@ sealed interface TaskFormEvent {
     data object Cancelled : TaskFormEvent
     data class ShowError(val message: String) : TaskFormEvent
 }
+

@@ -37,5 +37,11 @@ data class TaskEntity(
 
     @ColumnInfo(name = "skip_until")
     val skipUntil: Long?,
+
+    @ColumnInfo(name = "sound_uri")
+    val soundUri: String?,
+
+    @ColumnInfo(name = "category_id")
+    val categoryId: String?,
 )
 

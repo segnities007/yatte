@@ -7,6 +7,7 @@ import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
 import com.segnities007.yatte.domain.aggregate.history.usecase.AddHistoryUseCase
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.usecase.CompleteTaskUseCase
+import com.segnities007.yatte.domain.aggregate.task.usecase.UncompleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetAllTasksUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.SkipTaskUseCase
 import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
@@ -34,6 +35,7 @@ import kotlin.uuid.Uuid
 class HomeViewModel(
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val completeTaskUseCase: CompleteTaskUseCase,
+    private val uncompleteTaskUseCase: UncompleteTaskUseCase,
     private val skipTaskUseCase: SkipTaskUseCase,
     private val addHistoryUseCase: AddHistoryUseCase,
     private val cancelAlarmUseCase: CancelAlarmUseCase,
@@ -58,6 +60,7 @@ class HomeViewModel(
             is HomeIntent.LoadTasks -> loadTasks()
             is HomeIntent.SelectDate -> selectDate(intent.date)
             is HomeIntent.CompleteTask -> completeTask(intent.task, intent.date)
+            is HomeIntent.UndoCompleteTask -> uncompleteTask(intent.task, intent.date)
             is HomeIntent.SkipTask -> skipTask(intent.task, intent.until)
             is HomeIntent.NavigateToAddTask -> sendEvent(HomeEvent.NavigateToAddTask)
             is HomeIntent.NavigateToHistory -> sendEvent(HomeEvent.NavigateToHistory)
@@ -104,8 +107,18 @@ class HomeViewModel(
                         completedAt = now,
                     )
                     addHistoryUseCase(history)
-                    sendEvent(HomeEvent.ShowTaskCompleted(completedTask.title))
+                    sendEvent(HomeEvent.ShowTaskCompleted(task, date))
                 }
+                .onFailure { error ->
+                    val message = error.message ?: getString(HomeRes.string.error_task_complete_failed)
+                    sendEvent(HomeEvent.ShowError(message))
+                }
+        }
+    }
+
+    private fun uncompleteTask(task: Task, date: LocalDate) {
+        viewModelScope.launch {
+            uncompleteTaskUseCase(task.id, date)
                 .onFailure { error ->
                     val message = error.message ?: getString(HomeRes.string.error_task_complete_failed)
                     sendEvent(HomeEvent.ShowError(message))

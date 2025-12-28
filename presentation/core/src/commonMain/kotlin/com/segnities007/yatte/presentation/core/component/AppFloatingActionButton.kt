@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.core.generated.resources.*
 
@@ -36,6 +37,7 @@ fun AppFloatingActionButton(
         ) {
             FloatingActionButton(
                 onClick = onClick,
+                modifier = Modifier.bounceClick(),
             ) {
                 Icon(
                     Icons.Default.Add,
@@ -45,3 +47,4 @@ fun AppFloatingActionButton(
         }
     }
 }
+

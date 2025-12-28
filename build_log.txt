@@ -1,0 +1,79 @@
+Reusing configuration cache.
+> Task :data:core:preBuild UP-TO-DATE
+> Task :data:core:preDebugBuild UP-TO-DATE
+> Task :domain:core:jvmProcessResources NO-SOURCE
+> Task :domain:core:kmpPartiallyResolvedDependenciesChecker
+> Task :data:core:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:core:processJvmMainResources SKIPPED
+> Task :domain:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:core:generateDebugResValues UP-TO-DATE
+> Task :data:core:generateDebugResources UP-TO-DATE
+> Task :data:core:packageDebugResources UP-TO-DATE
+> Task :domain:core:compileKotlinJvm UP-TO-DATE
+> Task :data:core:parseDebugLocalResources UP-TO-DATE
+> Task :domain:core:compileJvmMainJava NO-SOURCE
+> Task :domain:core:jvmMainClasses UP-TO-DATE
+> Task :data:core:generateDebugRFile UP-TO-DATE
+> Task :domain:core:jvmJar UP-TO-DATE
+> Task :data:core:kspDebugKotlinAndroid UP-TO-DATE
+> Task :data:core:copyRoomSchemas NO-SOURCE
+
+> Task :data:core:compileDebugKotlinAndroid FAILED
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:11:5 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:11:14 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:11:16 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:12:9 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:12:19 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:12:26 Syntax error: Name expected.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:13:9 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:13:22 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:13:29 Syntax error: Name expected.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:14:9 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:14:20 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:14:27 Syntax error: Name expected.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:15:5 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:15:6 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:5 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:13 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:15 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:16 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:17:5 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:17:20 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:17:22 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:9 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:22 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:23 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:28 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:30 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:31 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:33 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:36 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:38 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:39 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:40 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:19:5 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:19:6 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:5 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:18 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:20 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:24 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:21:1 Syntax error: Expecting a top level declaration.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:24:29 Unresolved reference 'TaskDao'.
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':data:core:compileDebugKotlinAndroid'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 859ms
+11 actionable tasks: 3 executed, 8 up-to-date
+Configuration cache entry reused.

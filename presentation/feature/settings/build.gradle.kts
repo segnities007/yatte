@@ -32,6 +32,7 @@ kotlin {
             implementation(projects.presentation.designsystem)
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.settings)
+            implementation(projects.domain.aggregate.history)
             implementation(projects.di)
         }
 

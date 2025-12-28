@@ -34,6 +34,7 @@ kotlin {
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.alarm)
             implementation(projects.domain.aggregate.task)
+            implementation(projects.domain.aggregate.category)
             implementation(projects.di)
         }
 

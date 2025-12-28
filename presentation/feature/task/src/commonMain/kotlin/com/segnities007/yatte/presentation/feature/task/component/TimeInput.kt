@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.component.YatteTextField
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.task.generated.resources.*
@@ -26,9 +26,9 @@ fun TimeInput(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
     ) {
-        OutlinedTextField(
+        YatteTextField(
             value = time.hour.toString().padStart(2, '0'),
             onValueChange = { input ->
                 val hour = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
@@ -36,16 +36,16 @@ fun TimeInput(
                     onTimeChange(LocalTime(hour, time.minute))
                 }
             },
-            label = { Text(stringResource(TaskRes.string.label_hour)) },
+            label = stringResource(TaskRes.string.label_hour),
             modifier = Modifier.weight(1f),
             singleLine = true,
         )
         Text(
             text = ":",
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(top = 16.dp),
+            modifier = Modifier.padding(top = YatteSpacing.md),
         )
-        OutlinedTextField(
+        YatteTextField(
             value = time.minute.toString().padStart(2, '0'),
             onValueChange = { input ->
                 val minute = input.filter { it.isDigit() }.take(2).toIntOrNull() ?: 0
@@ -53,9 +53,10 @@ fun TimeInput(
                     onTimeChange(LocalTime(time.hour, minute))
                 }
             },
-            label = { Text(stringResource(TaskRes.string.label_minute)) },
+            label = stringResource(TaskRes.string.label_minute),
             modifier = Modifier.weight(1f),
             singleLine = true,
         )
     }
 }
+

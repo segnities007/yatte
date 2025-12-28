@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
  * 設定セクションカード
@@ -34,13 +35,13 @@ fun SettingsSectionCard(
 ) {
     ElevatedCard(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(YatteSpacing.md),
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(YatteSpacing.md),
         ) {
             // セクションヘッダー
             Row(
@@ -49,10 +50,10 @@ fun SettingsSectionCard(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(YatteSpacing.lg),
                     tint = MaterialTheme.colorScheme.primary,
                 )
-                Spacer(modifier = Modifier.width(12.dp))
+                Spacer(modifier = Modifier.width(YatteSpacing.sm))
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
@@ -60,10 +61,11 @@ fun SettingsSectionCard(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(YatteSpacing.md))
 
             // コンテンツ
             content()
         }
     }
 }
+

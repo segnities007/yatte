@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.segnities007.yatte.presentation.core.component.AppBottomBar
 import com.segnities007.yatte.presentation.core.component.AppFloatingActionButton
+import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
+import com.segnities007.yatte.presentation.core.component.HeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalHeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.core.component.NavItem
 import com.segnities007.yatte.presentation.feature.history.HistoryRoute
 import com.segnities007.yatte.presentation.feature.history.historyScreen
@@ -47,6 +52,7 @@ import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
  * アプリのメインナビゲーションホスト。
  *
  * 仕様:
+ * - Global Header: 各画面ではなくAppNavHostレベルでHeaderを管理し、画面遷移時の違和感を解消
  * - Overlay Navigation: ScaffoldのbottomBarを使用せず、Boxでコンテンツの上にFNBを配置
  * - FNB Floating Effect: 下部に余白を設け、背景を透過させて浮遊感を演出
  * - Header Fix: ScaffoldのcontentWindowInsetsを0にし、各画面での二重適用を防ぐ
@@ -63,7 +69,18 @@ fun AppNavHost(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val actions = remember(navController) { AppNavigationActions(navController) }
+    // スクロールによる表示制御（actionsより前に宣言）
+    var isFnbVisible by remember { mutableStateOf(true) }
+
+    // グローバルHeader設定
+    var headerConfig by remember { mutableStateOf(HeaderConfig()) }
+
+    val actions = remember(navController) { 
+        AppNavigationActions(
+            navController = navController,
+            resetNavigationVisibility = { isFnbVisible = true },
+        ) 
+    }
 
     // ナビゲーションバーを表示するかどうか
     showNavBar = when {
@@ -77,8 +94,6 @@ fun AppNavHost(
         else -> NavItem.HOME
     }
 
-    // スクロールによる表示制御
-    var isFnbVisible by remember { mutableStateOf(true) }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
@@ -102,56 +117,74 @@ fun AppNavHost(
     // タスクフォーム画面ではBottomBarを非表示
     val isBottomBarVisible = showNavBar && isFnbVisible && !isTaskFormScreen
 
+    // ヘッダーの表示状態（タスクフォーム画面では常に表示、それ以外はスクロール連動）
+    val isHeaderVisible = if (isTaskFormScreen) true else isFnbVisible
+
     val showFab = currentNavItem == NavItem.HOME && isBottomBarVisible && !isTaskFormScreen
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            modifier = modifier
-                .fillMaxSize()
-                .nestedScroll(nestedScrollConnection),
-            contentWindowInsets = WindowInsets(0),
-            // SnackbarHost は Box overlay に移動してFNBの上に配置
-        ) { contentPadding ->
-            NavHost(
-                navController = navController,
-                startDestination = HomeRoute,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                homeScreen(
-                    actions = actions.homeActions,
-                    contentPadding = contentPadding,
-                    isNavigationVisible = isBottomBarVisible,
-                    onShowSnackbar = onShowSnackbar,
-                )
+        CompositionLocalProvider(
+            LocalHeaderConfig provides headerConfig,
+            LocalSetHeaderConfig provides { config -> headerConfig = config },
+        ) {
+            Scaffold(
+                modifier = modifier
+                    .fillMaxSize()
+                    .nestedScroll(nestedScrollConnection),
+                contentWindowInsets = WindowInsets(0),
+                // SnackbarHost は Box overlay に移動してFNBの上に配置
+            ) { contentPadding ->
+                NavHost(
+                    navController = navController,
+                    startDestination = HomeRoute,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    homeScreen(
+                        actions = actions.homeActions,
+                        contentPadding = contentPadding,
+                        isNavigationVisible = isBottomBarVisible,
+                        snackbarHostState = snackbarHostState,
+                        onShowSnackbar = onShowSnackbar,
+                    )
 
-                taskManagementScreen(
-                    actions = actions.taskManagementActions,
-                    contentPadding = contentPadding,
-                    isNavigationVisible = isBottomBarVisible,
-                    onShowSnackbar = onShowSnackbar,
-                )
+                    taskManagementScreen(
+                        actions = actions.taskManagementActions,
+                        contentPadding = contentPadding,
+                        isNavigationVisible = isBottomBarVisible,
+                        onShowSnackbar = onShowSnackbar,
+                    )
 
-                taskScreens(
-                    actions = actions.taskActions,
-                    isNavigationVisible = isFnbVisible,
-                    onShowSnackbar = onShowSnackbar,
-                )
+                    taskScreens(
+                        actions = actions.taskActions,
+                        isNavigationVisible = true, // タスクフォーム画面ではHeaderを常に表示
+                        onShowSnackbar = onShowSnackbar,
+                    )
 
-                historyScreen(
-                    actions = actions.historyActions,
-                    contentPadding = contentPadding,
-                    isNavigationVisible = isBottomBarVisible,
-                    onShowSnackbar = onShowSnackbar,
-                )
+                    historyScreen(
+                        actions = actions.historyActions,
+                        contentPadding = contentPadding,
+                        isNavigationVisible = isBottomBarVisible,
+                        onShowSnackbar = onShowSnackbar,
+                    )
 
-                settingsScreen(
-                    actions = actions.settingsActions,
-                    contentPadding = contentPadding,
-                    isNavigationVisible = isBottomBarVisible,
-                    onShowSnackbar = onShowSnackbar,
-                )
+                    settingsScreen(
+                        actions = actions.settingsActions,
+                        contentPadding = contentPadding,
+                        isNavigationVisible = isBottomBarVisible,
+                        onShowSnackbar = onShowSnackbar,
+                    )
+                }
             }
         }
+
+        // Global Header Overlay
+        FloatingHeaderBar(
+            isVisible = isHeaderVisible,
+            title = headerConfig.title,
+            navigationIcon = headerConfig.navigationIcon,
+            actions = headerConfig.actions,
+            modifier = Modifier.align(Alignment.TopCenter),
+        )
 
         // FNB Overlay
         AppBottomBar(
@@ -200,3 +233,4 @@ fun AppNavHost(
         ConfettiHost()
     }
 }
+

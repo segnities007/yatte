@@ -7,6 +7,13 @@
     <string name="notification_vibration_title">バイブレーション</string>
     <string name="notification_vibration_desc">タスク通知時に振動する</string>
     <string name="default_minutes_before">デフォルト通知時間: %1$d分前</string>
+    <string name="snooze_duration_title">スヌーズ時間: %1$d分</string>
+    <string name="vibration_pattern_title">振動パターン</string>
+    <string name="vibration_pattern_normal">普通</string>
+    <string name="vibration_pattern_short">短い</string>
+    <string name="vibration_pattern_long">長い</string>
+    <string name="vibration_pattern_sos">SOS</string>
+    <string name="vibration_pattern_heartbeat">鼓動</string>
 
     <string name="section_appearance">外観</string>
     <string name="theme_title">テーマ</string>

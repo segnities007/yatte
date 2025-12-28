@@ -2,6 +2,8 @@ package com.segnities007.yatte.presentation.feature.task
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
+import com.segnities007.yatte.domain.aggregate.category.usecase.GetAllCategoriesUseCase
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
@@ -38,6 +40,7 @@ import yatte.presentation.core.generated.resources.Res as CoreRes
 import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 import kotlin.uuid.Uuid
+import com.segnities007.yatte.presentation.core.sound.RingtoneUtils
 
 class TaskFormViewModel(
     private val createTaskUseCase: CreateTaskUseCase,
@@ -46,7 +49,12 @@ class TaskFormViewModel(
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val scheduleAlarmUseCase: ScheduleAlarmUseCase,
     private val cancelAlarmUseCase: CancelAlarmUseCase,
+    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
 ) : ViewModel() {
+
+    init {
+        loadCategories()
+    }
 
     private val _state = MutableStateFlow(TaskFormState())
     val state: StateFlow<TaskFormState> = _state.asStateFlow()
@@ -70,6 +78,9 @@ class TaskFormViewModel(
                                 isLoading = false,
                                 isEditMode = true,
                                 editingTaskId = taskId,
+                                soundUri = task.soundUri,
+                                soundName = task.soundUri?.let { uri -> RingtoneUtils.getRingtoneTitle(uri) },
+                                categoryId = task.categoryId,
                             )
                         }
                     } else {
@@ -92,10 +103,24 @@ class TaskFormViewModel(
             is TaskFormIntent.UpdateMinutesBefore -> updateMinutesBefore(intent.minutes)
             is TaskFormIntent.UpdateTaskType -> updateTaskType(intent.type)
             is TaskFormIntent.ToggleWeekDay -> toggleWeekDay(intent.day)
+            is TaskFormIntent.UpdateSoundUri -> updateSoundUri(intent.uri)
+            is TaskFormIntent.UpdateCategory -> updateCategory(intent.categoryId)
             is TaskFormIntent.SaveTask -> saveTask()
             is TaskFormIntent.DeleteTask -> deleteTask()
             is TaskFormIntent.Cancel -> sendEvent(TaskFormEvent.Cancelled)
         }
+    }
+
+    private fun loadCategories() {
+        viewModelScope.launch {
+            getAllCategoriesUseCase().collect { categories ->
+                _state.update { it.copy(categories = categories) }
+            }
+        }
+    }
+
+    private fun updateCategory(categoryId: CategoryId?) {
+        _state.update { it.copy(categoryId = categoryId) }
     }
 
     private fun updateTitle(title: String) {
@@ -153,6 +178,7 @@ class TaskFormViewModel(
             val task = Task(
                 id = TaskId(currentState.editingTaskId ?: Uuid.random().toString()),
                 title = currentState.title,
+                categoryId = currentState.categoryId,
                 time = currentState.time,
                 minutesBefore = currentState.minutesBefore,
                 taskType = currentState.taskType,
@@ -161,6 +187,7 @@ class TaskFormViewModel(
                 createdAt = now,
                 alarmTriggeredAt = null,
                 skipUntil = null,
+                soundUri = currentState.soundUri,
             )
 
             // 編集時は既存アラームをキャンセルしてから再スケジュール
@@ -175,7 +202,8 @@ class TaskFormViewModel(
             result
                 .onSuccess {
                     // タスク保存に成功したらアラームをスケジュール
-                    buildAlarm(task, now)?.let { alarm ->
+                    val alarm = buildAlarm(task, now)
+                    if (alarm != null) {
                         scheduleAlarmUseCase(alarm)
                     }
                     _state.update { it.copy(isLoading = false) }
@@ -224,18 +252,41 @@ class TaskFormViewModel(
 
     private fun buildAlarm(task: Task, now: LocalDateTime): Alarm? {
         val scheduledAt = when (task.taskType) {
-            TaskType.ONE_TIME -> LocalDateTime(task.createdAt.date, task.time)
+            TaskType.ONE_TIME -> {
+                val candidate = LocalDateTime(task.createdAt.date, task.time)
+                // 現在時刻より前なら翌日に設定
+                if (candidate <= now) {
+                    val nextDay = candidate.date.plus(DatePeriod(days = 1))
+                    LocalDateTime(nextDay, task.time)
+                } else {
+                    candidate
+                }
+            }
             TaskType.WEEKLY_LOOP -> nextOccurrence(now, task.time, task.weekDays)
         }
 
         val notifyAt = subtractMinutes(scheduledAt, task.minutesBefore)
 
+        // 通知時間がそれでも過去になる場合は、さらに調整が必要かもしれないが、
+        // いったんスケジュール時刻基準で翌日に回すロジックで対応する。
+        // もし notifyAt < now になるなら、それは「今すぐ通知」すべきか「諦める」べきかだが、
+        // AndroidAlarmSchedulerは過去の時間を渡されると即時発火する可能性がある。
+        
+        // 念のため notifyAt が過去すぎる（例えば1分以上前）場合はアラームを作らない手もあるが、
+        // ユーザーが「今すぐ確認したい」ケースもあるので、そのまま渡す。
+        
         return Alarm(
             id = AlarmId.generate(),
             taskId = task.id,
             scheduledAt = scheduledAt,
             notifyAt = notifyAt,
+            soundUri = task.soundUri,
         )
+    }
+
+    private fun updateSoundUri(uri: String?) {
+        val name = uri?.let { RingtoneUtils.getRingtoneTitle(it) }
+        _state.update { it.copy(soundUri = uri, soundName = name) }
     }
 
     private fun subtractMinutes(dateTime: LocalDateTime, minutesBefore: Int): LocalDateTime {

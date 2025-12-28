@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.presentation.designsystem.component.YatteCard
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiManager
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.home.generated.resources.*
@@ -170,7 +171,7 @@ private fun TaskCardContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(YatteSpacing.md),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -180,7 +181,7 @@ private fun TaskCardContent(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(YatteSpacing.xxs))
                 Text(
                     text = "${task.time.hour}:${task.time.minute.toString().padStart(2, '0')}",
                     style = MaterialTheme.typography.bodyMedium,
@@ -214,3 +215,4 @@ private fun TaskCardContent(
         }
     }
 }
+

@@ -67,7 +67,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 if (intent.action == AlarmConstants.ACTION_ALARM_EXTEND) {
                     val taskIdStr = getTaskIdFromIntent(intent) ?: return@launch
                     val taskId = TaskId(taskIdStr)
-                    handleExtendAction(taskId, scheduleAlarmUseCase, context)
+                    handleExtendAction(taskId, scheduleAlarmUseCase, getSettingsUseCase, context)
                 } else if (intent.action == AlarmConstants.ACTION_ALARM_COMPLETE) {
                     val taskIdStr = getTaskIdFromIntent(intent) ?: return@launch
                     val taskId = TaskId(taskIdStr)
@@ -95,14 +95,18 @@ class AlarmReceiver : BroadcastReceiver() {
     private suspend fun handleExtendAction(
         taskId: TaskId,
         scheduleAlarmUseCase: ScheduleAlarmUseCase,
+        getSettingsUseCase: GetSettingsUseCase,
         context: Context,
     ) {
+        val settings = getSettingsUseCase().first()
+        val snoozeDuration = settings.snoozeDuration
+
         // Cancel notification
         androidx.core.app.NotificationManagerCompat
             .from(context)
             .cancelAll()
 
-        // Reschedule 10 mins later
+        // Reschedule snoozeDuration mins later
         val newAlarm =
             Alarm(
                 id =
@@ -113,14 +117,14 @@ class AlarmReceiver : BroadcastReceiver() {
                     currentLocalDateTime()
                         .toInstant(
                             TimeZone.currentSystemDefault(),
-                        ).plus(10.minutes)
+                        ).plus(snoozeDuration.minutes)
                         .toLocalDateTime(TimeZone.currentSystemDefault()),
                 // Schedule time isn't strictly used for one-off but for reference
                 notifyAt =
                     currentLocalDateTime()
                         .toInstant(
                             TimeZone.currentSystemDefault(),
-                        ).plus(10.minutes)
+                        ).plus(snoozeDuration.minutes)
                         .toLocalDateTime(TimeZone.currentSystemDefault()),
             )
         scheduleAlarmUseCase(newAlarm)
@@ -160,8 +164,10 @@ class AlarmReceiver : BroadcastReceiver() {
         val title = task?.title ?: taskId.value
 
         // 設定取得
+        // 設定取得
         val settings = getSettingsUseCase().first()
-        val soundUri = settings.customSoundUri
+        // アラーム固有の音があればそれを使用、なければ設定のカスタム音、それもなければnull（デフォルト）
+        val soundUri = alarm.soundUri ?: settings.customSoundUri
         val isSoundEnabled = settings.notificationSound
         val isVibrationEnabled = settings.notificationVibration
 
@@ -172,6 +178,8 @@ class AlarmReceiver : BroadcastReceiver() {
             soundUri = soundUri,
             isSoundEnabled = isSoundEnabled,
             isVibrationEnabled = isVibrationEnabled,
+            snoozeDuration = settings.snoozeDuration,
+            vibrationPattern = settings.vibrationPattern,
             alarmId = alarmId.value,
             taskId = taskId.value,
         )

@@ -21,9 +21,13 @@ import kotlinx.datetime.toInstant
  * @property alarmTriggeredAt アラームが発火した日時（nullの場合は未発火）
  * @property skipUntil この日付までスキップ（週次タスク用、nullの場合はスキップなし）
  */
+import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
+
 data class Task(
     val id: TaskId,
     val title: String,
+    val description: String = "",
+    val categoryId: CategoryId? = null,
     val time: LocalTime,
     val minutesBefore: Int = 10,
     val taskType: TaskType = TaskType.ONE_TIME,
@@ -32,6 +36,7 @@ data class Task(
     val createdAt: LocalDateTime,
     val alarmTriggeredAt: LocalDateTime? = null,
     val skipUntil: LocalDate? = null,
+    val soundUri: String? = null,
 ) {
     init {
         require(title.isNotBlank()) { "タイトルは必須です" }

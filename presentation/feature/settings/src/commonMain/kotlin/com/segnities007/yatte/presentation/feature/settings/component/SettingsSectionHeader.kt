@@ -5,7 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
  * 設定セクションヘッダー
@@ -18,7 +18,8 @@ fun SettingsSectionHeader(
     Text(
         text = title,
         style = MaterialTheme.typography.titleSmall,
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier.padding(horizontal = YatteSpacing.md, vertical = YatteSpacing.xs),
         color = MaterialTheme.colorScheme.primary,
     )
 }
+

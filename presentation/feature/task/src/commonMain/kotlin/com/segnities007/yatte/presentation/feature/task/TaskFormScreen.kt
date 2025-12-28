@@ -18,23 +18,24 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Keyboard
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,9 +49,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.HeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.core.component.YatteScaffold
+import com.segnities007.yatte.presentation.feature.task.component.FormSectionCard
 
 import kotlinx.datetime.DayOfWeek
 import org.koin.compose.viewmodel.koinViewModel
@@ -61,7 +63,12 @@ import yatte.presentation.core.generated.resources.Res as CoreRes
 import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.YatteTextField
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.feature.task.component.TaskTimePickerSheet
+import com.segnities007.yatte.presentation.core.component.SoundPicker
+import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -97,195 +104,273 @@ internal fun TaskFormScreen(
         }
     }
 
-    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    // グローバルHeaderの設定（SideEffectで即座に更新）
+    val setHeaderConfig = LocalSetHeaderConfig.current
+    val isEditMode = state.isEditMode
+    val titleAddTask = stringResource(TaskRes.string.title_add_task)
+    val titleEditTask = stringResource(TaskRes.string.title_edit_task)
+    val backDesc = stringResource(CoreRes.string.common_back)
+    val deleteDesc = stringResource(CoreRes.string.common_delete)
+    val saveDesc = stringResource(CoreRes.string.common_save)
+    
+    val headerConfig = remember(isEditMode) {
+        HeaderConfig(
+            title = {
+                Text(if (isEditMode) titleEditTask else titleAddTask)
+            },
+            navigationIcon = {
+                YatteIconButton(
+                    onClick = { viewModel.onIntent(TaskFormIntent.Cancel) },
+                    icon = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = backDesc,
+                )
+            },
+            actions = {
+                if (isEditMode) {
+                    YatteIconButton(
+                        onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) },
+                        icon = Icons.Default.Delete,
+                        contentDescription = deleteDesc,
+                    )
+                }
+                YatteIconButton(
+                    onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) },
+                    icon = Icons.Default.Check,
+                    contentDescription = saveDesc,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            },
+        )
+    }
+    
+    SideEffect {
+        setHeaderConfig(headerConfig)
+    }
+
+    // YatteScaffold を使用（Headerはグローバルなので省略）
     // TaskFormScreen は BottomNavigation が非表示のため contentPadding = 0
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = PaddingValues(0.dp),
-        header = { isVisible ->
-            FloatingHeaderBar(
-                isVisible = isVisible,
-                title = {
-                    Text(
-                        if (state.isEditMode) {
-                            stringResource(TaskRes.string.title_edit_task)
-                        } else {
-                            stringResource(TaskRes.string.title_add_task)
-                        }
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { viewModel.onIntent(TaskFormIntent.Cancel) },
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(CoreRes.string.common_back),
-                        )
-                    }
-                },
-                actions = {
-                    if (state.isEditMode) {
-                        IconButton(
-                            onClick = { viewModel.onIntent(TaskFormIntent.DeleteTask) },
-                            modifier = Modifier.bounceClick()
-                        ) {
-                            Icon(
-                                Icons.Default.Delete,
-                                contentDescription = stringResource(CoreRes.string.common_delete),
-                            )
-                        }
-                    }
-                    IconButton(
-                        onClick = { viewModel.onIntent(TaskFormIntent.SaveTask) },
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            Icons.Default.Check,
-                            contentDescription = stringResource(CoreRes.string.common_save),
-                        )
-                    }
-                },
-                modifier = Modifier.align(Alignment.TopCenter)
-            )
-        }
     ) { listContentPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(
                     top = listContentPadding.calculateTopPadding(),
-                    start = 16.dp,
-                    end = 16.dp,
-                )
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                    bottom = listContentPadding.calculateBottomPadding(),
+                    start = YatteSpacing.md,
+                    end = YatteSpacing.md,
+                ),
+            verticalArrangement = Arrangement.spacedBy(YatteSpacing.md),
         ) {
-            // タイトル
-            OutlinedTextField(
-                value = state.title,
-                onValueChange = { viewModel.onIntent(TaskFormIntent.UpdateTitle(it)) },
-                label = { Text(stringResource(TaskRes.string.field_task_name)) },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-            )
+            Spacer(modifier = Modifier.height(YatteSpacing.xs))
 
-            // 時間指定
-            Text(
-                text = stringResource(TaskRes.string.label_execute_time),
-                style = MaterialTheme.typography.labelLarge,
-            )
-            var showTimeSheet by remember { mutableStateOf(false) }
-
-            // Time Display Button (Triggers Sheet)
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .bounceClick()
-                    .clickable { showTimeSheet = true }
+            // 基本情報セクション
+            FormSectionCard(
+                title = "基本情報", // TODO: Resource strings if needed, using hardcoded for now to match user prompt "Basic Info" intent
+                icon = androidx.compose.material.icons.Icons.Default.Edit
             ) {
-                Surface(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(vertical = 16.dp)
-                    ) {
-                        Text(
-                            text = "${state.time.hour.toString().padStart(2, '0')}:${
-                                state.time.minute.toString().padStart(2, '0')
-                            }",
-                            style = MaterialTheme.typography.displayMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                        Text(
-                            text = "タップして時間を変更",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
-                        )
-                    }
-                }
-            }
-
-            if (showTimeSheet) {
-                TaskTimePickerSheet(
-                    initialTime = state.time,
-                    onDismiss = { showTimeSheet = false },
-                    onConfirm = { newTime ->
-                        viewModel.onIntent(TaskFormIntent.UpdateTime(newTime))
-                        showTimeSheet = false
-                    }
+                // タイトル
+                YatteTextField(
+                    value = state.title,
+                    onValueChange = { viewModel.onIntent(TaskFormIntent.UpdateTitle(it)) },
+                    label = stringResource(TaskRes.string.field_task_name),
+                    singleLine = true,
                 )
-            }
 
-            // タスクタイプ
-            Text(
-                text = stringResource(TaskRes.string.label_task_type),
-                style = MaterialTheme.typography.labelLarge,
-            )
-            SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                TaskType.entries.forEachIndexed { index, type ->
-                    SegmentedButton(
-                        selected = state.taskType == type,
-                        onClick = { viewModel.onIntent(TaskFormIntent.UpdateTaskType(type)) },
-                        shape = SegmentedButtonDefaults.itemShape(
-                            index = index,
-                            count = TaskType.entries.size,
-                        ),
-                        modifier = Modifier.bounceClick()
+                Spacer(modifier = Modifier.height(YatteSpacing.md))
+
+                // カテゴリ選択
+                if (state.categories.isNotEmpty()) {
+                    Text(
+                        text = "カテゴリ",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(YatteSpacing.xs))
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
+                        verticalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
                     ) {
-                        Text(
-                            if (type == TaskType.ONE_TIME) {
-                                stringResource(TaskRes.string.task_type_one_time)
-                            } else {
-                                stringResource(TaskRes.string.task_type_weekly)
-                            }
-                        )
-                    }
-                }
-            }
-
-            // 週次の場合: 曜日選択
-            if (state.taskType == TaskType.WEEKLY_LOOP) {
-                Text(
-                    text = stringResource(TaskRes.string.label_repeat_weekdays),
-                    style = MaterialTheme.typography.labelLarge,
-                )
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    DayOfWeek.entries.forEach { day ->
+                        // "なし" オプション
                         FilterChip(
-                            selected = day in state.selectedWeekDays,
-                            onClick = { viewModel.onIntent(TaskFormIntent.ToggleWeekDay(day)) },
-                            label = { Text(day.toDisplayString()) },
-                            modifier = Modifier.bounceClick()
+                            selected = state.categoryId == null,
+                            onClick = { viewModel.onIntent(TaskFormIntent.UpdateCategory(null)) },
+                            label = { Text("なし") },
+                            modifier = Modifier.bounceClick(),
                         )
+                        // カテゴリチップ
+                        state.categories.forEach { category ->
+                            FilterChip(
+                                selected = state.categoryId == category.id,
+                                onClick = { viewModel.onIntent(TaskFormIntent.UpdateCategory(category.id)) },
+                                label = { Text(category.name) },
+                                modifier = Modifier.bounceClick(),
+                            )
+                        }
                     }
                 }
             }
 
-            // 通知時間（何分前）
-            Text(
-                text = stringResource(TaskRes.string.notification_minutes_before, state.minutesBefore),
-                style = MaterialTheme.typography.labelLarge,
-            )
-            Slider(
-                value = state.minutesBefore.toFloat(),
-                onValueChange = { viewModel.onIntent(TaskFormIntent.UpdateMinutesBefore(it.toInt())) },
-                valueRange = 0f..60f,
-                steps = 11,
-            )
+            // スケジュールセクション
+            FormSectionCard(
+                title = "スケジュール",
+                icon = Icons.Default.Schedule
+            ) {
+                Text(
+                     text = stringResource(TaskRes.string.label_execute_time),
+                     style = MaterialTheme.typography.labelMedium,
+                     color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(YatteSpacing.xs))
 
-            Spacer(modifier = Modifier.height(32.dp))
+                var showTimeSheet by remember { mutableStateOf(false) }
+
+                // Time Display Button (Triggers Sheet)
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(YatteSpacing.md))
+                        .bounceClick(onTap = { showTimeSheet = true })
+                ) {
+                    Surface(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        shape = RoundedCornerShape(YatteSpacing.md),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(vertical = YatteSpacing.md)
+                        ) {
+                            Text(
+                                text = "${state.time.hour.toString().padStart(2, '0')}:${
+                                    state.time.minute.toString().padStart(2, '0')
+                                }",
+                                style = MaterialTheme.typography.displayMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                            Text(
+                                text = "タップして時間を変更",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                            )
+                        }
+                    }
+                }
+
+                if (showTimeSheet) {
+                    TaskTimePickerSheet(
+                        initialTime = state.time,
+                        onDismiss = { showTimeSheet = false },
+                        onConfirm = { newTime ->
+                            viewModel.onIntent(TaskFormIntent.UpdateTime(newTime))
+                            showTimeSheet = false
+                        }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(YatteSpacing.md))
+
+                // タスクタイプ
+                Text(
+                    text = stringResource(TaskRes.string.label_task_type),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(modifier = Modifier.height(YatteSpacing.xs))
+                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                    TaskType.entries.forEachIndexed { index, type ->
+                        SegmentedButton(
+                            selected = state.taskType == type,
+                            onClick = { viewModel.onIntent(TaskFormIntent.UpdateTaskType(type)) },
+                            shape = SegmentedButtonDefaults.itemShape(
+                                index = index,
+                                count = TaskType.entries.size,
+                            ),
+                            modifier = Modifier.bounceClick()
+                        ) {
+                            Text(
+                                if (type == TaskType.ONE_TIME) {
+                                    stringResource(TaskRes.string.task_type_one_time)
+                                } else {
+                                    stringResource(TaskRes.string.task_type_weekly)
+                                }
+                            )
+                        }
+                    }
+                }
+
+                // 週次の場合: 曜日選択
+                if (state.taskType == TaskType.WEEKLY_LOOP) {
+                    Spacer(modifier = Modifier.height(YatteSpacing.md))
+                    Text(
+                        text = stringResource(TaskRes.string.label_repeat_weekdays),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(YatteSpacing.xs))
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
+                        verticalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
+                    ) {
+                        DayOfWeek.entries.forEach { day ->
+                            FilterChip(
+                                selected = day in state.selectedWeekDays,
+                                onClick = { viewModel.onIntent(TaskFormIntent.ToggleWeekDay(day)) },
+                                label = { Text(day.toDisplayString()) },
+                                modifier = Modifier.bounceClick()
+                            )
+                        }
+                    }
+                }
+            }
+
+            // 通知設定セクション
+            FormSectionCard(
+                title = "通知設定",
+                icon = androidx.compose.material.icons.Icons.Default.Notifications
+            ) {
+                // 通知時間（何分前）
+                Text(
+                    text = stringResource(TaskRes.string.notification_minutes_before, state.minutesBefore),
+                    style = MaterialTheme.typography.labelMedium,
+                     color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Slider(
+                    value = state.minutesBefore.toFloat(),
+                    onValueChange = { viewModel.onIntent(TaskFormIntent.UpdateMinutesBefore(it.toInt())) },
+                    valueRange = 0f..60f,
+                    steps = 11,
+                )
+
+                Spacer(modifier = Modifier.height(YatteSpacing.md))
+
+                // アラーム音選択
+                val soundPickerLauncher = rememberSoundPickerLauncher(
+                    onResult = { uri ->
+                        if (uri != null) {
+                            viewModel.onIntent(TaskFormIntent.UpdateSoundUri(uri))
+                        }
+                    }
+                )
+                SoundPicker(
+                    currentSoundUri = state.soundUri,
+                    onSelectSound = { soundPickerLauncher.launch() },
+                    onClearSound = { viewModel.onIntent(TaskFormIntent.UpdateSoundUri(null)) },
+                    title = stringResource(TaskRes.string.label_notification_sound),
+                    selectedText = state.soundName ?: stringResource(TaskRes.string.sound_selected),
+                    defaultText = stringResource(TaskRes.string.sound_default),
+                    selectButtonText = stringResource(TaskRes.string.sound_select),
+                    clearContentDescription = stringResource(TaskRes.string.sound_clear),
+                )
+            }
+
+            Spacer(modifier = Modifier.height(YatteSpacing.xl))
         }
     }
 }

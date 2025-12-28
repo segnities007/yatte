@@ -14,15 +14,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBarDefaults
+import com.segnities007.yatte.presentation.core.component.HeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.core.component.YatteScaffold
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import org.jetbrains.compose.resources.stringResource
@@ -55,28 +57,36 @@ fun TaskManagementScreen(
         }
     }
 
-    // YatteScaffold を使用してスクロール連動表示制御を共通化
+    // グローバルHeaderの設定（SideEffectで即座に更新）
+    val setHeaderConfig = LocalSetHeaderConfig.current
+    val manageTitle = stringResource(CoreRes.string.nav_manage)
+    val addTaskDesc = stringResource(CoreRes.string.cd_add_task)
+    
+    val headerConfig = remember {
+        HeaderConfig(
+            title = { Text(manageTitle) },
+            actions = {
+                IconButton(
+                    onClick = actions.onAddTask,
+                    modifier = Modifier.bounceClick()
+                ) {
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = addTaskDesc,
+                    )
+                }
+            },
+        )
+    }
+    
+    SideEffect {
+        setHeaderConfig(headerConfig)
+    }
+
+    // YatteScaffold を使用（Headerはグローバルなので省略）
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = contentPadding,
-        header = { isVisible ->
-            FloatingHeaderBar(
-                title = { Text(stringResource(CoreRes.string.nav_manage)) },
-                isVisible = isVisible,
-                actions = {
-                    IconButton(
-                        onClick = actions.onAddTask,
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = stringResource(CoreRes.string.cd_add_task),
-                        )
-                    }
-                },
-                modifier = Modifier.align(Alignment.TopCenter),
-            )
-        }
     ) { listContentPadding ->
         TaskManagementList(
             tasks = state.tasks,

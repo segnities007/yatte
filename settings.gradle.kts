@@ -41,6 +41,7 @@ include(":domain:aggregate:task")
 include(":domain:aggregate:history")
 include(":domain:aggregate:alarm")
 include(":domain:aggregate:settings")
+include(":domain:aggregate:category")
 
 // Data Layer
 include(":data:core")
@@ -48,6 +49,7 @@ include(":data:aggregate:task")
 include(":data:aggregate:history")
 include(":data:aggregate:alarm")
 include(":data:aggregate:settings")
+include(":data:aggregate:category")
 
 // Presentation Layer
 include(":presentation:designsystem")
@@ -58,6 +60,7 @@ include(":presentation:feature:task")
 include(":presentation:feature:history")
 include(":presentation:feature:settings")
 include(":presentation:feature:management")
+include(":presentation:feature:category")
 
 // DI
 include(":di")

@@ -21,6 +21,7 @@
     <string name="empty_tasks_emoji">🎉</string>
 
     <string name="snackbar_task_completed">%1$s を完了しました</string>
+    <string name="snackbar_undo">元に戻す</string>
 
     <string name="error_task_complete_failed">タスク完了に失敗しました</string>
     <string name="error_skip_failed">スキップに失敗しました</string>

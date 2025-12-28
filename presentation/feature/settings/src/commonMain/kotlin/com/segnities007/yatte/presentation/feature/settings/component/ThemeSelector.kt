@@ -10,8 +10,9 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.settings.generated.resources.*
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
@@ -31,7 +32,7 @@ fun ThemeSelector(
             SingleChoiceSegmentedButtonRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
+                    .padding(top = YatteSpacing.xs),
             ) {
                 ThemeMode.entries.forEachIndexed { index, mode ->
                     SegmentedButton(
@@ -41,6 +42,7 @@ fun ThemeSelector(
                             index = index,
                             count = ThemeMode.entries.size,
                         ),
+                        modifier = Modifier.bounceClick(),
                     ) {
                         Text(mode.toDisplayString())
                     }
@@ -59,3 +61,4 @@ private fun ThemeMode.toDisplayString(): String = when (this) {
     ThemeMode.DARK -> stringResource(SettingsRes.string.theme_dark)
     ThemeMode.SYSTEM -> stringResource(SettingsRes.string.theme_system)
 }
+

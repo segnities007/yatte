@@ -4,20 +4,30 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import androidx.room.migration.AutoMigrationSpec
 import com.segnities007.yatte.data.core.database.dao.AlarmDao
+import com.segnities007.yatte.data.core.database.dao.CategoryDao
 import com.segnities007.yatte.data.core.database.dao.HistoryDao
 import com.segnities007.yatte.data.core.database.dao.TaskDao
 import com.segnities007.yatte.data.core.database.entity.AlarmEntity
+import com.segnities007.yatte.data.core.database.entity.CategoryEntity
 import com.segnities007.yatte.data.core.database.entity.HistoryEntity
 import com.segnities007.yatte.data.core.database.entity.TaskEntity
+
 
 @Database(
     entities = [
         TaskEntity::class,
         HistoryEntity::class,
         AlarmEntity::class,
+        CategoryEntity::class,
     ],
-    version = 3,
+    version = 6,
+    autoMigrations = [
+        androidx.room.AutoMigration(from = 3, to = 4),
+        androidx.room.AutoMigration(from = 4, to = 5),
+        androidx.room.AutoMigration(from = 5, to = 6),
+    ],
     exportSchema = true,
 )
 @ConstructedBy(AppDatabaseConstructor::class)
@@ -25,6 +35,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
     abstract fun historyDao(): HistoryDao
     abstract fun alarmDao(): AlarmDao
+    abstract fun categoryDao(): CategoryDao
 
     companion object {
         const val DATABASE_NAME = "yatte.db"

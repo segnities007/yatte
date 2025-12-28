@@ -23,6 +23,7 @@ fun AlarmEntity.toDomain(): Alarm {
         scheduledAt = Instant.fromEpochMilliseconds(scheduledAt).toLocalDateTime(timeZone),
         notifyAt = Instant.fromEpochMilliseconds(notifyAt).toLocalDateTime(timeZone),
         isTriggered = isTriggered,
+        soundUri = soundUri,
     )
 }
 
@@ -40,5 +41,6 @@ fun Alarm.toEntity(): AlarmEntity {
         scheduledAt = scheduledAt.toInstant(timeZone).toEpochMilliseconds(),
         notifyAt = notifyAt.toInstant(timeZone).toEpochMilliseconds(),
         isTriggered = isTriggered,
+        soundUri = soundUri,
     )
 }

@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.Modifier
+import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.task.generated.resources.*
@@ -22,13 +24,14 @@ fun WeekDaySelector(
     onDayToggle: (DayOfWeek) -> Unit,
 ) {
     FlowRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
     ) {
         DayOfWeek.entries.forEach { day ->
             FilterChip(
                 selected = day in selectedDays,
                 onClick = { onDayToggle(day) },
                 label = { Text(day.toDisplayString()) },
+                modifier = Modifier.bounceClick(),
             )
         }
     }
@@ -44,3 +47,4 @@ private fun DayOfWeek.toDisplayString(): String = when (this) {
     DayOfWeek.SATURDAY -> stringResource(TaskRes.string.weekday_sat_short)
     DayOfWeek.SUNDAY -> stringResource(TaskRes.string.weekday_sun_short)
 }
+
