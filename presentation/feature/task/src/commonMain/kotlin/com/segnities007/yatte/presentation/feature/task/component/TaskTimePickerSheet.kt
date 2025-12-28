@@ -37,6 +37,8 @@ import androidx.compose.ui.graphics.Color
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.YatteButton
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.datetime.LocalTime
 
 private enum class TimePickerMode {
@@ -57,6 +59,7 @@ fun TaskTimePickerSheet(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var mode by remember { mutableStateOf(TimePickerMode.Dial) }
     
+    val scope = rememberCoroutineScope()
     val timePickerState = rememberTimePickerState(
         initialHour = initialTime.hour,
         initialMinute = initialTime.minute,
@@ -159,7 +162,11 @@ fun TaskTimePickerSheet(
             YatteButton(
                 text = "完了",
                 onClick = {
-                    onConfirm(LocalTime(timePickerState.hour, timePickerState.minute))
+                    scope.launch { sheetState.hide() }.invokeOnCompletion {
+                        if (!sheetState.isVisible) {
+                            onConfirm(LocalTime(timePickerState.hour, timePickerState.minute))
+                        }
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             )
