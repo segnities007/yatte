@@ -33,6 +33,7 @@ detekt = "1.23.8"
 dokka = "2.1.0"
 dependencyCheck = "12.1.9"
 uuid = "0.8.4"
+aboutLibraries = "11.6.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -64,6 +65,9 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
+# AboutLibraries
+aboutLibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutLibraries" }
+aboutLibraries-compose = { module = "com.mikepenz:aboutlibraries-compose", version.ref = "aboutLibraries" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -81,3 +85,4 @@ ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 dependencyCheck = { id = "org.owasp.dependencycheck", version.ref = "dependencyCheck" }
+aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }

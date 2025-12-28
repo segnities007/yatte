@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.dokka)
     alias(libs.plugins.dependencyCheck)
+    alias(libs.plugins.aboutLibraries) apply false
 }
 
 subprojects {

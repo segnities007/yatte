@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.aboutLibraries)
 }
 
 ktlint {
@@ -79,6 +80,7 @@ kotlin {
             implementation(projects.presentation.core)
             implementation(projects.presentation.navigation)
             implementation(projects.domain.aggregate.settings)
+            implementation(libs.aboutLibraries.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

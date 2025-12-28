@@ -110,15 +110,25 @@ fun AppNavHost(
 
     // ルートによる表示制御とスクロールによる表示制御を合成
     // 特定のルート（詳細画面など）では常に非表示にする場合はここで制御
-    // タスク追加/編集画面かどうかを判定
+    // タスクフォーム画面かどうかを判定
     val isTaskFormScreen = currentRoute?.contains("AddTaskRoute") == true ||
             currentRoute?.contains("EditTaskRoute") == true
+    
+    // ライセンス画面かどうかを判定
+    val isLicenseScreen = currentRoute?.contains("LicenseRoute") == true
 
-    // タスクフォーム画面ではBottomBarを非表示
-    val isBottomBarVisible = showNavBar && isFnbVisible && !isTaskFormScreen
+    // タスクフォーム画面とライセンス画面ではBottomBarを非表示
+    val isBottomBarVisible = showNavBar && isFnbVisible && !isTaskFormScreen && !isLicenseScreen
 
-    // ヘッダーの表示状態（タスクフォーム画面では常に表示、それ以外はスクロール連動）
-    val isHeaderVisible = if (isTaskFormScreen) true else isFnbVisible
+    // ヘッダーの表示状態
+    // - タスクフォーム画面: 常に表示
+    // - ライセンス画面: 常に非表示 (画面内にTopAppBarがあるため)
+    // - その他: スクロール連動
+    val isHeaderVisible = when {
+        isLicenseScreen -> false
+        isTaskFormScreen -> true
+        else -> isFnbVisible
+    }
 
     val showFab = currentNavItem == NavItem.HOME && isBottomBarVisible && !isTaskFormScreen
 
