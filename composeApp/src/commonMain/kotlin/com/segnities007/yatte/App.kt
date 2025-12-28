@@ -2,22 +2,22 @@ package com.segnities007.yatte
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
+import com.mikepenz.aboutlibraries.Libs
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
+import com.segnities007.yatte.presentation.core.component.LocalLibraries
 import com.segnities007.yatte.presentation.core.theme.YatteTheme
 import com.segnities007.yatte.presentation.navigation.AppNavHost
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.koinInject
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.produceState
-import com.mikepenz.aboutlibraries.Libs
-import com.segnities007.yatte.presentation.core.component.LocalLibraries
 // import org.jetbrains.compose.resources.Res
 // import org.jetbrains.compose.resources.ExperimentalResourceApi
 // import com.segnities007.yatte.generated.resources.*
@@ -45,14 +45,15 @@ fun App() {
         }
 
         val libraries by produceState<Libs?>(null) {
-            value = try {
-                // FIXME: Implement resource loading for JVM
-                // val bytes = Res.readBytes("files/aboutlibraries.json")
-                // Libs.Builder().withJson(bytes.decodeToString()).build()
-                Libs.Builder().build()
-            } catch (e: Exception) {
-                null
-            }
+            value =
+                try {
+                    // FIXME: Implement resource loading for JVM
+                    // val bytes = Res.readBytes("files/aboutlibraries.json")
+                    // Libs.Builder().withJson(bytes.decodeToString()).build()
+                    Libs.Builder().build()
+                } catch (e: Exception) {
+                    null
+                }
         }
 
         CompositionLocalProvider(LocalLibraries provides libraries) {
