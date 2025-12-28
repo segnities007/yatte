@@ -174,6 +174,8 @@ internal fun SettingsScreen(
                         state.settings.defaultMinutesBefore,
                     ),
                     value = state.settings.defaultMinutesBefore,
+                    valueRange = 0f..60f,
+                    steps = 60,
                     onValueChange = { viewModel.onIntent(SettingsIntent.UpdateMinutesBefore(it)) },
                 )
 
@@ -183,8 +185,8 @@ internal fun SettingsScreen(
                         state.settings.snoozeDuration,
                     ),
                     value = state.settings.snoozeDuration,
-                    valueRange = 1f..60f,
-                    steps = 59,
+                    valueRange = 0f..60f,
+                    steps = 60,
                     onValueChange = { viewModel.onIntent(SettingsIntent.UpdateSnoozeDuration(it)) },
                 )
 

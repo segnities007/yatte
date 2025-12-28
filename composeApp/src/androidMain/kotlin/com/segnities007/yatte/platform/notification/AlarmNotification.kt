@@ -16,7 +16,8 @@ import com.segnities007.yatte.platform.alarm.AlarmConstants
 import com.segnities007.yatte.platform.alarm.AlarmReceiver
 
 internal object AlarmNotification {
-    private const val CHANNEL_ID = "yatte_alarm"
+    private const val CHANNEL_ID_PREFIX = "yatte_alarm"
+    private const val CHANNEL_VERSION = "v2" // Versioning to force update immutable channels
     private const val CHANNEL_NAME = "Yatte Alarms"
 
     fun show(
@@ -107,6 +108,52 @@ internal object AlarmNotification {
 
         if (isVibrationEnabled) {
             builder.setVibrate(getVibrationPattern(vibrationPattern))
+
+            // Backup: Explicitly trigger vibration service
+            // NotificationChannel vibration can be unreliable due to immutability or system settings.
+            // We force a manual vibration here as a fallback/reinforcement.
+            try {
+                val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    val manager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as android.os.VibratorManager
+                    manager.defaultVibrator
+                } else {
+                    @Suppress("DEPRECATION")
+                    context.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator
+                }
+
+                if (vibrator.hasVibrator()) {
+                    val pattern = getVibrationPattern(vibrationPattern)
+                    // API 26+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val effect = android.os.VibrationEffect.createWaveform(pattern, -1)
+                        
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                             val attributes = android.os.VibrationAttributes.Builder()
+                                .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
+                                .build()
+                            vibrator.vibrate(effect, attributes)
+                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                             val attributes = android.os.VibrationAttributes.Builder()
+                                .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
+                                .build()
+                            vibrator.vibrate(effect, attributes)
+                        } else {
+                            val audioAttrs = android.media.AudioAttributes.Builder()
+                                .setUsage(android.media.AudioAttributes.USAGE_ALARM)
+                                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                .build()
+                            @Suppress("DEPRECATION")
+                            vibrator.vibrate(effect, audioAttrs)
+                        }
+                    } else {
+                        // Pre-Oreo
+                        @Suppress("DEPRECATION")
+                        vibrator.vibrate(pattern, -1)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         NotificationManagerCompat.from(context).notify(title.hashCode(), builder.build())
@@ -117,15 +164,17 @@ internal object AlarmNotification {
         isSoundEnabled: Boolean,
         isVibrationEnabled: Boolean,
         vibrationPattern: VibrationPattern,
-    ): String =
-        if (isSoundEnabled && !soundUri.isNullOrBlank()) {
-            "yatte_alarm_custom_${soundUri.hashCode()}_$isVibrationEnabled" +
-                if (isVibrationEnabled) "_${vibrationPattern.name}" else ""
+    ): String {
+        val baseId = if (isSoundEnabled && !soundUri.isNullOrBlank()) {
+            "custom_${soundUri.hashCode()}"
         } else if (!isSoundEnabled) {
-            "yatte_alarm_silent_$isVibrationEnabled" + if (isVibrationEnabled) "_${vibrationPattern.name}" else ""
+            "silent"
         } else {
-            "yatte_alarm_default_$isVibrationEnabled" + if (isVibrationEnabled) "_${vibrationPattern.name}" else ""
+            "default"
         }
+        
+        return "${CHANNEL_ID_PREFIX}_${baseId}_${isVibrationEnabled}_${vibrationPattern.name}_$CHANNEL_VERSION"
+    }
 
     private fun ensureChannel(
         context: Context,
@@ -139,8 +188,12 @@ internal object AlarmNotification {
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // 既にチャンネルが存在する場合は何もしない（設定変更検知のためIDを変えているので）
+        // Create new channel
         if (manager.getNotificationChannel(channelId) != null) return
+
+        // Cleanup old channels if necessary (Optional, simplistic approach)
+        // In a real app, you might iterate and delete all starting with prefix but not ending with current version
+        // manager.deleteNotificationChannel("old_id")
 
         val channel =
             NotificationChannel(
@@ -157,18 +210,19 @@ internal object AlarmNotification {
                 .build()
 
         if (isSoundEnabled) {
-            if (soundUri != null) {
-                try {
-                    val uri = android.net.Uri.parse(soundUri)
-                    // ファイルが存在するかチェックしたいが、権限がないとSecurityExceptionになるかも
-                    // ここでtry-catchしてもsetSound自体は失敗しないかもしれないが、念のため
-                    channel.setSound(uri, audioAttributes)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    channel.setSound(null, null) // またはデフォルト音
-                }
+            val uri = if (soundUri != null) {
+                android.net.Uri.parse(soundUri)
+            } else {
+                android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI
             }
-            // defaultはOSデフォルトが使われるのでsetSound不要 or DEFAULT_ALARM_ALERT_URI
+
+            try {
+                channel.setSound(uri, audioAttributes)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // フォールバック: デフォルトのアラーム音を設定
+                channel.setSound(android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI, audioAttributes)
+            }
         } else {
             channel.setSound(null, null)
         }

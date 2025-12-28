@@ -77,7 +77,6 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
-    val scrollState = rememberLazyListState()
     val pagerState = rememberPagerState(
         initialPage = INITIAL_PAGE,
         pageCount = { PAGE_COUNT },
