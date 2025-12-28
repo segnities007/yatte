@@ -113,35 +113,45 @@ internal object AlarmNotification {
             // NotificationChannel vibration can be unreliable due to immutability or system settings.
             // We force a manual vibration here as a fallback/reinforcement.
             try {
-                val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    val manager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as android.os.VibratorManager
-                    manager.defaultVibrator
-                } else {
-                    @Suppress("DEPRECATION")
-                    context.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator
-                }
+                val vibrator =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        val manager =
+                            context.getSystemService(
+                                Context.VIBRATOR_MANAGER_SERVICE,
+                            ) as android.os.VibratorManager
+                        manager.defaultVibrator
+                    } else {
+                        @Suppress("DEPRECATION")
+                        context.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator
+                    }
 
                 if (vibrator.hasVibrator()) {
                     val pattern = getVibrationPattern(vibrationPattern)
                     // API 26+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         val effect = android.os.VibrationEffect.createWaveform(pattern, -1)
-                        
+
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                             val attributes = android.os.VibrationAttributes.Builder()
-                                .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
-                                .build()
+                            val attributes =
+                                android.os.VibrationAttributes
+                                    .Builder()
+                                    .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
+                                    .build()
                             vibrator.vibrate(effect, attributes)
                         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                             val attributes = android.os.VibrationAttributes.Builder()
-                                .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
-                                .build()
+                            val attributes =
+                                android.os.VibrationAttributes
+                                    .Builder()
+                                    .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
+                                    .build()
                             vibrator.vibrate(effect, attributes)
                         } else {
-                            val audioAttrs = android.media.AudioAttributes.Builder()
-                                .setUsage(android.media.AudioAttributes.USAGE_ALARM)
-                                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                                .build()
+                            val audioAttrs =
+                                android.media.AudioAttributes
+                                    .Builder()
+                                    .setUsage(android.media.AudioAttributes.USAGE_ALARM)
+                                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                    .build()
                             @Suppress("DEPRECATION")
                             vibrator.vibrate(effect, audioAttrs)
                         }
@@ -165,14 +175,15 @@ internal object AlarmNotification {
         isVibrationEnabled: Boolean,
         vibrationPattern: VibrationPattern,
     ): String {
-        val baseId = if (isSoundEnabled && !soundUri.isNullOrBlank()) {
-            "custom_${soundUri.hashCode()}"
-        } else if (!isSoundEnabled) {
-            "silent"
-        } else {
-            "default"
-        }
-        
+        val baseId =
+            if (isSoundEnabled && !soundUri.isNullOrBlank()) {
+                "custom_${soundUri.hashCode()}"
+            } else if (!isSoundEnabled) {
+                "silent"
+            } else {
+                "default"
+            }
+
         return "${CHANNEL_ID_PREFIX}_${baseId}_${isVibrationEnabled}_${vibrationPattern.name}_$CHANNEL_VERSION"
     }
 
@@ -210,11 +221,12 @@ internal object AlarmNotification {
                 .build()
 
         if (isSoundEnabled) {
-            val uri = if (soundUri != null) {
-                android.net.Uri.parse(soundUri)
-            } else {
-                android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI
-            }
+            val uri =
+                if (soundUri != null) {
+                    android.net.Uri.parse(soundUri)
+                } else {
+                    android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI
+                }
 
             try {
                 channel.setSound(uri, audioAttributes)

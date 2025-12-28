@@ -38,25 +38,34 @@ import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 /**
  * タイムラインビュー - 時間軸に沿ってタスク完了履歴を表示
  */
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun HistoryTimeline(
     items: List<History>,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     modifier: Modifier = Modifier,
 ) {
-    val sortedItems = items.sortedByDescending { it.completedAt }
+    val groupedItems = items
+        .sortedByDescending { it.completedAt }
+        .groupBy { it.completedAt.date }
 
     LazyColumn(
-        modifier = modifier.fillMaxSize(), // Ensure it fills the screen to capture nested scroll events properly
+        modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
-        items(sortedItems, key = { it.id.value }) { history ->
-            TimelineItem(
-                history = history,
-                isFirst = sortedItems.firstOrNull() == history,
-                isLast = sortedItems.lastOrNull() == history,
-            )
+        groupedItems.forEach { (date, callbackItems) ->
+            stickyHeader(key = date) {
+                DateHeader(date = date)
+            }
+
+            items(callbackItems, key = { it.id.value }) { history ->
+                TimelineItem(
+                    history = history,
+                    isFirst = callbackItems.first() == history,
+                    isLast = callbackItems.last() == history,
+                )
+            }
         }
     }
 }
@@ -77,54 +86,55 @@ private fun TimelineItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .height(androidx.compose.foundation.layout.IntrinsicSize.Min) // IntrinsicSize to stretch to card height
+            .padding(horizontal = YatteSpacing.md),
+        verticalAlignment = Alignment.CenterVertically // User requested center alignment
     ) {
         // 時刻表示
-        Column(
-            modifier = Modifier.width(56.dp),
-            horizontalAlignment = Alignment.End,
-        ) {
-            Text(
-                text = "${history.completedAt.hour.toString().padStart(2, '0')}:${history.completedAt.minute.toString().padStart(2, '0')}",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        Text(
+            text = "${history.completedAt.hour.toString().padStart(2, '0')}:${history.completedAt.minute.toString().padStart(2, '0')}",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.width(56.dp)
+        )
 
         // タイムライン（縦線とドット）
         Box(
             modifier = Modifier
-                .width(48.dp)
-                .height(72.dp),
-            contentAlignment = Alignment.Center,
+                .width(28.dp)
+                .fillMaxHeight(),
         ) {
-            Canvas(modifier = Modifier.fillMaxHeight().width(2.dp)) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
                 val centerX = size.width / 2
+                val centerY = size.height / 2
+                val dotRadius = 6.dp.toPx()
+                val lineWidth = 2.dp.toPx()
+
                 // 上の線（最初の項目以外）
                 if (!isFirst) {
                     drawLine(
-                        color = statusColor,
+                        color = statusColor.copy(alpha = 0.5f),
                         start = Offset(centerX, 0f),
-                        end = Offset(centerX, size.height / 2 - 8.dp.toPx()),
-                        strokeWidth = 2.dp.toPx(),
+                        end = Offset(centerX, centerY),
+                        strokeWidth = lineWidth
                     )
                 }
+
                 // 下の線（最後の項目以外）
                 if (!isLast) {
                     drawLine(
-                        color = statusColor,
-                        start = Offset(centerX, size.height / 2 + 8.dp.toPx()),
+                        color = statusColor.copy(alpha = 0.5f),
+                        start = Offset(centerX, centerY),
                         end = Offset(centerX, size.height),
-                        strokeWidth = 2.dp.toPx(),
+                        strokeWidth = lineWidth
                     )
                 }
-            }
-            // ドット
-            Canvas(modifier = Modifier.width(16.dp).height(16.dp)) {
+
+                // ドット
                 drawCircle(
                     color = statusColor,
-                    radius = 8.dp.toPx(),
-                    center = Offset(size.width / 2, size.height / 2),
+                    radius = dotRadius,
+                    center = Offset(centerX, centerY)
                 )
             }
         }
@@ -142,19 +152,13 @@ private fun TimelineItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                // 左側: タイトルと日付
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = history.title,
-                        style = MaterialTheme.typography.titleSmall,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = "${history.completedAt.date.month.number}/${history.completedAt.date.day}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
+                // 左側: タイトル
+                Text(
+                    text = history.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f)
+                )
+
                 // 右側: ステータスバッジ
                 Spacer(modifier = Modifier.width(8.dp))
                 StatusBadge(status = history.status)
