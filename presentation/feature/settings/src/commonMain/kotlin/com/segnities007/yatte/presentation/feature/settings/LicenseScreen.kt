@@ -61,7 +61,7 @@ fun LicenseScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            libraries = LocalLibraries.current ?: Libs.Builder().build(),
+            libraries = LocalLibraries.current ?: Libs.Builder().withJson("[]").build(),
             showLicenseBadges = false,
             onLibraryClick = { library: Library ->
                 selectedLibrary = library
