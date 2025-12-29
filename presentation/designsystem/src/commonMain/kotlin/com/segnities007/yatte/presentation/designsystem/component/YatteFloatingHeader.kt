@@ -1,4 +1,4 @@
-package com.segnities007.yatte.presentation.core.component
+package com.segnities007.yatte.presentation.designsystem.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -31,7 +31,7 @@ import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
  * @param actions 右側のアクションボタン群。
  * @param modifier Modifier
  */
-object FloatingHeaderBarDefaults {
+object YatteFloatingHeaderDefaults {
     val ContainerHeight = 64.dp
     val TopMargin = YatteSpacing.md
     val BottomSpacing = YatteSpacing.md
@@ -39,7 +39,7 @@ object FloatingHeaderBarDefaults {
 }
 
 @Composable
-fun FloatingHeaderBar(
+fun YatteFloatingHeader(
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     isVisible: Boolean = true,
@@ -52,11 +52,25 @@ fun FloatingHeaderBar(
         exit = slideOutVertically { -it } + fadeOut(),
         modifier = modifier,
     ) {
-        Surface(
+        YatteFloatingHeaderContent(
+            title = title,
+            navigationIcon = navigationIcon,
+            actions = actions,
+        )
+    }
+}
+
+@Composable
+private fun YatteFloatingHeaderContent(
+    title: @Composable () -> Unit,
+    navigationIcon: @Composable (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    Surface(
             modifier = Modifier
                 .statusBarsPadding()
                 .padding(top = YatteSpacing.md, start = YatteSpacing.lg, end = YatteSpacing.lg)
-                .heightIn(min = FloatingHeaderBarDefaults.ContainerHeight),
+                .heightIn(min = YatteFloatingHeaderDefaults.ContainerHeight),
             shape = RoundedCornerShape(YatteSpacing.xl),
             color = MaterialTheme.colorScheme.surface,
             shadowElevation = 4.dp,
@@ -94,11 +108,9 @@ fun FloatingHeaderBar(
                     actions()
                 }
 
-                if (actions == {}) {
-                    Spacer(modifier = Modifier.width(YatteSpacing.sm))
-                }
+                // Balance spacing if no actions
+                Spacer(modifier = Modifier.width(if (actions == {}) YatteSpacing.sm else 0.dp))
             }
         }
     }
-}
 

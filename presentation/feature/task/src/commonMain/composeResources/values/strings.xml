@@ -36,4 +36,10 @@
     <string name="sound_default">デフォルト</string>
     <string name="sound_select">通知音を選択</string>
     <string name="sound_clear">クリア</string>
+    <string name="section_basic_info">基本情報</string>
+    <string name="section_category">カテゴリ</string>
+    <string name="category_none">なし</string>
+    <string name="section_schedule">スケジュール</string>
+    <string name="section_notification">通知設定</string>
+    <string name="tap_to_change_time">タップして時間を変更</string>
 </resources>

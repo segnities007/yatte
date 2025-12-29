@@ -1,4 +1,4 @@
-package com.segnities007.yatte.presentation.feature.task.component
+package com.segnities007.yatte.presentation.designsystem.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,15 +22,16 @@ import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
- * フォームセクションカード
+ * セクションカード
  *
- * 入力フォームのセクションをグループ化するカードコンポーネント
+ * 設定画面やフォーム画面で、関連する項目をグルーピングして表示するためのカード。
+ * アイコン（任意）とタイトルを持つヘッダーを表示し、その下にコンテンツを配置する。
  */
 @Composable
-fun FormSectionCard(
+fun YatteSectionCard(
     title: String,
-    icon: ImageVector? = null,
     modifier: Modifier = Modifier,
+    icon: ImageVector? = null,
     content: @Composable () -> Unit,
 ) {
     ElevatedCard(

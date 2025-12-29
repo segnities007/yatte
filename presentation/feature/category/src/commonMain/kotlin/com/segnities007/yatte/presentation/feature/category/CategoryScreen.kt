@@ -2,20 +2,36 @@ package com.segnities007.yatte.presentation.feature.category
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +48,7 @@ import com.segnities007.yatte.presentation.designsystem.component.YatteTextField
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.koin.compose.viewmodel.koinViewModel
 
+// No change needed for CategoryScreen regarding YatteScaffold as it uses M3 Scaffold.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen(
@@ -41,6 +58,40 @@ fun CategoryScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    CategorySetupSideEffects(
+        viewModel = viewModel,
+        onShowSnackbar = onShowSnackbar
+    )
+
+    Scaffold(
+        topBar = { CategoryTopBar(onBack = onBack) },
+        floatingActionButton = {
+            CategoryFab(
+                onClick = { viewModel.onIntent(CategoryIntent.ShowAddDialog) }
+            )
+        },
+    ) { padding ->
+        CategoryContent(
+            state = state,
+            onDelete = { viewModel.onIntent(CategoryIntent.DeleteCategory(it)) },
+            contentPadding = padding,
+        )
+
+        CategoryDialogs(
+            state = state,
+            onNameChange = { viewModel.onIntent(CategoryIntent.UpdateNewCategoryName(it)) },
+            onColorSelect = { viewModel.onIntent(CategoryIntent.UpdateSelectedColor(it)) },
+            onDismiss = { viewModel.onIntent(CategoryIntent.DismissAddDialog) },
+            onConfirm = { viewModel.onIntent(CategoryIntent.AddCategory) },
+        )
+    }
+}
+
+@Composable
+private fun CategorySetupSideEffects(
+    viewModel: CategoryViewModel,
+    onShowSnackbar: (String) -> Unit,
+) {
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
@@ -50,73 +101,90 @@ fun CategoryScreen(
             }
         }
     }
+}
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("カテゴリ管理") },
-                navigationIcon = {
-                    YatteIconButton(
-                        icon = Icons.AutoMirrored.Filled.ArrowBack,
-                        onClick = onBack,
-                        contentDescription = "戻る",
-                    )
-                },
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CategoryTopBar(onBack: () -> Unit) {
+    TopAppBar(
+        title = { Text("カテゴリ管理") },
+        navigationIcon = {
+            YatteIconButton(
+                icon = Icons.AutoMirrored.Filled.ArrowBack,
+                onClick = onBack,
+                contentDescription = "戻る",
             )
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { viewModel.onIntent(CategoryIntent.ShowAddDialog) },
-                modifier = Modifier.bounceClick(),
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "カテゴリを追加")
-            }
-        },
-    ) { padding ->
-        if (state.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(padding),
-                contentAlignment = Alignment.Center,
-            ) {
-                YatteLoadingIndicator()
-            }
-        } else if (state.categories.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(padding),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = "カテゴリがありません\n右下の＋ボタンで追加できます",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+}
+
+@Composable
+private fun CategoryFab(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = onClick,
+        modifier = Modifier.bounceClick(),
+    ) {
+        Icon(Icons.Default.Add, contentDescription = "カテゴリを追加")
+    }
+}
+
+@Composable
+private fun CategoryContent(
+    state: CategoryState,
+    onDelete: (Category) -> Unit,
+    contentPadding: PaddingValues,
+) {
+    if (state.isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize().padding(contentPadding),
+            contentAlignment = Alignment.Center,
+        ) {
+            YatteLoadingIndicator()
+        }
+    } else if (state.categories.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize().padding(contentPadding),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = "カテゴリがありません\n右下の＋ボタンで追加できます",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    } else {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(contentPadding),
+            contentPadding = PaddingValues(YatteSpacing.md),
+            verticalArrangement = Arrangement.spacedBy(YatteSpacing.sm),
+        ) {
+            items(state.categories, key = { it.id.value }) { category ->
+                CategoryItem(
+                    category = category,
+                    onDelete = { onDelete(category) },
                 )
             }
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = PaddingValues(YatteSpacing.md),
-                verticalArrangement = Arrangement.spacedBy(YatteSpacing.sm),
-            ) {
-                items(state.categories, key = { it.id.value }) { category ->
-                    CategoryItem(
-                        category = category,
-                        onDelete = { viewModel.onIntent(CategoryIntent.DeleteCategory(category)) },
-                    )
-                }
-            }
         }
+    }
+}
 
-        // Add Dialog
-        if (state.isAddDialogVisible) {
-            AddCategoryDialog(
-                name = state.newCategoryName,
-                selectedColor = state.selectedColor,
-                onNameChange = { viewModel.onIntent(CategoryIntent.UpdateNewCategoryName(it)) },
-                onColorSelect = { viewModel.onIntent(CategoryIntent.UpdateSelectedColor(it)) },
-                onDismiss = { viewModel.onIntent(CategoryIntent.DismissAddDialog) },
-                onConfirm = { viewModel.onIntent(CategoryIntent.AddCategory) },
-            )
-        }
+@Composable
+private fun CategoryDialogs(
+    state: CategoryState,
+    onNameChange: (String) -> Unit,
+    onColorSelect: (CategoryColor) -> Unit,
+    onDismiss: () -> Unit,
+    onConfirm: () -> Unit,
+) {
+    if (state.isAddDialogVisible) {
+        AddCategoryDialog(
+            name = state.newCategoryName,
+            selectedColor = state.selectedColor,
+            onNameChange = onNameChange,
+            onColorSelect = onColorSelect,
+            onDismiss = onDismiss,
+            onConfirm = onConfirm,
+        )
     }
 }
 
@@ -245,4 +313,3 @@ private fun ColorOption(
         }
     }
 }
-

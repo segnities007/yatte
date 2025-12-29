@@ -10,6 +10,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
@@ -78,21 +79,21 @@ fun LicenseScreen(
                     ) {
                         Text(
                             text = "Version: ${library.artifactVersion ?: "Unknown"}",
-                            style = androidx.compose.material3.MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         if (library.licenses.isNotEmpty()) {
                             library.licenses.forEach { license ->
                                 Text(
                                     text = license.name,
-                                    style = androidx.compose.material3.MaterialTheme.typography.titleSmall
+                                    style = MaterialTheme.typography.titleSmall
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 license.url?.let { url ->
                                      Text(
                                         text = url,
-                                        style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
-                                        color = androidx.compose.material3.MaterialTheme.colorScheme.primary
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                     Spacer(modifier = Modifier.height(4.dp))
                                 }

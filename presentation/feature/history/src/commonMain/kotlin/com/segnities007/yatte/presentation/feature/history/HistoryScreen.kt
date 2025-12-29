@@ -13,16 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,18 +24,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import com.segnities007.yatte.presentation.core.component.HeaderConfig
-import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.core.component.YatteScaffold
-import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
-import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
-import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
-import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.history.model.History
+import com.segnities007.yatte.presentation.core.component.HeaderConfig
+import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
+import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
+import com.segnities007.yatte.presentation.core.util.DateFormatter
+import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.component.YatteEmptyState
+import com.segnities007.yatte.presentation.feature.history.component.HistoryCard
 import com.segnities007.yatte.presentation.feature.history.component.HistoryTimeline
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
@@ -62,6 +58,44 @@ internal fun HistoryScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    HistorySetupHeader()
+    HistorySetupSideEffects(
+        viewModel = viewModel,
+        actions = actions,
+        onShowSnackbar = onShowSnackbar
+    )
+
+    YatteScaffold(
+        isNavigationVisible = isNavigationVisible,
+        contentPadding = contentPadding,
+    ) { listContentPadding ->
+        HistoryContent(
+            state = state,
+            contentPadding = listContentPadding,
+        )
+    }
+}
+
+@Composable
+private fun HistorySetupHeader() {
+    val setHeaderConfig = LocalSetHeaderConfig.current
+    val historyTitle = stringResource(HistoryRes.string.title_history)
+    
+    val headerConfig = remember {
+        HeaderConfig(title = { Text(historyTitle) })
+    }
+    
+    SideEffect {
+        setHeaderConfig(headerConfig)
+    }
+}
+
+@Composable
+private fun HistorySetupSideEffects(
+    viewModel: HistoryViewModel,
+    actions: HistoryActions,
+    onShowSnackbar: (String) -> Unit,
+) {
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
@@ -74,46 +108,35 @@ internal fun HistoryScreen(
             }
         }
     }
+}
 
-    // グローバルHeaderの設定（SideEffectで即座に更新）
-    val setHeaderConfig = LocalSetHeaderConfig.current
-    val historyTitle = stringResource(HistoryRes.string.title_history)
-    
-    val headerConfig = remember {
-        HeaderConfig(
-            title = { Text(historyTitle) },
-        )
-    }
-    
-    SideEffect {
-        setHeaderConfig(headerConfig)
-    }
-
-    // YatteScaffold を使用（Headerはグローバルなので省略）
-    YatteScaffold(
-        isNavigationVisible = isNavigationVisible,
-        contentPadding = contentPadding,
-    ) { listContentPadding ->
-        Box(
-            modifier = Modifier.fillMaxSize(),
-        ) {
-            when {
-                state.isLoading -> {
-                    YatteLoadingIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-                state.historyItems.isEmpty() -> {
-                    EmptyHistoryView(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-                else -> {
-                    HistoryTimeline(
-                        items = state.historyItems,
-                        contentPadding = listContentPadding,
-                    )
-                }
+@Composable
+private fun HistoryContent(
+    state: HistoryState,
+    contentPadding: PaddingValues,
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        when {
+            state.isLoading -> {
+                YatteLoadingIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
+            state.historyItems.isEmpty() -> {
+                YatteEmptyState(
+                    emoji = stringResource(HistoryRes.string.common_empty_emoji),
+                    message = stringResource(HistoryRes.string.empty_no_history),
+                    description = stringResource(HistoryRes.string.empty_history_description),
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
+            else -> {
+                HistoryTimeline(
+                    items = state.historyItems,
+                    contentPadding = contentPadding,
+                )
             }
         }
     }
@@ -139,75 +162,4 @@ private fun HistoryList(
     }
 }
 
-@Composable
-private fun HistoryCard(
-    history: History,
-    onDelete: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(YatteSpacing.md),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = history.title,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Spacer(modifier = Modifier.height(YatteSpacing.xxs))
-                Text(
-                    text = "${history.completedAt.date} ${history.completedAt.hour}:${history.completedAt.minute.toString().padStart(2, '0')}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            YatteIconButton(
-                icon = Icons.Default.Delete,
-                onClick = onDelete,
-                contentDescription = stringResource(CoreRes.string.common_delete),
-                tint = MaterialTheme.colorScheme.error,
-            )
-        }
-    }
-}
-
-@Composable
-private fun EmptyHistoryView(
-    modifier: Modifier = Modifier,
-) {
-    Column(
-        modifier = modifier.padding(YatteSpacing.xxl),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        // 大きなアイコン
-        Text(
-            text = stringResource(HistoryRes.string.common_empty_emoji),
-            style = MaterialTheme.typography.displayLarge.copy(
-                fontSize = MaterialTheme.typography.displayLarge.fontSize * 1.5f,
-            ),
-        )
-        Spacer(modifier = Modifier.height(YatteSpacing.lg))
-        // タイトル
-        Text(
-            text = stringResource(HistoryRes.string.empty_no_history),
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSurface,
-        )
-        Spacer(modifier = Modifier.height(YatteSpacing.xs))
-        // 説明文
-        Text(
-            text = stringResource(HistoryRes.string.empty_history_description),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-        )
-    }
-}
 

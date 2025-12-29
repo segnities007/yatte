@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
+import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 
 /**
  * タスクリスト表示
@@ -32,7 +33,7 @@ fun TaskList(
                 task = task,
                 onComplete = { onCompleteTask(task) },
                 onClick = { onTaskClick(task) },
-                onSkip = if (task.taskType == com.segnities007.yatte.domain.aggregate.task.model.TaskType.WEEKLY_LOOP) {
+                onSkip = if (task.taskType == TaskType.WEEKLY_LOOP) {
                     { onSkipTask(task) }
                 } else {
                     null

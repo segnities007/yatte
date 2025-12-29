@@ -1,6 +1,8 @@
 package com.segnities007.yatte.presentation.designsystem.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -93,9 +95,9 @@ fun YatteDialog(
                 content()
                 if (confirmButton != null || dismissButton != null) {
                     Spacer(modifier = Modifier.height(YatteSpacing.lg))
-                    androidx.compose.foundation.layout.Row(
+                    Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.End,
+                        horizontalArrangement = Arrangement.End,
                     ) {
                         dismissButton?.invoke()
                         confirmButton?.invoke()

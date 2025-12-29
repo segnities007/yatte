@@ -1,4 +1,4 @@
-package com.segnities007.yatte.presentation.core.component
+package com.segnities007.yatte.presentation.designsystem.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,7 @@ import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
  * @param onClearSound 音源クリアボタンがクリックされた時のコールバック
  */
 @Composable
-fun SoundPicker(
+fun YatteSoundPicker(
     currentSoundUri: String?,
     onSelectSound: () -> Unit,
     onClearSound: () -> Unit,

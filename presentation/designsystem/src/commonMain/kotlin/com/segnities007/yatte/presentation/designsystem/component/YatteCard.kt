@@ -13,13 +13,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.SquircleShape
 
 @Composable
 fun YatteCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    shape: Shape = RoundedCornerShape(20.dp), // Squircle-ish
+    shape: Shape = SquircleShape, // Squircle-ish
     containerColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     elevation: Dp = 2.dp,
@@ -42,3 +45,6 @@ fun YatteCard(
         content = content
     )
 }
+
+
+

@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -12,6 +13,8 @@ import androidx.work.WorkManager
 import com.segnities007.yatte.domain.aggregate.alarm.model.Alarm
 import com.segnities007.yatte.domain.aggregate.alarm.model.AlarmId
 import com.segnities007.yatte.domain.aggregate.alarm.scheduler.AlarmScheduler
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import java.util.concurrent.TimeUnit
 
@@ -116,7 +119,7 @@ class AndroidAlarmScheduler(
             Intent(context, AlarmReceiver::class.java)
                 .setAction(AlarmConstants.ACTION_ALARM_FIRED)
                 .putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId.value)
-                .putExtra(AlarmConstants.EXTRA_TASK_TITLE, taskTitle)
+                .putExtra(AlarmConstants.EXTRA_TASK_ID, taskTitle)
 
         val flags =
             PendingIntent.FLAG_UPDATE_CURRENT or
@@ -144,7 +147,7 @@ class AndroidAlarmScheduler(
     private fun workTag(alarmId: AlarmId): String = "alarm_${alarmId.value}"
 }
 
-private fun kotlinx.datetime.LocalDateTime.toEpochMillis(): Long {
-    val tz = kotlinx.datetime.TimeZone.currentSystemDefault()
+private fun LocalDateTime.toEpochMillis(): Long {
+    val tz = TimeZone.currentSystemDefault()
     return this.toInstant(tz).toEpochMilliseconds()
 }

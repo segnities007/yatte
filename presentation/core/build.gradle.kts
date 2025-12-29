@@ -26,6 +26,7 @@ kotlin {
             implementation(projects.domain.aggregate.settings)
             implementation(projects.presentation.designsystem)
             implementation(libs.koin.core)
+            implementation(libs.kotlinx.datetime)
         }
 
         commonTest.dependencies {

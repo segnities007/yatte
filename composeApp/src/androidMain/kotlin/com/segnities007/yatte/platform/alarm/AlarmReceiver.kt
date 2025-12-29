@@ -3,10 +3,14 @@ package com.segnities007.yatte.platform.alarm
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.core.app.NotificationManagerCompat
 import com.segnities007.yatte.domain.aggregate.alarm.model.Alarm
 import com.segnities007.yatte.domain.aggregate.alarm.model.AlarmId
 import com.segnities007.yatte.domain.aggregate.alarm.repository.AlarmRepository
 import com.segnities007.yatte.domain.aggregate.alarm.usecase.ScheduleAlarmUseCase
+import com.segnities007.yatte.domain.aggregate.history.model.History
+import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
+import com.segnities007.yatte.domain.aggregate.history.usecase.AddHistoryUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
@@ -19,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DatePeriod
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
@@ -28,6 +33,8 @@ import kotlinx.datetime.toLocalDateTime
 import org.koin.core.context.GlobalContext
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.minutes
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 /**
  * OSアラームの発火入口。
@@ -59,7 +66,9 @@ class AlarmReceiver : BroadcastReceiver() {
         val alarmRepository = koin.get<AlarmRepository>()
         val taskRepository = koin.get<TaskRepository>()
         val scheduleAlarmUseCase = koin.get<ScheduleAlarmUseCase>()
+
         val completeTaskUseCase = koin.get<CompleteTaskUseCase>()
+        val addHistoryUseCase = koin.get<AddHistoryUseCase>()
         val getSettingsUseCase = koin.get<GetSettingsUseCase>()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -71,7 +80,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 } else if (intent.action == AlarmConstants.ACTION_ALARM_COMPLETE) {
                     val taskIdStr = getTaskIdFromIntent(intent) ?: return@launch
                     val taskId = TaskId(taskIdStr)
-                    handleCompleteAction(taskId, completeTaskUseCase, context)
+                    handleCompleteAction(taskId, completeTaskUseCase, addHistoryUseCase, context)
                 } else {
                     handleAlarmFired(
                         alarmId,
@@ -88,7 +97,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun getTaskIdFromIntent(intent: Intent): String? = intent.getStringExtra(AlarmConstants.EXTRA_TASK_TITLE)
+    private fun getTaskIdFromIntent(intent: Intent): String? = intent.getStringExtra(AlarmConstants.EXTRA_TASK_ID)
 
     private fun getAlarmIdFromIntent(intent: Intent): String? = intent.getStringExtra(AlarmConstants.EXTRA_ALARM_ID)
 
@@ -102,7 +111,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val snoozeDuration = settings.snoozeDuration
 
         // Cancel notification
-        androidx.core.app.NotificationManagerCompat
+        NotificationManagerCompat
             .from(context)
             .cancelAll()
 
@@ -130,19 +139,34 @@ class AlarmReceiver : BroadcastReceiver() {
         scheduleAlarmUseCase(newAlarm)
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     private suspend fun handleCompleteAction(
         taskId: TaskId,
         completeTaskUseCase: CompleteTaskUseCase,
+        addHistoryUseCase: AddHistoryUseCase,
         context: Context,
     ) {
         // Cancel notification
-        androidx.core.app.NotificationManagerCompat
+        NotificationManagerCompat
             .from(context)
             .cancelAll()
 
         // Complete task
-        val today = currentLocalDateTime().date
+        // Complete task
+        val now = currentLocalDateTime()
+        val today = now.date
         completeTaskUseCase(taskId, today)
+            .onSuccess { completedTask ->
+                // 履歴に追加
+                val history =
+                    History(
+                        id = HistoryId(Uuid.random().toString()),
+                        taskId = completedTask.id,
+                        title = completedTask.title,
+                        completedAt = now,
+                    )
+                addHistoryUseCase(history)
+            }
     }
 
     private suspend fun handleAlarmFired(
@@ -219,7 +243,7 @@ private fun subtractMinutes(
 private fun nextOccurrence(
     now: LocalDateTime,
     time: LocalTime,
-    weekDays: List<kotlinx.datetime.DayOfWeek>,
+    weekDays: List<DayOfWeek>,
 ): LocalDateTime {
     val today = now.date
     for (i in 0..6) {

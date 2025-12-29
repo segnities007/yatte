@@ -20,6 +20,12 @@ import com.segnities007.yatte.domain.aggregate.task.usecase.UpdateTaskUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.ResetAllDataUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.UpdateSettingsUseCase
+import com.segnities007.yatte.domain.aggregate.history.usecase.ImportHistoryUseCase
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ExportUserDataUseCase
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ImportUserDataUseCase
+import com.segnities007.yatte.domain.aggregate.category.usecase.GetAllCategoriesUseCase
+import com.segnities007.yatte.domain.aggregate.category.usecase.AddCategoryUseCase
+import com.segnities007.yatte.domain.aggregate.category.usecase.DeleteCategoryUseCase
 import org.koin.dsl.module
 
 /**
@@ -43,7 +49,7 @@ val useCaseModule = module {
     factory { DeleteHistoryUseCase(get()) }
     factory { ClearAllHistoryUseCase(get()) }
     factory { ExportHistoryUseCase(get()) }
-    factory { com.segnities007.yatte.domain.aggregate.history.usecase.ImportHistoryUseCase(get()) }
+    factory { ImportHistoryUseCase(get()) }
 
     // Alarm UseCases
     factory { ScheduleAlarmUseCase(get(), get()) }
@@ -54,11 +60,11 @@ val useCaseModule = module {
     factory { GetSettingsUseCase(get()) }
     factory { UpdateSettingsUseCase(get()) }
     factory { ResetAllDataUseCase(get(), get()) }
-    factory { com.segnities007.yatte.domain.aggregate.settings.usecase.ExportUserDataUseCase(get(), get()) }
-    factory { com.segnities007.yatte.domain.aggregate.settings.usecase.ImportUserDataUseCase(get(), get()) }
+    factory { ExportUserDataUseCase(get(), get()) }
+    factory { ImportUserDataUseCase(get(), get()) }
 
     // Category UseCases
-    factory { com.segnities007.yatte.domain.aggregate.category.usecase.GetAllCategoriesUseCase(get()) }
-    factory { com.segnities007.yatte.domain.aggregate.category.usecase.AddCategoryUseCase(get()) }
-    factory { com.segnities007.yatte.domain.aggregate.category.usecase.DeleteCategoryUseCase(get()) }
+    factory { GetAllCategoriesUseCase(get()) }
+    factory { AddCategoryUseCase(get()) }
+    factory { DeleteCategoryUseCase(get()) }
 }

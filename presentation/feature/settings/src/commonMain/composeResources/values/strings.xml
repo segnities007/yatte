@@ -38,4 +38,19 @@
     <string name="custom_sound_default">デフォルトの通知音を使用</string>
     <string name="custom_sound_select">音源を選択</string>
     <string name="custom_sound_clear">クリア</string>
+    
+    <string name="section_license_title">オープンソースライセンス</string>
+    <string name="section_license_desc">使用しているソフトウェアのライセンス</string>
+    <string name="action_show">表示</string>
+    
+    <string name="action_export_title">エクスポート</string>
+    <string name="action_export_desc">データをファイルに保存</string>
+    <string name="action_execute">実行</string>
+    <string name="snackbar_export_success">エクスポート完了</string>
+    <string name="snackbar_export_failed">エクスポート失敗: %1$s</string>
+    
+    <string name="action_import_title">インポート</string>
+    <string name="action_import_desc">ファイルから復元（追記）</string>
+    <string name="snackbar_import_success">%1$d件の履歴をインポートしました</string>
+    <string name="snackbar_import_failed">インポートに失敗しました: %1$s</string>
 </resources>

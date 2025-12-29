@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
 
 /**
@@ -43,9 +44,7 @@ class YatteApplication : Application() {
 
         // DB上の未発火アラームを復元してOS側に再スケジュール（再起動後など）
         CoroutineScope(Dispatchers.Default).launch {
-            val koin =
-                org.koin.core.context.GlobalContext
-                    .get()
+            val koin = GlobalContext.get()
             val getScheduledAlarmsUseCase = koin.get<GetScheduledAlarmsUseCase>()
             val scheduler = koin.get<AlarmScheduler>()
             val alarms = getScheduledAlarmsUseCase().first()

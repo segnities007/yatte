@@ -1,0 +1,31 @@
+package com.segnities007.yatte.presentation.feature.settings.preview
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.component.YatteSectionCard
+import com.segnities007.yatte.presentation.feature.settings.component.SettingsSwitchRow
+
+@Preview
+@Composable
+private fun SettingsSectionWithSwitchPreview() {
+    MaterialTheme {
+        YatteSectionCard(
+            modifier = Modifier.padding(16.dp),
+            icon = Icons.Default.Notifications,
+            title = "Notifications",
+        ) {
+            SettingsSwitchRow(
+                title = "Enable Notifications",
+                subtitle = "Receive alerts",
+                checked = true,
+                onCheckedChange = {}
+            )
+        }
+    }
+}

@@ -43,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.presentation.designsystem.component.YatteCard
+import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiManager
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.coroutines.delay
@@ -190,27 +191,19 @@ private fun TaskCardContent(
             }
             Row {
                 if (onSkipClick != null) {
-                    IconButton(
+                    YatteIconButton(
                         onClick = onSkipClick,
-                        modifier = Modifier.bounceClick()
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                            contentDescription = stringResource(HomeRes.string.cd_skip),
-                            tint = MaterialTheme.colorScheme.secondary,
-                        )
-                    }
-                }
-                IconButton(
-                    onClick = onCompleteClick,
-                    modifier = Modifier.bounceClick()
-                ) {
-                    Icon(
-                        Icons.Default.Check,
-                        contentDescription = stringResource(HomeRes.string.cd_complete),
-                        tint = MaterialTheme.colorScheme.primary,
+                        icon = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = stringResource(HomeRes.string.cd_skip),
+                        tint = MaterialTheme.colorScheme.secondary,
                     )
                 }
+                YatteIconButton(
+                    onClick = onCompleteClick,
+                    icon = Icons.Default.Check,
+                    contentDescription = stringResource(HomeRes.string.cd_complete),
+                    tint = MaterialTheme.colorScheme.primary,
+                )
             }
         }
     }

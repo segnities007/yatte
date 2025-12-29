@@ -1,4 +1,4 @@
-package com.segnities007.yatte.presentation.core.component
+package com.segnities007.yatte.presentation.designsystem.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
@@ -18,10 +19,11 @@ import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
  * @param message 表示するメッセージ
  */
 @Composable
-fun AppEmptyState(
+fun YatteEmptyState(
     emoji: String,
     message: String,
     modifier: Modifier = Modifier,
+    description: String? = null,
 ) {
     Column(
         modifier = modifier.padding(YatteSpacing.xl),
@@ -37,6 +39,14 @@ fun AppEmptyState(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+        if (description != null) {
+            Spacer(modifier = Modifier.height(YatteSpacing.xs))
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
-

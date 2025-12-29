@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,7 +40,7 @@ import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 /**
  * タイムラインビュー - 時間軸に沿ってタスク完了履歴を表示
  */
-@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HistoryTimeline(
     items: List<History>,
@@ -86,7 +88,7 @@ private fun TimelineItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(androidx.compose.foundation.layout.IntrinsicSize.Min) // IntrinsicSize to stretch to card height
+            .height(IntrinsicSize.Min) // IntrinsicSize to stretch to card height
             .padding(horizontal = YatteSpacing.md),
         verticalAlignment = Alignment.CenterVertically // User requested center alignment
     ) {

@@ -34,13 +34,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.segnities007.yatte.presentation.core.component.AppBottomBar
-import com.segnities007.yatte.presentation.core.component.AppFloatingActionButton
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
+import com.segnities007.yatte.presentation.navigation.component.AppBottomBar
+import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingActionButton
+import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingHeader
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalHeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.core.component.NavItem
+import com.segnities007.yatte.presentation.navigation.component.NavItem
 import com.segnities007.yatte.presentation.feature.history.HistoryRoute
 import com.segnities007.yatte.presentation.feature.history.historyScreen
 import com.segnities007.yatte.presentation.feature.home.HomeRoute
@@ -50,7 +50,11 @@ import com.segnities007.yatte.presentation.feature.management.taskManagementScre
 import com.segnities007.yatte.presentation.feature.settings.SettingsRoute
 import com.segnities007.yatte.presentation.feature.settings.settingsScreen
 import com.segnities007.yatte.presentation.feature.task.taskScreens
+import com.segnities007.yatte.presentation.feature.task.AddTaskRoute as TaskFormAddTaskRoute
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
+import yatte.presentation.core.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
+
 
 
 /**
@@ -192,8 +196,6 @@ fun AppNavHost(
             }
         }
 
-
-
         // Status Bar Background
         Box(
             modifier = Modifier
@@ -204,7 +206,7 @@ fun AppNavHost(
         )
 
         // Global Header Overlay
-        FloatingHeaderBar(
+        YatteFloatingHeader(
             isVisible = isHeaderVisible,
             title = headerConfig.title,
             navigationIcon = headerConfig.navigationIcon,
@@ -238,9 +240,10 @@ fun AppNavHost(
         )
 
         // FAB Overlay
-        AppFloatingActionButton(
+        YatteFloatingActionButton(
             isVisible = showFab,
-            onClick = actions.homeActions.onAddTask,
+            onClick = { navController.navigate(TaskFormAddTaskRoute) },
+            contentDescription = stringResource(Res.string.cd_add_task),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 // FNBの上部に配置 (112dp + margin) -> adjusted to match new BottomBar padding

@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.YatteShapes
 
 @Composable
 fun YatteButton(
@@ -30,7 +31,7 @@ fun YatteButton(
     Button(
         onClick = onClick,
         modifier = modifier.bounceClick(scaleDown = 0.95f), // Apply bounce effect
-        shape = RoundedCornerShape(16.dp), // Squircle-ish
+        shape = YatteShapes.medium, // Squircle-ish via Shape.kt
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor
@@ -44,3 +45,6 @@ fun YatteButton(
         )
     }
 }
+
+
+

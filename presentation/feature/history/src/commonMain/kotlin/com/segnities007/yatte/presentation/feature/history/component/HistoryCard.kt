@@ -9,22 +9,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.history.model.History
-import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.core.util.DateFormatter
 import com.segnities007.yatte.presentation.designsystem.component.YatteCard
+import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.core.generated.resources.common_delete
+import yatte.presentation.core.generated.resources.*
 import yatte.presentation.core.generated.resources.Res as CoreRes
 
 /**
@@ -53,22 +49,17 @@ fun HistoryCard(
                 )
                 Spacer(modifier = Modifier.height(YatteSpacing.xxs))
                 Text(
-                    text = "${history.completedAt.date} ${history.completedAt.hour}:${history.completedAt.minute.toString().padStart(2, '0')}",
+                    text = DateFormatter.formatDateTime(history.completedAt),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            IconButton(
+            YatteIconButton(
+                icon = Icons.Default.Delete,
                 onClick = onDelete,
-                modifier = Modifier.bounceClick(),
-            ) {
-                Icon(
-                    Icons.Default.Delete,
-                    contentDescription = stringResource(CoreRes.string.common_delete),
-                    tint = MaterialTheme.colorScheme.error,
-                )
-            }
+                contentDescription = stringResource(CoreRes.string.common_delete),
+                tint = MaterialTheme.colorScheme.error,
+            )
         }
     }
 }
-
