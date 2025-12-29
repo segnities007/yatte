@@ -5,23 +5,22 @@ import androidx.lifecycle.viewModelScope
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
 import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ExportUserDataUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
+import com.segnities007.yatte.domain.aggregate.settings.usecase.ImportUserDataUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.ResetAllDataUseCase
 import com.segnities007.yatte.domain.aggregate.settings.usecase.UpdateSettingsUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import yatte.presentation.feature.settings.generated.resources.*
 import org.jetbrains.compose.resources.getString
+import yatte.presentation.feature.settings.generated.resources.error_settings_save_failed
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
-
-import com.segnities007.yatte.domain.aggregate.settings.usecase.ExportUserDataUseCase
-import com.segnities007.yatte.domain.aggregate.settings.usecase.ImportUserDataUseCase
 
 class SettingsViewModel(
     private val getSettingsUseCase: GetSettingsUseCase,

@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.Instant

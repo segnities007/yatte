@@ -18,13 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import yatte.presentation.core.generated.resources.Res as CoreRes
 import yatte.presentation.core.generated.resources.cd_add_task
 import yatte.presentation.core.generated.resources.nav_manage
+import yatte.presentation.core.generated.resources.Res as CoreRes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

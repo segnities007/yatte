@@ -14,7 +14,10 @@ import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.feature.settings.generated.resources.*
+import yatte.presentation.feature.settings.generated.resources.theme_dark
+import yatte.presentation.feature.settings.generated.resources.theme_light
+import yatte.presentation.feature.settings.generated.resources.theme_system
+import yatte.presentation.feature.settings.generated.resources.theme_title
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 
 /**

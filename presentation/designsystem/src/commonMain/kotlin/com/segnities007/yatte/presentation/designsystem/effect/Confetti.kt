@@ -11,9 +11,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.SpringSpecs
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.PI
 import kotlin.random.Random
 
 data class ConfettiParticle(

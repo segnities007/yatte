@@ -1,7 +1,6 @@
 package com.segnities007.yatte.presentation.core.component
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 
 /**

@@ -20,7 +20,7 @@ import com.segnities007.yatte.presentation.designsystem.component.YatteCard
 import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.core.generated.resources.*
+import yatte.presentation.core.generated.resources.common_delete
 import yatte.presentation.core.generated.resources.Res as CoreRes
 
 /**

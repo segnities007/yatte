@@ -3,7 +3,6 @@ package com.segnities007.yatte.presentation.feature.home
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -11,8 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -27,14 +24,14 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.component.YatteEmptyState
 import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
-import com.segnities007.yatte.presentation.designsystem.component.YatteEmptyState
-import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
 import com.segnities007.yatte.presentation.feature.home.component.TaskList
 import com.segnities007.yatte.presentation.feature.home.component.formatDate
 import kotlinx.coroutines.CoroutineScope
@@ -47,10 +44,14 @@ import kotlinx.datetime.todayIn
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import com.segnities007.yatte.domain.aggregate.task.model.Task
-import yatte.presentation.feature.home.generated.resources.*
-import yatte.presentation.feature.home.generated.resources.Res as HomeRes
+import yatte.presentation.feature.home.generated.resources.cd_next_day
+import yatte.presentation.feature.home.generated.resources.cd_prev_day
+import yatte.presentation.feature.home.generated.resources.empty_no_tasks
+import yatte.presentation.feature.home.generated.resources.empty_tasks_emoji
+import yatte.presentation.feature.home.generated.resources.snackbar_task_completed
+import yatte.presentation.feature.home.generated.resources.snackbar_undo
 import kotlin.time.Clock
+import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 
 private const val INITIAL_PAGE = 500
 private const val PAGE_COUNT = 1000

@@ -1,6 +1,5 @@
 package com.segnities007.yatte.data.core.database
 
-import androidx.room.Room
 import androidx.room.RoomDatabase
 
 /**

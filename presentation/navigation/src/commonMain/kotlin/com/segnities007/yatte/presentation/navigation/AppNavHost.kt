@@ -2,16 +2,11 @@ package com.segnities007.yatte.presentation.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,13 +29,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.segnities007.yatte.presentation.navigation.component.AppBottomBar
-import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingActionButton
-import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingHeader
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalHeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.navigation.component.NavItem
+import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingActionButton
+import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingHeader
+import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
 import com.segnities007.yatte.presentation.feature.history.HistoryRoute
 import com.segnities007.yatte.presentation.feature.history.historyScreen
 import com.segnities007.yatte.presentation.feature.home.HomeRoute
@@ -50,11 +44,12 @@ import com.segnities007.yatte.presentation.feature.management.taskManagementScre
 import com.segnities007.yatte.presentation.feature.settings.SettingsRoute
 import com.segnities007.yatte.presentation.feature.settings.settingsScreen
 import com.segnities007.yatte.presentation.feature.task.taskScreens
-import com.segnities007.yatte.presentation.feature.task.AddTaskRoute as TaskFormAddTaskRoute
-import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
-import yatte.presentation.core.generated.resources.*
+import com.segnities007.yatte.presentation.navigation.component.AppBottomBar
+import com.segnities007.yatte.presentation.navigation.component.NavItem
 import org.jetbrains.compose.resources.stringResource
-
+import yatte.presentation.core.generated.resources.Res
+import yatte.presentation.core.generated.resources.cd_add_task
+import com.segnities007.yatte.presentation.feature.task.AddTaskRoute as TaskFormAddTaskRoute
 
 
 /**

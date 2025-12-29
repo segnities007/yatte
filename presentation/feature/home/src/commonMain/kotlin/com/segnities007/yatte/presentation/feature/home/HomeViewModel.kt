@@ -2,35 +2,36 @@ package com.segnities007.yatte.presentation.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
 import com.segnities007.yatte.domain.aggregate.history.usecase.AddHistoryUseCase
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.usecase.CompleteTaskUseCase
-import com.segnities007.yatte.domain.aggregate.task.usecase.UncompleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetAllTasksUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.SkipTaskUseCase
-import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
+import com.segnities007.yatte.domain.aggregate.task.usecase.UncompleteTaskUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.getString
-import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
-import yatte.presentation.feature.home.generated.resources.*
-import yatte.presentation.feature.home.generated.resources.Res as HomeRes
+import org.jetbrains.compose.resources.getString
+import yatte.presentation.feature.home.generated.resources.error_skip_failed
+import yatte.presentation.feature.home.generated.resources.error_task_complete_failed
 import kotlin.time.Clock
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
+import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 
 class HomeViewModel(
     private val getAllTasksUseCase: GetAllTasksUseCase,

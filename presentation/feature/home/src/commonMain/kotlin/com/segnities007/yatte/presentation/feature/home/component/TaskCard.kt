@@ -19,16 +19,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
-import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -38,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
@@ -48,7 +43,8 @@ import com.segnities007.yatte.presentation.designsystem.effect.ConfettiManager
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.feature.home.generated.resources.*
+import yatte.presentation.feature.home.generated.resources.cd_complete
+import yatte.presentation.feature.home.generated.resources.cd_skip
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 
 /**

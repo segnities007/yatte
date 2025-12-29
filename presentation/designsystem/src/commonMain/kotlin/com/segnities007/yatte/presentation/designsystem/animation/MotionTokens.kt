@@ -1,14 +1,13 @@
 package com.segnities007.yatte.presentation.designsystem.animation
 
+import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.EaseInOutCubic
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.IntOffset
 
 /**

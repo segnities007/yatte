@@ -11,7 +11,13 @@ import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.feature.task.generated.resources.*
+import yatte.presentation.feature.task.generated.resources.weekday_fri_short
+import yatte.presentation.feature.task.generated.resources.weekday_mon_short
+import yatte.presentation.feature.task.generated.resources.weekday_sat_short
+import yatte.presentation.feature.task.generated.resources.weekday_sun_short
+import yatte.presentation.feature.task.generated.resources.weekday_thu_short
+import yatte.presentation.feature.task.generated.resources.weekday_tue_short
+import yatte.presentation.feature.task.generated.resources.weekday_wed_short
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 
 /**

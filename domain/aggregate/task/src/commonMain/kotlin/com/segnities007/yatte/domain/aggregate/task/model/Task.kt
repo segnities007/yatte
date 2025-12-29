@@ -1,12 +1,5 @@
 package com.segnities007.yatte.domain.aggregate.task.model
 
-import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-
 /**
  * タスクのドメインモデル
  *
@@ -22,6 +15,12 @@ import kotlinx.datetime.toInstant
  * @property skipUntil この日付までスキップ（週次タスク用、nullの場合はスキップなし）
  */
 import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 
 data class Task(
     val id: TaskId,

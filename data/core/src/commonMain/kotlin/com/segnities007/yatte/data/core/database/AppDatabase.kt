@@ -1,11 +1,10 @@
 package com.segnities007.yatte.data.core.database
 
+import androidx.room.AutoMigration
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import androidx.room.migration.AutoMigrationSpec
-import androidx.room.AutoMigration
 import com.segnities007.yatte.data.core.database.dao.AlarmDao
 import com.segnities007.yatte.data.core.database.dao.CategoryDao
 import com.segnities007.yatte.data.core.database.dao.HistoryDao

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
-import com.segnities007.yatte.presentation.feature.settings.LicenseScreen
 
 @Serializable
 object SettingsRoute

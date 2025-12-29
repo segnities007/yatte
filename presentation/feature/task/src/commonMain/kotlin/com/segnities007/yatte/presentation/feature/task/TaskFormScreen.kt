@@ -46,15 +46,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.designsystem.component.YatteSoundPicker
-import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
 import com.segnities007.yatte.presentation.core.sound.SoundPickerLauncher
 import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.component.YatteSectionCard
+import com.segnities007.yatte.presentation.designsystem.component.YatteSoundPicker
 import com.segnities007.yatte.presentation.designsystem.component.YatteTextField
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
-import com.segnities007.yatte.presentation.designsystem.component.YatteSectionCard
 import com.segnities007.yatte.presentation.feature.task.component.TaskTimePickerSheet
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.getString
@@ -63,8 +63,35 @@ import org.koin.compose.viewmodel.koinViewModel
 import yatte.presentation.core.generated.resources.common_back
 import yatte.presentation.core.generated.resources.common_delete
 import yatte.presentation.core.generated.resources.common_save
+import yatte.presentation.feature.task.generated.resources.category_none
+import yatte.presentation.feature.task.generated.resources.field_task_name
+import yatte.presentation.feature.task.generated.resources.label_execute_time
+import yatte.presentation.feature.task.generated.resources.label_notification_sound
+import yatte.presentation.feature.task.generated.resources.label_repeat_weekdays
+import yatte.presentation.feature.task.generated.resources.label_task_type
+import yatte.presentation.feature.task.generated.resources.notification_minutes_before
+import yatte.presentation.feature.task.generated.resources.section_basic_info
+import yatte.presentation.feature.task.generated.resources.section_category
+import yatte.presentation.feature.task.generated.resources.section_notification
+import yatte.presentation.feature.task.generated.resources.section_schedule
+import yatte.presentation.feature.task.generated.resources.snackbar_task_deleted
+import yatte.presentation.feature.task.generated.resources.sound_clear
+import yatte.presentation.feature.task.generated.resources.sound_default
+import yatte.presentation.feature.task.generated.resources.sound_select
+import yatte.presentation.feature.task.generated.resources.sound_selected
+import yatte.presentation.feature.task.generated.resources.tap_to_change_time
+import yatte.presentation.feature.task.generated.resources.task_type_one_time
+import yatte.presentation.feature.task.generated.resources.task_type_weekly
+import yatte.presentation.feature.task.generated.resources.title_add_task
+import yatte.presentation.feature.task.generated.resources.title_edit_task
+import yatte.presentation.feature.task.generated.resources.weekday_fri_short
+import yatte.presentation.feature.task.generated.resources.weekday_mon_short
+import yatte.presentation.feature.task.generated.resources.weekday_sat_short
+import yatte.presentation.feature.task.generated.resources.weekday_sun_short
+import yatte.presentation.feature.task.generated.resources.weekday_thu_short
+import yatte.presentation.feature.task.generated.resources.weekday_tue_short
+import yatte.presentation.feature.task.generated.resources.weekday_wed_short
 import yatte.presentation.core.generated.resources.Res as CoreRes
-import yatte.presentation.feature.task.generated.resources.*
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)

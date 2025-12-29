@@ -2,22 +2,11 @@ package com.segnities007.yatte.presentation.feature.history
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,20 +20,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
-import com.segnities007.yatte.presentation.core.util.DateFormatter
-import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
-import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
-import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.designsystem.component.YatteEmptyState
+import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
+import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.feature.history.component.HistoryCard
 import com.segnities007.yatte.presentation.feature.history.component.HistoryTimeline
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import yatte.presentation.core.generated.resources.common_delete
-import yatte.presentation.core.generated.resources.Res as CoreRes
-import yatte.presentation.feature.history.generated.resources.*
+import yatte.presentation.feature.history.generated.resources.common_empty_emoji
+import yatte.presentation.feature.history.generated.resources.empty_history_description
+import yatte.presentation.feature.history.generated.resources.empty_no_history
+import yatte.presentation.feature.history.generated.resources.snackbar_export_success
+import yatte.presentation.feature.history.generated.resources.title_history
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
 @OptIn(ExperimentalMaterial3Api::class)

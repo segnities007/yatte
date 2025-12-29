@@ -7,7 +7,11 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.resources.StringResource
-import yatte.presentation.core.generated.resources.*
+import yatte.presentation.core.generated.resources.Res
+import yatte.presentation.core.generated.resources.nav_history
+import yatte.presentation.core.generated.resources.nav_home
+import yatte.presentation.core.generated.resources.nav_manage
+import yatte.presentation.core.generated.resources.nav_settings
 
 /**
  * ナビゲーション項目

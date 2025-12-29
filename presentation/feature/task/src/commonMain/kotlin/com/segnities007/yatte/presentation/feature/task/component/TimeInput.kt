@@ -12,7 +12,8 @@ import com.segnities007.yatte.presentation.designsystem.component.YatteTextField
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.LocalTime
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.feature.task.generated.resources.*
+import yatte.presentation.feature.task.generated.resources.label_hour
+import yatte.presentation.feature.task.generated.resources.label_minute
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 
 /**

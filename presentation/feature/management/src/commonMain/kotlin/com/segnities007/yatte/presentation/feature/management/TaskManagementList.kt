@@ -5,28 +5,33 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.designsystem.component.YatteCard
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.feature.management.generated.resources.*
+import yatte.presentation.feature.management.generated.resources.notification_minutes_before
+import yatte.presentation.feature.management.generated.resources.task_type_one_time
+import yatte.presentation.feature.management.generated.resources.task_type_weekly
+import yatte.presentation.feature.management.generated.resources.weekday_fri_short
+import yatte.presentation.feature.management.generated.resources.weekday_mon_short
+import yatte.presentation.feature.management.generated.resources.weekday_sat_short
+import yatte.presentation.feature.management.generated.resources.weekday_sun_short
+import yatte.presentation.feature.management.generated.resources.weekday_thu_short
+import yatte.presentation.feature.management.generated.resources.weekday_tue_short
+import yatte.presentation.feature.management.generated.resources.weekday_wed_short
 import yatte.presentation.feature.management.generated.resources.Res as ManagementRes
 
 @Composable

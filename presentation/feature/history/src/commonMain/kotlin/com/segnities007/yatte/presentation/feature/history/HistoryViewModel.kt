@@ -7,19 +7,20 @@ import com.segnities007.yatte.domain.aggregate.history.usecase.ClearAllHistoryUs
 import com.segnities007.yatte.domain.aggregate.history.usecase.DeleteHistoryUseCase
 import com.segnities007.yatte.domain.aggregate.history.usecase.ExportHistoryUseCase
 import com.segnities007.yatte.domain.aggregate.history.usecase.GetHistoryTimelineUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.getString
 import yatte.presentation.core.generated.resources.error_delete_failed
+import yatte.presentation.feature.history.generated.resources.error_clear_all_failed
+import yatte.presentation.feature.history.generated.resources.error_export_failed
 import yatte.presentation.core.generated.resources.Res as CoreRes
-import yatte.presentation.feature.history.generated.resources.*
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
 class HistoryViewModel(

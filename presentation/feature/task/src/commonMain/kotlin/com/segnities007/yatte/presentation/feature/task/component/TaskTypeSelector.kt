@@ -10,7 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import org.jetbrains.compose.resources.stringResource
-import yatte.presentation.feature.task.generated.resources.*
+import yatte.presentation.feature.task.generated.resources.task_type_one_time
+import yatte.presentation.feature.task.generated.resources.task_type_weekly
 import yatte.presentation.feature.task.generated.resources.Res as TaskRes
 
 /**
