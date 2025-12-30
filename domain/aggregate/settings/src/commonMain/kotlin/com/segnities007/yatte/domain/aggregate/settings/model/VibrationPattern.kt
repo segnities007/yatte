@@ -11,13 +11,5 @@ enum class VibrationPattern {
     HEARTBEAT, // 鼓動 (0, 100, 100, 100)
     ;
 
-    fun toDisplayString(): String {
-        return when (this) {
-            NORMAL -> "普通"
-            SHORT -> "短い"
-            LONG -> "長い"
-            SOS -> "SOS"
-            HEARTBEAT -> "鼓動"
-        }
-    }
+
 }

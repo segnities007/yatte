@@ -60,7 +60,7 @@ class TaskFormViewModel(
         loadCategories()
     }
 
-    private val _state = MutableStateFlow(TaskFormState())
+    private val _state = MutableStateFlow(TaskFormState(taskType = TaskType.WEEKLY_LOOP))
     val state: StateFlow<TaskFormState> = _state.asStateFlow()
 
     private val _events = Channel<TaskFormEvent>(Channel.BUFFERED)

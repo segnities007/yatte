@@ -16,13 +16,11 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.input.pointer.pointerInput
 
 object SpringSpecs {
-    // "Nintendo Quality" - Playful & Stress-free
-    // Stiffness: MediumLow (slightly soft)
-    // Damping: MediumBouncy (bouncy aftermath)
+    // Playful & Stress-free
     
-    val NintendoBounce = spring<Float>(
-        stiffness = 400f, // MediumLow (approx. between Low 200 and Medium 1500)
-        dampingRatio = 0.55f // MediumBouncy is 0.5f, slightly tuned for feel
+    val PlayfulBounce = spring<Float>(
+        stiffness = 400f,
+        dampingRatio = 0.55f
     )
 
     // Standard interactive bounce
@@ -53,7 +51,7 @@ fun Modifier.bounceClick(
         if (isPressed) {
             scale.animateTo(scaleDown, SpringSpecs.SnappyMedium)
         } else {
-            scale.animateTo(1f, SpringSpecs.NintendoBounce)
+            scale.animateTo(1f, SpringSpecs.PlayfulBounce)
         }
     }
 

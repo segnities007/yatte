@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.segnities007.yatte.presentation.designsystem.component.YatteSectionCard
-import com.segnities007.yatte.presentation.feature.settings.component.SettingsSwitchRow
+import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
+import com.segnities007.yatte.presentation.designsystem.component.list.YatteSwitchRow
 
 @Preview
 @Composable
@@ -20,7 +20,7 @@ private fun SettingsSectionWithSwitchPreview() {
             icon = Icons.Default.Notifications,
             title = "Notifications",
         ) {
-            SettingsSwitchRow(
+            YatteSwitchRow(
                 title = "Enable Notifications",
                 subtitle = "Receive alerts",
                 checked = true,

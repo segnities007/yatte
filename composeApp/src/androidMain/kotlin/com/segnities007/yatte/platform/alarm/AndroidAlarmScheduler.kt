@@ -16,6 +16,8 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Android用AlarmScheduler。
@@ -36,7 +38,7 @@ class AndroidAlarmScheduler(
         android.util.Log.d("YatteAlarm", "TaskId: ${alarm.taskId.value}")
         android.util.Log.d("YatteAlarm", "NotifyAt: ${alarm.notifyAt}")
         android.util.Log.d("YatteAlarm", "NotifyAtMillis: $notifyAtMillis, NowMillis: $nowMillis")
-        android.util.Log.d("YatteAlarm", "Delay: ${(notifyAtMillis - nowMillis) / 1000}秒後")
+        android.util.Log.d("YatteAlarm", "Delay: ${(notifyAtMillis - nowMillis).milliseconds.inWholeSeconds}秒後")
         android.util.Log.d("YatteAlarm", "canUseExactAlarm: ${canUseExactAlarm()}")
 
         if (canUseExactAlarm()) {
@@ -82,7 +84,7 @@ class AndroidAlarmScheduler(
         triggerAtMillis: Long,
     ) {
         val now = System.currentTimeMillis()
-        val delayMillis = (triggerAtMillis - now).coerceAtLeast(0)
+        val delay = (triggerAtMillis - now).milliseconds.coerceAtLeast(Duration.ZERO)
 
         val inputData =
             Data
@@ -92,7 +94,7 @@ class AndroidAlarmScheduler(
 
         val request =
             OneTimeWorkRequestBuilder<AlarmNotifyWorker>()
-                .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
+                .setInitialDelay(delay.inWholeMilliseconds, TimeUnit.MILLISECONDS)
                 .setInputData(inputData)
                 .addTag(workTag(alarm.id))
                 .build()

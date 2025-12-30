@@ -7,8 +7,8 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingNavigation
-import com.segnities007.yatte.presentation.designsystem.component.YatteNavigationItem
+import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteFloatingNavigation
+import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteNavigationItem
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

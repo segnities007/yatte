@@ -53,4 +53,6 @@
     <string name="action_import_desc">ファイルから復元（追記）</string>
     <string name="snackbar_import_success">%1$d件の履歴をインポートしました</string>
     <string name="snackbar_import_failed">インポートに失敗しました: %1$s</string>
+    
+    <string name="license_screen_title">オープンソースライセンス</string>
 </resources>

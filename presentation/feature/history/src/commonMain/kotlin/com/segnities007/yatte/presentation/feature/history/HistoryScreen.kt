@@ -20,9 +20,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.designsystem.component.YatteEmptyState
-import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
-import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteEmptyState
+import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteLoadingIndicator
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteScaffold
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.feature.history.component.HistoryCard
 import com.segnities007.yatte.presentation.feature.history.component.HistoryTimeline
@@ -36,6 +36,10 @@ import yatte.presentation.feature.history.generated.resources.snackbar_export_su
 import yatte.presentation.feature.history.generated.resources.title_history
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
+import com.segnities007.yatte.presentation.feature.history.component.HistoryContent
+import com.segnities007.yatte.presentation.feature.history.component.HistoryHeader
+import com.segnities007.yatte.presentation.feature.history.component.HistorySideEffects
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun HistoryScreen(
@@ -47,8 +51,8 @@ internal fun HistoryScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    HistorySetupHeader()
-    HistorySetupSideEffects(
+    HistoryHeader()
+    HistorySideEffects(
         viewModel = viewModel,
         actions = actions,
         onShowSnackbar = onShowSnackbar
@@ -62,92 +66,6 @@ internal fun HistoryScreen(
             state = state,
             contentPadding = listContentPadding,
         )
-    }
-}
-
-@Composable
-private fun HistorySetupHeader() {
-    val setHeaderConfig = LocalSetHeaderConfig.current
-    val historyTitle = stringResource(HistoryRes.string.title_history)
-    
-    val headerConfig = remember {
-        HeaderConfig(title = { Text(historyTitle) })
-    }
-    
-    SideEffect {
-        setHeaderConfig(headerConfig)
-    }
-}
-
-@Composable
-private fun HistorySetupSideEffects(
-    viewModel: HistoryViewModel,
-    actions: HistoryActions,
-    onShowSnackbar: (String) -> Unit,
-) {
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is HistoryEvent.NavigateBack -> actions.onBack()
-                is HistoryEvent.ShowError -> onShowSnackbar(event.message)
-                is HistoryEvent.ShowExportSuccess -> onShowSnackbar(
-                    getString(HistoryRes.string.snackbar_export_success, event.format),
-                )
-                is HistoryEvent.ShowClearConfirmation -> {}
-            }
-        }
-    }
-}
-
-@Composable
-private fun HistoryContent(
-    state: HistoryState,
-    contentPadding: PaddingValues,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        when {
-            state.isLoading -> {
-                YatteLoadingIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            }
-            state.historyItems.isEmpty() -> {
-                YatteEmptyState(
-                    emoji = stringResource(HistoryRes.string.common_empty_emoji),
-                    message = stringResource(HistoryRes.string.empty_no_history),
-                    description = stringResource(HistoryRes.string.empty_history_description),
-                    modifier = Modifier.align(Alignment.Center),
-                )
-            }
-            else -> {
-                HistoryTimeline(
-                    items = state.historyItems,
-                    contentPadding = contentPadding,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun HistoryList(
-    items: List<History>,
-    onDelete: (History) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(YatteSpacing.md),
-        verticalArrangement = Arrangement.spacedBy(YatteSpacing.sm),
-    ) {
-        items(items, key = { it.id.value }) { history ->
-            HistoryCard(
-                history = history,
-                onDelete = { onDelete(history) },
-            )
-        }
     }
 }
 

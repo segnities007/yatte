@@ -9,9 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.segnities007.yatte.presentation.designsystem.component.YatteButton
-import com.segnities007.yatte.presentation.designsystem.component.YatteCard
-import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
+import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
 
 @Preview
 @Composable

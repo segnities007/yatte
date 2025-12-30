@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.presentation.core.util.DateFormatter
-import com.segnities007.yatte.presentation.designsystem.component.YatteCard
-import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.core.generated.resources.common_delete

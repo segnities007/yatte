@@ -1,0 +1,400 @@
+Calculating task graph as no cached configuration is available for tasks: :presentation:feature:task:compileDebugKotlin
+Type-safe project accessors is an incubating feature.
+
+> Configure project :composeApp
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.application'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.application' starting with Android Gradle Plugin 9.0.0.
+
+Please change the structure of the your project and move the usage of 'com.android.application' into a separate subproject. The new subproject should add a dependency on this KMP subproject.
+
+Read more: https://kotl.in/kmp-project-structure-migration
+[32m[1mSolution:[0m[0m
+[32m[3mPlease change the structure of your project and move the usage of 'com.android.application' into a separate subproject.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :di
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :data:core
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:core
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:designsystem
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:navigation
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :data:aggregate:alarm
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :data:aggregate:category
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :data:aggregate:history
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :data:aggregate:settings
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :data:aggregate:task
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:feature:category
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:feature:history
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:feature:home
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:feature:management
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:feature:settings
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Configure project :presentation:feature:task
+w: [33m[1m⚠️ The 'org.jetbrains.kotlin.multiplatform' plugin deprecated compatibility with Android Gradle plugin: 'com.android.library'[0m[0m
+The 'org.jetbrains.kotlin.multiplatform' plugin will not be compatible with 'com.android.library' starting with Android Gradle Plugin 9.0.0.
+[32m[1mSolution:[0m[0m
+[32m[3mPlease use the 'com.android.kotlin.multiplatform.library' plugin instead of 'com.android.library'.[0m[0m
+[36mSee [0m[34mhttps://kotl.in/gradle/agp-new-kmp[0m[36m for more details.[0m
+
+
+> Task :domain:aggregate:category:jvmProcessResources NO-SOURCE
+> Task :domain:core:jvmProcessResources NO-SOURCE
+> Task :domain:aggregate:category:processJvmMainResources SKIPPED
+> Task :domain:core:processJvmMainResources SKIPPED
+> Task :domain:aggregate:settings:jvmProcessResources NO-SOURCE
+> Task :domain:aggregate:category:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:settings:processJvmMainResources SKIPPED
+> Task :domain:aggregate:category:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :di:preBuild UP-TO-DATE
+> Task :di:kmpPartiallyResolvedDependenciesChecker
+> Task :di:preDebugBuild UP-TO-DATE
+> Task :di:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:core:preBuild UP-TO-DATE
+> Task :data:core:preDebugBuild UP-TO-DATE
+> Task :data:core:kmpPartiallyResolvedDependenciesChecker
+> Task :data:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:category:preBuild UP-TO-DATE
+> Task :domain:aggregate:history:jvmProcessResources NO-SOURCE
+> Task :domain:aggregate:settings:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:history:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:category:preDebugBuild UP-TO-DATE
+> Task :domain:aggregate:settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:aggregate:history:processJvmMainResources SKIPPED
+> Task :domain:aggregate:history:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :di:generateDebugResValues UP-TO-DATE
+> Task :domain:aggregate:alarm:jvmProcessResources NO-SOURCE
+> Task :data:aggregate:history:preBuild UP-TO-DATE
+> Task :domain:aggregate:alarm:processJvmMainResources SKIPPED
+> Task :data:aggregate:history:preDebugBuild UP-TO-DATE
+> Task :data:aggregate:history:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:history:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:aggregate:task:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:core:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:task:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:aggregate:task:jvmProcessResources NO-SOURCE
+> Task :data:aggregate:category:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:task:processJvmMainResources SKIPPED
+> Task :data:aggregate:category:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:settings:preBuild UP-TO-DATE
+> Task :data:aggregate:task:preBuild UP-TO-DATE
+> Task :data:aggregate:settings:preDebugBuild UP-TO-DATE
+> Task :data:aggregate:task:preDebugBuild UP-TO-DATE
+> Task :data:aggregate:task:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:settings:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:task:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:alarm:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:alarm:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:category:generateDebugResValues UP-TO-DATE
+> Task :data:core:javaPreCompileDebug UP-TO-DATE
+> Task :data:aggregate:category:javaPreCompileDebug UP-TO-DATE
+> Task :di:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:history:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:core:kmpPartiallyResolvedDependenciesChecker
+> Task :data:core:generateDebugResValues UP-TO-DATE
+> Task :presentation:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :di:javaPreCompileDebug UP-TO-DATE
+> Task :data:aggregate:history:generateDebugResValues UP-TO-DATE
+> Task :domain:aggregate:alarm:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :data:aggregate:alarm:preBuild UP-TO-DATE
+> Task :data:aggregate:task:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:settings:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:task:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:core:preBuild UP-TO-DATE
+> Task :presentation:core:preDebugBuild UP-TO-DATE
+> Task :domain:aggregate:alarm:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:category:generateDebugResources UP-TO-DATE
+> Task :presentation:core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:core:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:core:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:core:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:core:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:core:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:designsystem:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:designsystem:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:settings:javaPreCompileDebug UP-TO-DATE
+> Task :data:core:generateDebugResources UP-TO-DATE
+> Task :presentation:designsystem:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:designsystem:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:designsystem:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:designsystem:preBuild UP-TO-DATE
+> Task :presentation:designsystem:preDebugBuild UP-TO-DATE
+> Task :presentation:designsystem:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:designsystem:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:designsystem:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:core:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:core:generateComposeResClass UP-TO-DATE
+> Task :presentation:designsystem:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :presentation:core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :data:aggregate:alarm:preDebugBuild UP-TO-DATE
+> Task :presentation:designsystem:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:designsystem:generateResourceAccessorsForCommonMain NO-SOURCE
+> Task :data:aggregate:task:generateDebugResources UP-TO-DATE
+> Task :presentation:core:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:core:generateDebugResValues UP-TO-DATE
+> Task :presentation:designsystem:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:designsystem:generateComposeResClass UP-TO-DATE
+> Task :presentation:designsystem:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:history:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:alarm:generateDebugResValues UP-TO-DATE
+> Task :presentation:designsystem:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:designsystem:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :data:aggregate:settings:generateDebugResources UP-TO-DATE
+> Task :presentation:designsystem:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :domain:core:compileKotlinJvm UP-TO-DATE
+> Task :presentation:core:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :data:aggregate:alarm:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:designsystem:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :domain:core:compileJvmMainJava NO-SOURCE
+> Task :domain:core:jvmMainClasses UP-TO-DATE
+> Task :presentation:feature:task:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:feature:task:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:core:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:task:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:task:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:designsystem:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:feature:task:preBuild UP-TO-DATE
+> Task :presentation:feature:task:preDebugBuild UP-TO-DATE
+> Task :presentation:core:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:designsystem:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:alarm:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:task:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:core:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:task:generateComposeResClass UP-TO-DATE
+> Task :presentation:feature:task:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:category:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:task:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :data:core:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:task:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:task:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :di:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :domain:core:jvmJar UP-TO-DATE
+> Task :presentation:core:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:feature:task:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:task:packageDebugResources UP-TO-DATE
+> Task :data:aggregate:settings:packageDebugResources UP-TO-DATE
+> Task :data:aggregate:category:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:history:packageDebugResources UP-TO-DATE
+> Task :data:core:parseDebugLocalResources UP-TO-DATE
+> Task :di:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:core:packageDebugResources UP-TO-DATE
+> Task :data:aggregate:alarm:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :data:aggregate:settings:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:feature:task:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :data:aggregate:history:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:task:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:core:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:feature:task:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :data:aggregate:alarm:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:category:generateDebugRFile UP-TO-DATE
+> Task :data:core:generateDebugRFile UP-TO-DATE
+> Task :di:generateDebugRFile UP-TO-DATE
+> Task :domain:aggregate:category:compileKotlinJvm UP-TO-DATE
+> Task :presentation:feature:task:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :data:aggregate:settings:generateDebugRFile UP-TO-DATE
+> Task :domain:aggregate:category:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:category:jvmMainClasses UP-TO-DATE
+> Task :data:aggregate:history:generateDebugRFile UP-TO-DATE
+> Task :presentation:designsystem:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :domain:aggregate:category:jvmJar UP-TO-DATE
+> Task :presentation:designsystem:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:task:generateDebugRFile UP-TO-DATE
+> Task :presentation:core:generateDebugRFile UP-TO-DATE
+> Task :presentation:feature:task:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:alarm:generateDebugRFile UP-TO-DATE
+> Task :presentation:feature:task:generateDebugRFile UP-TO-DATE
+> Task :presentation:designsystem:generateDebugRFile UP-TO-DATE
+> Task :data:core:kspDebugKotlinAndroid UP-TO-DATE
+> Task :domain:aggregate:task:compileKotlinJvm UP-TO-DATE
+> Task :domain:aggregate:task:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:task:jvmMainClasses UP-TO-DATE
+> Task :domain:aggregate:task:jvmJar UP-TO-DATE
+> Task :data:core:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:core:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:core:copyRoomSchemas NO-SOURCE
+> Task :data:core:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :domain:aggregate:history:compileKotlinJvm UP-TO-DATE
+> Task :domain:aggregate:alarm:compileKotlinJvm UP-TO-DATE
+> Task :domain:aggregate:alarm:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:history:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:alarm:jvmMainClasses UP-TO-DATE
+> Task :presentation:designsystem:compileDebugKotlinAndroid UP-TO-DATE
+> Task :domain:aggregate:history:jvmMainClasses UP-TO-DATE
+> Task :domain:aggregate:alarm:jvmJar UP-TO-DATE
+> Task :domain:aggregate:history:jvmJar UP-TO-DATE
+> Task :data:aggregate:task:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:category:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:category:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:aggregate:category:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:aggregate:task:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:designsystem:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:aggregate:task:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:designsystem:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :domain:aggregate:settings:compileKotlinJvm UP-TO-DATE
+> Task :data:aggregate:history:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:alarm:compileDebugKotlinAndroid UP-TO-DATE
+> Task :domain:aggregate:settings:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:settings:jvmMainClasses UP-TO-DATE
+> Task :data:aggregate:history:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:aggregate:alarm:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:aggregate:history:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:aggregate:alarm:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :domain:aggregate:settings:jvmJar UP-TO-DATE
+> Task :data:aggregate:settings:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:settings:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:aggregate:settings:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:core:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:core:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:core:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :di:compileDebugKotlinAndroid UP-TO-DATE
+> Task :di:compileDebugJavaWithJavac NO-SOURCE
+> Task :di:bundleLibCompileToJarDebug UP-TO-DATE
+
+> Task :presentation:feature:task:compileDebugKotlinAndroid FAILED
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/TaskFormViewModel.kt:253:59 Unresolved reference 'System'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:11:60 Unresolved reference 'weekday_fri_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:12:60 Unresolved reference 'weekday_mon_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:13:60 Unresolved reference 'weekday_sat_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:14:60 Unresolved reference 'weekday_sun_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:15:60 Unresolved reference 'weekday_thu_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:16:60 Unresolved reference 'weekday_tue_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:17:60 Unresolved reference 'weekday_wed_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:44:55 Unresolved reference 'weekday_mon_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:45:56 Unresolved reference 'weekday_tue_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:46:58 Unresolved reference 'weekday_wed_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:47:57 Unresolved reference 'weekday_thu_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:48:55 Unresolved reference 'weekday_fri_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:49:57 Unresolved reference 'weekday_sat_short'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/task/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/task/component/WeekDaySelector.kt:50:55 Unresolved reference 'weekday_sun_short'.
+
+[Incubating] Problems report is available at: file:///home/segnities007/AndroidStudioProjects/yatte/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':presentation:feature:task:compileDebugKotlinAndroid'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 4s
+122 actionable tasks: 17 executed, 105 up-to-date
+Configuration cache entry stored.

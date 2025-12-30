@@ -4,12 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
+import com.segnities007.yatte.presentation.designsystem.component.list.YatteTimelineRow
 
 /**
  * タスクリスト表示
@@ -19,6 +20,7 @@ fun TaskList(
     tasks: List<Task>,
     onCompleteTask: (Task) -> Unit,
     onSkipTask: (Task) -> Unit,
+    onSnoozeTask: (Task) -> Unit,
     onTaskClick: (Task) -> Unit,
     contentPadding: PaddingValues = PaddingValues(16.dp),
     modifier: Modifier = Modifier,
@@ -28,17 +30,28 @@ fun TaskList(
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        items(tasks, key = { it.id.value }) { task ->
-            TaskCard(
-                task = task,
-                onComplete = { onCompleteTask(task) },
-                onClick = { onTaskClick(task) },
-                onSkip = if (task.taskType == TaskType.WEEKLY_LOOP) {
-                    { onSkipTask(task) }
-                } else {
-                    null
-                },
-            )
+        itemsIndexed(tasks, key = { _, task -> task.id.value }) { index, task ->
+            val isFirst = index == 0
+            val isLast = index == tasks.lastIndex
+
+            YatteTimelineRow(
+                time = "${task.time.hour.toString().padStart(2, '0')}:${task.time.minute.toString().padStart(2, '0')}",
+                lineColor = com.segnities007.yatte.presentation.designsystem.theme.YatteColors.primary,
+                isFirst = isFirst,
+                isLast = isLast,
+            ) {
+                TaskCard(
+                    task = task,
+                    onComplete = { onCompleteTask(task) },
+                    onClick = { onTaskClick(task) },
+                    onSnooze = { onSnoozeTask(task) },
+                    onSkip = if (task.taskType == TaskType.WEEKLY_LOOP) {
+                        { onSkipTask(task) }
+                    } else {
+                        null
+                    },
+                )
+            }
         }
     }
 }

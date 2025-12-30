@@ -11,4 +11,12 @@
     <string name="error_delete_failed">削除に失敗しました</string>
 
     <string name="cd_add_task">タスク追加</string>
+    
+    <string name="common_weekday_mon_short">月</string>
+    <string name="common_weekday_tue_short">火</string>
+    <string name="common_weekday_wed_short">水</string>
+    <string name="common_weekday_thu_short">木</string>
+    <string name="common_weekday_fri_short">金</string>
+    <string name="common_weekday_sat_short">土</string>
+    <string name="common_weekday_sun_short">日</string>
 </resources>

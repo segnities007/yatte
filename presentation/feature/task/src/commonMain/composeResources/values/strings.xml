@@ -14,9 +14,6 @@
     <string name="task_type_weekly">週次繰り返し</string>
 
     <string name="label_repeat_weekdays">繰り返す曜日</string>
-
-    <string name="notification_minutes_before">通知: %1$d分前</string>
-
     <string name="weekday_mon_short">月</string>
     <string name="weekday_tue_short">火</string>
     <string name="weekday_wed_short">水</string>
@@ -24,6 +21,10 @@
     <string name="weekday_fri_short">金</string>
     <string name="weekday_sat_short">土</string>
     <string name="weekday_sun_short">日</string>
+
+    <string name="notification_minutes_before">通知: %1$d分前</string>
+
+
 
     <string name="error_task_not_found">タスクが見つかりません</string>
     <string name="error_task_load_failed">タスクの読み込みに失敗しました</string>

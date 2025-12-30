@@ -9,9 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteSnackbarHost
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteBasicScaffold
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteBasicScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -32,8 +33,8 @@ import androidx.navigation.compose.rememberNavController
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalHeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingActionButton
-import com.segnities007.yatte.presentation.designsystem.component.YatteFloatingHeader
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteFloatingActionButton
+import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteFloatingHeader
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
 import com.segnities007.yatte.presentation.feature.history.HistoryRoute
 import com.segnities007.yatte.presentation.feature.history.historyScreen
@@ -126,11 +127,11 @@ fun AppNavHost(
 
     // ヘッダーの表示状態
     // - タスクフォーム画面: 常に表示
-    // - ライセンス画面: 常に非表示 (画面内にTopAppBarがあるため)
+    // - ライセンス画面: 常に表示（戻るボタン付き）
     // - その他: スクロール連動
     val isHeaderVisible = when {
-        isLicenseScreen -> false
         isTaskFormScreen -> true
+        isLicenseScreen -> true
         else -> isFnbVisible
     }
 
@@ -141,7 +142,8 @@ fun AppNavHost(
             LocalHeaderConfig provides headerConfig,
             LocalSetHeaderConfig provides { config -> headerConfig = config },
         ) {
-            Scaffold(
+
+            YatteBasicScaffold(
                 modifier = modifier
                     .fillMaxSize()
                     .nestedScroll(nestedScrollConnection),
@@ -246,7 +248,7 @@ fun AppNavHost(
         )
         
         // Snackbar Overlay (FNBの上に表示)
-        SnackbarHost(
+        YatteSnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)

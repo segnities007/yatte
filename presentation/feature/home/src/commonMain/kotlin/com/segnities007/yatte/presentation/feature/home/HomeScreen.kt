@@ -28,12 +28,12 @@ import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
-import com.segnities007.yatte.presentation.designsystem.component.YatteEmptyState
-import com.segnities007.yatte.presentation.designsystem.component.YatteIconButton
-import com.segnities007.yatte.presentation.designsystem.component.YatteLoadingIndicator
-import com.segnities007.yatte.presentation.designsystem.component.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteEmptyState
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteLoadingIndicator
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteScaffold
 import com.segnities007.yatte.presentation.feature.home.component.TaskList
-import com.segnities007.yatte.presentation.feature.home.component.formatDate
+import com.segnities007.yatte.presentation.designsystem.component.layout.formatDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
@@ -52,6 +52,10 @@ import yatte.presentation.feature.home.generated.resources.snackbar_task_complet
 import yatte.presentation.feature.home.generated.resources.snackbar_undo
 import kotlin.time.Clock
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
+
+import com.segnities007.yatte.presentation.feature.home.component.HomeContent
+import com.segnities007.yatte.presentation.feature.home.component.HomeHeader
+import com.segnities007.yatte.presentation.feature.home.component.HomeSideEffects
 
 private const val INITIAL_PAGE = 500
 private const val PAGE_COUNT = 1000
@@ -75,14 +79,14 @@ fun HomeScreen(
     )
 
     HomeSetupPagerEffect(pagerState = pagerState, onSelectDate = { viewModel.onIntent(HomeIntent.SelectDate(it)) })
-    HomeSetupSideEffects(
+    HomeSideEffects(
         viewModel = viewModel,
         actions = actions,
         snackbarHostState = snackbarHostState,
         coroutineScope = coroutineScope,
         onShowSnackbar = onShowSnackbar
     )
-    HomeSetupHeader(state = state, pagerState = pagerState, coroutineScope = coroutineScope)
+    HomeHeader(state = state, pagerState = pagerState, coroutineScope = coroutineScope)
 
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
@@ -94,6 +98,7 @@ fun HomeScreen(
             contentPadding = listContentPadding,
             onCompleteTask = { task, date -> viewModel.onIntent(HomeIntent.CompleteTask(task, date)) },
             onSkipTask = { task, date -> viewModel.onIntent(HomeIntent.SkipTask(task, date)) },
+            onSnoozeTask = { task -> viewModel.onIntent(HomeIntent.SnoozeTask(task)) },
             onTaskClick = { viewModel.onIntent(HomeIntent.NavigateToEditTask(it.id.value)) },
         )
     }
@@ -110,145 +115,6 @@ private fun HomeSetupPagerEffect(
             val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
             val date = today.plus(offset, DateTimeUnit.DAY)
             onSelectDate(date)
-        }
-    }
-}
-
-@Composable
-private fun HomeSetupSideEffects(
-    viewModel: HomeViewModel,
-    actions: HomeActions,
-    snackbarHostState: SnackbarHostState,
-    coroutineScope: CoroutineScope,
-    onShowSnackbar: (String) -> Unit,
-) {
-    val undoLabel = stringResource(HomeRes.string.snackbar_undo)
-
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is HomeEvent.NavigateToAddTask -> actions.onAddTask()
-                is HomeEvent.NavigateToHistory -> actions.onHistory()
-                is HomeEvent.NavigateToSettings -> actions.onSettings()
-                is HomeEvent.NavigateToEditTask -> actions.onEditTask(event.taskId)
-                is HomeEvent.ShowError -> onShowSnackbar(event.message)
-                is HomeEvent.ShowTaskCompleted -> {
-                    val message = getString(HomeRes.string.snackbar_task_completed, event.task.title)
-                    coroutineScope.launch {
-                        val result = snackbarHostState.showSnackbar(
-                            message = message,
-                            actionLabel = undoLabel,
-                            duration = SnackbarDuration.Short,
-                        )
-                        if (result == SnackbarResult.ActionPerformed) {
-                            viewModel.onIntent(HomeIntent.UndoCompleteTask(event.task, event.date))
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun HomeSetupHeader(
-    state: HomeState,
-    pagerState: PagerState,
-    coroutineScope: CoroutineScope,
-) {
-    val setHeaderConfig = LocalSetHeaderConfig.current
-    val prevDayDesc = stringResource(HomeRes.string.cd_prev_day)
-    val nextDayDesc = stringResource(HomeRes.string.cd_next_day)
-    val dateText = if (state.selectedDate != null) {
-        formatDate(state.selectedDate)
-    } else {
-        ""
-    }
-    
-    val headerConfig = remember(dateText, pagerState.currentPage) {
-        HeaderConfig(
-            title = { 
-                Text(
-                    text = dateText,
-                    modifier = Modifier.bounceClick(onTap = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(INITIAL_PAGE)
-                        }
-                    })
-                ) 
-            },
-            navigationIcon = {
-                YatteIconButton(
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                        }
-                    },
-                    icon = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = prevDayDesc,
-                )
-            },
-            actions = {
-                YatteIconButton(
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                        }
-                    },
-                    icon = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = nextDayDesc,
-                )
-            },
-        )
-    }
-    
-    SideEffect {
-        setHeaderConfig(headerConfig)
-    }
-}
-
-@Composable
-private fun HomeContent(
-    state: HomeState,
-    pagerState: PagerState,
-    contentPadding: PaddingValues,
-    onCompleteTask: (Task, LocalDate) -> Unit,
-    onSkipTask: (Task, LocalDate) -> Unit,
-    onTaskClick: (Task) -> Unit,
-) {
-    HorizontalPager(
-        state = pagerState,
-        modifier = Modifier.fillMaxSize(),
-    ) { page ->
-        val offset = page - INITIAL_PAGE
-        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
-        val pageDate = today.plus(offset, DateTimeUnit.DAY)
-        val tasksForPage = state.tasksForDate(pageDate)
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                state.isLoading -> {
-                    YatteLoadingIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-                tasksForPage.isEmpty() -> {
-                    YatteEmptyState(
-                        emoji = stringResource(HomeRes.string.empty_tasks_emoji),
-                        message = stringResource(HomeRes.string.empty_no_tasks),
-                        modifier = Modifier.align(Alignment.Center),
-                    )
-                }
-                else -> {
-                    TaskList(
-                        tasks = tasksForPage,
-                        contentPadding = contentPadding,
-                        onCompleteTask = { onCompleteTask(it, pageDate) },
-                        onSkipTask = { onSkipTask(it, pageDate) },
-                        onTaskClick = onTaskClick,
-                    )
-                }
-            }
         }
     }
 }

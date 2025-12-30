@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import yatte.presentation.feature.settings.generated.resources.error_settings_save_failed
+import yatte.presentation.feature.settings.generated.resources.snackbar_export_failed
+import yatte.presentation.feature.settings.generated.resources.snackbar_import_failed
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
 
 class SettingsViewModel(
@@ -71,7 +73,8 @@ class SettingsViewModel(
                 }
                 .onFailure { error ->
                     _state.update { it.copy(isLoading = false) }
-                    val message = error.message ?: "Failed to export data" // TODO: Resource
+                    val errorMessage = error.message ?: "Unknown error"
+                    val message = getString(SettingsRes.string.snackbar_export_failed, errorMessage)
                     sendEvent(SettingsEvent.ShowError(message))
                 }
         }
@@ -87,7 +90,8 @@ class SettingsViewModel(
                 }
                 .onFailure { error ->
                     _state.update { it.copy(isLoading = false) }
-                    val message = error.message ?: "Failed to import data" // TODO: Resource
+                    val errorMessage = error.message ?: "Unknown error"
+                    val message = getString(SettingsRes.string.snackbar_import_failed, errorMessage)
                     sendEvent(SettingsEvent.ShowError(message))
                 }
         }

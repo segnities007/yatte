@@ -3,11 +3,8 @@ package com.segnities007.yatte.presentation.feature.task.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.component.input.YatteChip
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.datetime.DayOfWeek
 import org.jetbrains.compose.resources.stringResource
@@ -33,11 +30,10 @@ fun WeekDaySelector(
         horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
     ) {
         DayOfWeek.entries.forEach { day ->
-            FilterChip(
+            YatteChip(
+                label = day.toDisplayString(),
                 selected = day in selectedDays,
                 onClick = { onDayToggle(day) },
-                label = { Text(day.toDisplayString()) },
-                modifier = Modifier.bounceClick(),
             )
         }
     }
@@ -53,4 +49,3 @@ private fun DayOfWeek.toDisplayString(): String = when (this) {
     DayOfWeek.SATURDAY -> stringResource(TaskRes.string.weekday_sat_short)
     DayOfWeek.SUNDAY -> stringResource(TaskRes.string.weekday_sun_short)
 }
-

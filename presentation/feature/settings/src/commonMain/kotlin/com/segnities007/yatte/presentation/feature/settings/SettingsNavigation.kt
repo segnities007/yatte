@@ -40,6 +40,8 @@ fun NavGraphBuilder.settingsScreen(
     composable<LicenseRoute> {
         LicenseScreen(
             onBackClick = actions.onBack,
+            contentPadding = contentPadding,
+            isNavigationVisible = isNavigationVisible,
         )
     }
 }

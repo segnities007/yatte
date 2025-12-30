@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
-import com.segnities007.yatte.presentation.feature.home.component.DateHeader
+import com.segnities007.yatte.presentation.designsystem.component.layout.DateHeader
 import com.segnities007.yatte.presentation.feature.home.component.TaskCard
 
 import kotlinx.datetime.LocalDateTime
