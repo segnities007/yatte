@@ -81,6 +81,7 @@ com.segnities007.yatte.presentation.core.file
 com.segnities007.yatte.presentation.core.platform
 com.segnities007.yatte.presentation.core.sound
 com.segnities007.yatte.presentation.core.theme
+com.segnities007.yatte.presentation.core.util
 yatte.presentation.core.generated.resources
 module:di
 com.segnities007.yatte.di
@@ -90,7 +91,9 @@ com.segnities007.yatte.presentation.feature.home.component
 com.segnities007.yatte.presentation.feature.home.di
 module:management
 com.segnities007.yatte.presentation.feature.management
+com.segnities007.yatte.presentation.feature.management.component
 com.segnities007.yatte.presentation.feature.management.di
 module:navigation
 com.segnities007.yatte.presentation.navigation
+com.segnities007.yatte.presentation.navigation.component
 com.segnities007.yatte.presentation.navigation.di
