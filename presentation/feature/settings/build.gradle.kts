@@ -40,6 +40,13 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+
+        val androidMain by getting {
+            dependencies {
+                implementation(compose.uiTooling)
+                implementation(compose.preview)
+            }
+        }
     }
 }
 

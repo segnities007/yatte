@@ -130,3 +130,26 @@ fun TaskListContentPreview() {
 2. **Stateは不変(Immutable)**: `val`のみを使用し、`copy()`で更新する。
 3. **ロジックをUIに書かない**: `if`分岐などは最小限にし、ViewModelで計算済みの値をStateに入れる。
 4. **リソースアクセス**: `stringResource`, `painterResource` などを使用し、ハードコーディングしない。
+   ```kotlin
+   // ❌ ハードコーディング
+   Text(text = "保存")
+   
+   // ✅ リソース使用
+   Text(text = stringResource(Res.string.common_save))
+   ```
+5. **UIロジックとビジュアルの分離**
+   - 複雑な計算やフォーマット処理はコンポーザブル内に直接書かず、ViewModelやUtilityクラスに分離してください。
+   - 例: 日付フォーマットは `DateFormatter` などの共通ユーティリティを使用する。
+
+6. **Compose Multiplatform Resourcesの注意点**
+   - `getString()` は `suspend` 関数です。`onClick` やコールバック（非サスペンドスコープ）で使用する場合は、`rememberCoroutineScope` を使用して `launch` ブロック内で呼び出してください。
+   ```kotlin
+   val scope = rememberCoroutineScope()
+   // ...
+   onClick = {
+       scope.launch {
+           val message = getString(Res.string.message)
+           snackbarHostState.showSnackbar(message)
+       }
+   }
+   ```

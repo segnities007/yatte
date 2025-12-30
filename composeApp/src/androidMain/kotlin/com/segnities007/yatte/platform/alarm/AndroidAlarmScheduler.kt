@@ -12,8 +12,12 @@ import androidx.work.WorkManager
 import com.segnities007.yatte.domain.aggregate.alarm.model.Alarm
 import com.segnities007.yatte.domain.aggregate.alarm.model.AlarmId
 import com.segnities007.yatte.domain.aggregate.alarm.scheduler.AlarmScheduler
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Android用AlarmScheduler。
@@ -34,7 +38,7 @@ class AndroidAlarmScheduler(
         android.util.Log.d("YatteAlarm", "TaskId: ${alarm.taskId.value}")
         android.util.Log.d("YatteAlarm", "NotifyAt: ${alarm.notifyAt}")
         android.util.Log.d("YatteAlarm", "NotifyAtMillis: $notifyAtMillis, NowMillis: $nowMillis")
-        android.util.Log.d("YatteAlarm", "Delay: ${(notifyAtMillis - nowMillis) / 1000}秒後")
+        android.util.Log.d("YatteAlarm", "Delay: ${(notifyAtMillis - nowMillis).milliseconds.inWholeSeconds}秒後")
         android.util.Log.d("YatteAlarm", "canUseExactAlarm: ${canUseExactAlarm()}")
 
         if (canUseExactAlarm()) {
@@ -80,7 +84,7 @@ class AndroidAlarmScheduler(
         triggerAtMillis: Long,
     ) {
         val now = System.currentTimeMillis()
-        val delayMillis = (triggerAtMillis - now).coerceAtLeast(0)
+        val delay = (triggerAtMillis - now).milliseconds.coerceAtLeast(Duration.ZERO)
 
         val inputData =
             Data
@@ -90,7 +94,7 @@ class AndroidAlarmScheduler(
 
         val request =
             OneTimeWorkRequestBuilder<AlarmNotifyWorker>()
-                .setInitialDelay(delayMillis, TimeUnit.MILLISECONDS)
+                .setInitialDelay(delay.inWholeMilliseconds, TimeUnit.MILLISECONDS)
                 .setInputData(inputData)
                 .addTag(workTag(alarm.id))
                 .build()
@@ -116,7 +120,7 @@ class AndroidAlarmScheduler(
             Intent(context, AlarmReceiver::class.java)
                 .setAction(AlarmConstants.ACTION_ALARM_FIRED)
                 .putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId.value)
-                .putExtra(AlarmConstants.EXTRA_TASK_TITLE, taskTitle)
+                .putExtra(AlarmConstants.EXTRA_TASK_ID, taskTitle)
 
         val flags =
             PendingIntent.FLAG_UPDATE_CURRENT or
@@ -144,7 +148,7 @@ class AndroidAlarmScheduler(
     private fun workTag(alarmId: AlarmId): String = "alarm_${alarmId.value}"
 }
 
-private fun kotlinx.datetime.LocalDateTime.toEpochMillis(): Long {
-    val tz = kotlinx.datetime.TimeZone.currentSystemDefault()
+private fun LocalDateTime.toEpochMillis(): Long {
+    val tz = TimeZone.currentSystemDefault()
     return this.toInstant(tz).toEpochMilliseconds()
 }

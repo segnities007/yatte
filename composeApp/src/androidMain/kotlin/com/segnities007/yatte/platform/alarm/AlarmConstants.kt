@@ -6,5 +6,5 @@ internal object AlarmConstants {
     const val ACTION_ALARM_COMPLETE = "com.segnities007.yatte.ACTION_ALARM_COMPLETE"
 
     const val EXTRA_ALARM_ID = "extra_alarm_id"
-    const val EXTRA_TASK_TITLE = "extra_task_title"
+    const val EXTRA_TASK_ID = "extra_task_id"
 }

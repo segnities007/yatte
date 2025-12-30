@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.time.LocalDateTime
+import java.time.Month
+import java.time.ZoneId
 import java.util.logging.Logger
 
 class DesktopAlarmScheduler :
@@ -35,11 +38,11 @@ class DesktopAlarmScheduler :
 
         val nowMillis = System.currentTimeMillis()
         val a = alarm.notifyAt
-        val jMonth = java.time.Month.valueOf(a.month.name)
-        val jLocal = java.time.LocalDateTime.of(a.year, jMonth, a.day, a.hour, a.minute, a.second, a.nanosecond)
+        val jMonth = Month.valueOf(a.month.name)
+        val jLocal = LocalDateTime.of(a.year, jMonth, a.day, a.hour, a.minute, a.second, a.nanosecond)
         val triggerMillis =
             jLocal
-                .atZone(java.time.ZoneId.systemDefault())
+                .atZone(ZoneId.systemDefault())
                 .toInstant()
                 .toEpochMilli()
 

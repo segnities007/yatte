@@ -3,14 +3,14 @@ package com.segnities007.yatte.presentation.navigation
 import androidx.navigation.NavController
 import com.segnities007.yatte.presentation.feature.history.HistoryActions
 import com.segnities007.yatte.presentation.feature.history.HistoryRoute
-import com.segnities007.yatte.presentation.feature.task.AddTaskRoute
-import com.segnities007.yatte.presentation.feature.task.EditTaskRoute
 import com.segnities007.yatte.presentation.feature.home.HomeActions
+import com.segnities007.yatte.presentation.feature.management.TaskManagementActions
+import com.segnities007.yatte.presentation.feature.settings.LicenseRoute
 import com.segnities007.yatte.presentation.feature.settings.SettingsActions
 import com.segnities007.yatte.presentation.feature.settings.SettingsRoute
-import com.segnities007.yatte.presentation.feature.settings.LicenseRoute
+import com.segnities007.yatte.presentation.feature.task.AddTaskRoute
+import com.segnities007.yatte.presentation.feature.task.EditTaskRoute
 import com.segnities007.yatte.presentation.feature.task.TaskActions
-import com.segnities007.yatte.presentation.feature.management.TaskManagementActions
 
 /**
  * アプリ全体のナビゲーションアクションを管理するクラス。

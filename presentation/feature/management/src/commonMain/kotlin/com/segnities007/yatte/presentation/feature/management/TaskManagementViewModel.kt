@@ -2,8 +2,8 @@ package com.segnities007.yatte.presentation.feature.management
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.alarm.usecase.CancelAlarmUseCase
+import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.usecase.DeleteTaskUseCase
 import com.segnities007.yatte.domain.aggregate.task.usecase.GetAllTasksUseCase
 import kotlinx.coroutines.channels.Channel
@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.getString
 import yatte.presentation.core.generated.resources.error_delete_failed
+import yatte.presentation.feature.management.generated.resources.snackbar_task_deleted
 import yatte.presentation.core.generated.resources.Res as CoreRes
-import yatte.presentation.feature.management.generated.resources.*
 import yatte.presentation.feature.management.generated.resources.Res as ManagementRes
 
 class TaskManagementViewModel(

@@ -163,8 +163,55 @@ getTask(id)
 ```
 
 ---
-
-## 命名規則
+ 
+ ## 9. ベストプラクティス（防止策）
+ 
+ ### 定数の命名と管理
+ 
+ 定数名はその **内容** ではなく **用途** を表す名前にする。
+ 
+ ```kotlin
+ // ❌ 内容を表している（IDが入るのにTITLEはおかしい）
+ const val EXTRA_TASK_TITLE = "extra_task_title"
+ 
+ // ✅ 用途を表している
+ const val EXTRA_TASK_ID = "extra_task_id"
+ ```
+ 
+ ### UseCaseの副作用と責任
+ 
+ 副作用（履歴記録、分析送信など）がビジネスルールとして必須な場合、UseCase内で完結させるか、呼び出し元の責任範囲を明確にする。
+ 
+ - **原則**: 「タスク完了」というビジネスアクションが「履歴記録」を伴うなら、それはセットで行われるべき。
+ - **DI**: 必要なUseCaseはすべて注入し、ViewModelでバラバラに呼ばない。
+ 
+ ```kotlin
+ // ❌ ViewModelで個別に呼ぶと、片方忘れる可能性がある
+ fun onComplete() {
+     completeTask(task)
+     // addHistory(history) // 忘れがち！
+ }
+ 
+ // ✅ UseCase内で整合性を保つ
+ class CompleteTaskUseCase(
+     private val taskRepo: TaskRepository,
+     private val historyRepo: HistoryRepository
+ ) {
+     suspend operator fun invoke(...) {
+         taskRepo.complete(...)
+         historyRepo.add(...)
+     }
+ }
+ // ※ 循環参照になる場合は、上位のFacade UseCaseを作るか、ViewModelで責任を持って呼ぶことをドキュメント化する。
+ ```
+ 
+ ### Android Manifest / Build Configuration
+ 
+ - `applicationId` はプロジェクト全体で統一されているか確認する。タイポ（`segnites` vs `segnities`）に注意。
+ 
+ ---
+ 
+ ## 命名規則
 
 ### パッケージ
 

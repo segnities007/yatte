@@ -1,7 +1,7 @@
 package com.segnities007.yatte.domain.aggregate.category.model
 
-import kotlin.time.Clock
 import kotlin.jvm.JvmInline
+import kotlin.time.Clock
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

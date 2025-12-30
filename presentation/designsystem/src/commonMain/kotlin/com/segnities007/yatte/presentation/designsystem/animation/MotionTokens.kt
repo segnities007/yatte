@@ -1,10 +1,13 @@
 package com.segnities007.yatte.presentation.designsystem.animation
 
+import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.unit.IntOffset
 
 /**
@@ -28,13 +31,13 @@ object MotionDuration {
  */
 object MotionEasing {
     /** 標準的な減速イージング（進入時） */
-    val decelerate = androidx.compose.animation.core.FastOutSlowInEasing
+    val decelerate = FastOutSlowInEasing
     /** 標準的な加速イージング（退出時） */
-    val accelerate = androidx.compose.animation.core.FastOutLinearInEasing
+    val accelerate = FastOutLinearInEasing
     /** 線形 */
-    val linear = androidx.compose.animation.core.LinearEasing
+    val linear = LinearEasing
     /** 強調イージング */
-    val emphasized = androidx.compose.animation.core.EaseInOutCubic
+    val emphasized = EaseInOutCubic
 }
 
 /**

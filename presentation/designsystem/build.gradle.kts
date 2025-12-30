@@ -19,6 +19,8 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.kotlinx.datetime)
         }
 
         val androidMain by getting {
@@ -26,6 +28,13 @@ kotlin {
                 implementation(compose.uiTooling)
                 implementation(compose.preview)
             }
+        }
+
+        val jvmMain by getting {
+             dependencies {
+                 implementation(compose.desktop.currentOs)
+                 implementation("org.jetbrains.compose.ui:ui-tooling-preview-desktop:${libs.versions.composeMultiplatform.get()}")
+             }
         }
 
         commonTest.dependencies {

@@ -7,13 +7,22 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.Build
+import android.os.VibrationAttributes
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import com.segnities007.yatte.MainActivity
 import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
 import com.segnities007.yatte.platform.alarm.AlarmConstants
 import com.segnities007.yatte.platform.alarm.AlarmReceiver
+import android.R as AndroidR
+import android.provider.Settings as AndroidSettings
 
 internal object AlarmNotification {
     private const val CHANNEL_ID_PREFIX = "yatte_alarm"
@@ -46,14 +55,14 @@ internal object AlarmNotification {
         val builder =
             NotificationCompat
                 .Builder(context, channelId)
-                .setSmallIcon(android.R.drawable.ic_popup_reminder)
+                .setSmallIcon(AndroidR.drawable.ic_popup_reminder)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         val intent =
-            Intent(context, com.segnities007.yatte.MainActivity::class.java).apply {
+            Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         val pendingIntent =
@@ -70,7 +79,7 @@ internal object AlarmNotification {
             Intent(context, AlarmReceiver::class.java).apply {
                 action = AlarmConstants.ACTION_ALARM_EXTEND
                 putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId)
-                putExtra(AlarmConstants.EXTRA_TASK_TITLE, taskId) // reusing key for taskId
+                putExtra(AlarmConstants.EXTRA_TASK_ID, taskId)
             }
         val extendPendingIntent =
             PendingIntent.getBroadcast(
@@ -79,14 +88,14 @@ internal object AlarmNotification {
                 extendIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
-        builder.addAction(android.R.drawable.ic_popup_reminder, "スヌーズ (${snoozeDuration}分)", extendPendingIntent)
+        builder.addAction(AndroidR.drawable.ic_popup_reminder, "スヌーズ (${snoozeDuration}分)", extendPendingIntent)
 
         // Complete Action
         val completeIntent =
             Intent(context, AlarmReceiver::class.java).apply {
                 action = AlarmConstants.ACTION_ALARM_COMPLETE
                 putExtra(AlarmConstants.EXTRA_ALARM_ID, alarmId)
-                putExtra(AlarmConstants.EXTRA_TASK_TITLE, taskId) // reusing key for taskId
+                putExtra(AlarmConstants.EXTRA_TASK_ID, taskId)
             }
         val completePendingIntent =
             PendingIntent.getBroadcast(
@@ -95,7 +104,7 @@ internal object AlarmNotification {
                 completeIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
-        builder.addAction(android.R.drawable.checkbox_on_background, "完了", completePendingIntent)
+        builder.addAction(AndroidR.drawable.checkbox_on_background, "完了", completePendingIntent)
 
         if (isSoundEnabled && soundUri != null) {
             try {
@@ -118,39 +127,39 @@ internal object AlarmNotification {
                         val manager =
                             context.getSystemService(
                                 Context.VIBRATOR_MANAGER_SERVICE,
-                            ) as android.os.VibratorManager
+                            ) as VibratorManager
                         manager.defaultVibrator
                     } else {
                         @Suppress("DEPRECATION")
-                        context.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator
+                        context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     }
 
                 if (vibrator.hasVibrator()) {
                     val pattern = getVibrationPattern(vibrationPattern)
                     // API 26+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        val effect = android.os.VibrationEffect.createWaveform(pattern, -1)
+                        val effect = VibrationEffect.createWaveform(pattern, -1)
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             val attributes =
-                                android.os.VibrationAttributes
+                                VibrationAttributes
                                     .Builder()
-                                    .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
+                                    .setUsage(VibrationAttributes.USAGE_ALARM)
                                     .build()
                             vibrator.vibrate(effect, attributes)
                         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                             val attributes =
-                                android.os.VibrationAttributes
+                                VibrationAttributes
                                     .Builder()
-                                    .setUsage(android.os.VibrationAttributes.USAGE_ALARM)
+                                    .setUsage(VibrationAttributes.USAGE_ALARM)
                                     .build()
                             vibrator.vibrate(effect, attributes)
                         } else {
                             val audioAttrs =
-                                android.media.AudioAttributes
+                                AudioAttributes
                                     .Builder()
-                                    .setUsage(android.media.AudioAttributes.USAGE_ALARM)
-                                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                                    .setUsage(AudioAttributes.USAGE_ALARM)
+                                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                                     .build()
                             @Suppress("DEPRECATION")
                             vibrator.vibrate(effect, audioAttrs)
@@ -214,18 +223,18 @@ internal object AlarmNotification {
             )
 
         val audioAttributes =
-            android.media.AudioAttributes
+            AudioAttributes
                 .Builder()
-                .setUsage(android.media.AudioAttributes.USAGE_ALARM)
-                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
 
         if (isSoundEnabled) {
             val uri =
                 if (soundUri != null) {
-                    android.net.Uri.parse(soundUri)
+                    Uri.parse(soundUri)
                 } else {
-                    android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI
+                    AndroidSettings.System.DEFAULT_ALARM_ALERT_URI
                 }
 
             try {
@@ -233,7 +242,7 @@ internal object AlarmNotification {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // フォールバック: デフォルトのアラーム音を設定
-                channel.setSound(android.provider.Settings.System.DEFAULT_ALARM_ALERT_URI, audioAttributes)
+                channel.setSound(AndroidSettings.System.DEFAULT_ALARM_ALERT_URI, audioAttributes)
             }
         } else {
             channel.setSound(null, null)

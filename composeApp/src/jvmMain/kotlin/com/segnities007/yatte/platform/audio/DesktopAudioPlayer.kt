@@ -1,12 +1,14 @@
 package com.segnities007.yatte.platform.audio
 
+import java.awt.Toolkit
 import java.io.File
+import java.util.logging.Level
+import java.util.logging.Logger
 import javax.sound.sampled.AudioSystem
 
 object DesktopAudioPlayer {
     private val logger =
-        java.util.logging.Logger
-            .getLogger(DesktopAudioPlayer::class.java.name)
+        Logger.getLogger(DesktopAudioPlayer::class.java.name)
 
     fun play(uri: String?) {
         try {
@@ -26,14 +28,14 @@ object DesktopAudioPlayer {
                 playDefaultBeep()
             }
         } catch (e: Exception) {
-            logger.log(java.util.logging.Level.SEVERE, "Failed to play audio", e)
+            logger.log(Level.SEVERE, "Failed to play audio", e)
             // フォーマット非対応などの場合はビープ音にフォールバック
             playDefaultBeep()
         }
     }
 
     private fun playDefaultBeep() {
-        java.awt.Toolkit
+        Toolkit
             .getDefaultToolkit()
             .beep()
     }

@@ -2,21 +2,17 @@ package com.segnities007.yatte.presentation.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteSnackbarHost
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteBasicScaffold
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteBasicScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -34,13 +30,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.segnities007.yatte.presentation.core.component.AppBottomBar
-import com.segnities007.yatte.presentation.core.component.AppFloatingActionButton
-import com.segnities007.yatte.presentation.core.component.FloatingHeaderBar
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalHeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
-import com.segnities007.yatte.presentation.core.component.NavItem
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteFloatingActionButton
+import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteFloatingHeader
+import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
 import com.segnities007.yatte.presentation.feature.history.HistoryRoute
 import com.segnities007.yatte.presentation.feature.history.historyScreen
 import com.segnities007.yatte.presentation.feature.home.HomeRoute
@@ -50,7 +45,12 @@ import com.segnities007.yatte.presentation.feature.management.taskManagementScre
 import com.segnities007.yatte.presentation.feature.settings.SettingsRoute
 import com.segnities007.yatte.presentation.feature.settings.settingsScreen
 import com.segnities007.yatte.presentation.feature.task.taskScreens
-import com.segnities007.yatte.presentation.designsystem.effect.ConfettiHost
+import com.segnities007.yatte.presentation.navigation.component.AppBottomBar
+import com.segnities007.yatte.presentation.navigation.component.NavItem
+import org.jetbrains.compose.resources.stringResource
+import yatte.presentation.core.generated.resources.Res
+import yatte.presentation.core.generated.resources.cd_add_task
+import com.segnities007.yatte.presentation.feature.task.AddTaskRoute as TaskFormAddTaskRoute
 
 
 /**
@@ -127,11 +127,11 @@ fun AppNavHost(
 
     // ヘッダーの表示状態
     // - タスクフォーム画面: 常に表示
-    // - ライセンス画面: 常に非表示 (画面内にTopAppBarがあるため)
+    // - ライセンス画面: 常に表示（戻るボタン付き）
     // - その他: スクロール連動
     val isHeaderVisible = when {
-        isLicenseScreen -> false
         isTaskFormScreen -> true
+        isLicenseScreen -> true
         else -> isFnbVisible
     }
 
@@ -142,7 +142,8 @@ fun AppNavHost(
             LocalHeaderConfig provides headerConfig,
             LocalSetHeaderConfig provides { config -> headerConfig = config },
         ) {
-            Scaffold(
+
+            YatteBasicScaffold(
                 modifier = modifier
                     .fillMaxSize()
                     .nestedScroll(nestedScrollConnection),
@@ -192,8 +193,6 @@ fun AppNavHost(
             }
         }
 
-
-
         // Status Bar Background
         Box(
             modifier = Modifier
@@ -204,7 +203,7 @@ fun AppNavHost(
         )
 
         // Global Header Overlay
-        FloatingHeaderBar(
+        YatteFloatingHeader(
             isVisible = isHeaderVisible,
             title = headerConfig.title,
             navigationIcon = headerConfig.navigationIcon,
@@ -238,9 +237,10 @@ fun AppNavHost(
         )
 
         // FAB Overlay
-        AppFloatingActionButton(
+        YatteFloatingActionButton(
             isVisible = showFab,
-            onClick = actions.homeActions.onAddTask,
+            onClick = { navController.navigate(TaskFormAddTaskRoute) },
+            contentDescription = stringResource(Res.string.cd_add_task),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 // FNBの上部に配置 (112dp + margin) -> adjusted to match new BottomBar padding
@@ -248,7 +248,7 @@ fun AppNavHost(
         )
         
         // Snackbar Overlay (FNBの上に表示)
-        SnackbarHost(
+        YatteSnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)

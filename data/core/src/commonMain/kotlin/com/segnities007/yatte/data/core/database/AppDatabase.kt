@@ -1,10 +1,10 @@
 package com.segnities007.yatte.data.core.database
 
+import androidx.room.AutoMigration
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import androidx.room.migration.AutoMigrationSpec
 import com.segnities007.yatte.data.core.database.dao.AlarmDao
 import com.segnities007.yatte.data.core.database.dao.CategoryDao
 import com.segnities007.yatte.data.core.database.dao.HistoryDao
@@ -24,9 +24,9 @@ import com.segnities007.yatte.data.core.database.entity.TaskEntity
     ],
     version = 6,
     autoMigrations = [
-        androidx.room.AutoMigration(from = 3, to = 4),
-        androidx.room.AutoMigration(from = 4, to = 5),
-        androidx.room.AutoMigration(from = 5, to = 6),
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6),
     ],
     exportSchema = true,
 )

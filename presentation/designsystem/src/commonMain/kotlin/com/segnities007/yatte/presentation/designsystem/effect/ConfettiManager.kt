@@ -1,15 +1,11 @@
 package com.segnities007.yatte.presentation.designsystem.effect
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import com.segnities007.yatte.presentation.designsystem.theme.PrimaryLight
-import com.segnities007.yatte.presentation.designsystem.theme.SecondaryLight
+import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,7 +23,7 @@ object ConfettiManager {
             repeat(20) {
                 _paticles.add(
                     ConfettiParticle(
-                        color = if (Random.nextBoolean()) PrimaryLight else SecondaryLight,
+                        color = if (Random.nextBoolean()) YatteColors.primary else YatteColors.sunshine,
                         angle = Random.nextFloat() * 360f,
                         startPosition = position // Using provided position or default
                     )

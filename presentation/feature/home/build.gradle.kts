@@ -38,6 +38,13 @@ kotlin {
             implementation(projects.di)
         }
 
+        val androidMain by getting {
+            dependencies {
+                implementation(compose.uiTooling)
+                implementation(compose.preview)
+            }
+        }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

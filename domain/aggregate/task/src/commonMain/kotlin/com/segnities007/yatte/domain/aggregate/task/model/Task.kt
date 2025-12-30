@@ -1,12 +1,5 @@
 package com.segnities007.yatte.domain.aggregate.task.model
 
-import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-
 /**
  * タスクのドメインモデル
  *
@@ -22,6 +15,13 @@ import kotlinx.datetime.toInstant
  * @property skipUntil この日付までスキップ（週次タスク用、nullの場合はスキップなし）
  */
 import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
+import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlin.time.Duration.Companion.hours
 
 data class Task(
     val id: TaskId,
@@ -148,12 +148,11 @@ data class Task(
         // アラームが発火していない場合は削除しない
         val triggered = alarmTriggeredAt ?: return false
 
-        // 24時間（秒単位）経過しているかチェック
+        // 24時間経過しているかチェック
         val triggeredInstant = triggered.toInstant(timeZone)
         val nowInstant = now.toInstant(timeZone)
-        val elapsedSeconds = nowInstant.epochSeconds - triggeredInstant.epochSeconds
-        val thresholdSeconds = DELETION_THRESHOLD_HOURS * 60 * 60
-
-        return elapsedSeconds >= thresholdSeconds
+        val elapsed = nowInstant - triggeredInstant
+        
+        return elapsed >= DELETION_THRESHOLD_HOURS.hours
     }
 }

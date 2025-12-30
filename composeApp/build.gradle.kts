@@ -59,6 +59,7 @@ kotlin {
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.alarm)
             implementation(projects.domain.aggregate.task)
+            implementation(projects.domain.aggregate.history)
         }
 
         commonMain.dependencies {
@@ -103,7 +104,7 @@ android {
             .toInt()
 
     defaultConfig {
-        applicationId = "com.segnites007.yatte"
+        applicationId = "com.segnities007.yatte"
         minSdk =
             libs.versions.android.minSdk
                 .get()
