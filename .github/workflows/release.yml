@@ -26,7 +26,7 @@ jobs:
       tag: v${{ inputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create and push tag
         run: |
@@ -42,7 +42,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
@@ -99,7 +99,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
@@ -128,7 +128,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
@@ -157,7 +157,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.create_tag && format('v{0}', inputs.version) || github.ref }}
 
