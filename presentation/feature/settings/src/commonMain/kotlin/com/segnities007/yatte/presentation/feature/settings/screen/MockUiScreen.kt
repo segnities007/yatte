@@ -11,10 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteDivider
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.layout.YatteScaffold
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -33,7 +33,10 @@ fun MockUiScreen() {
     val options = listOf("Normal", "Short", "Long")
     var selectedIndex by remember { mutableIntStateOf(0) }
 
-    Scaffold { padding ->
+    YatteScaffold(
+        isNavigationVisible = true,
+        contentPadding = PaddingValues(0.dp)
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -41,15 +44,15 @@ fun MockUiScreen() {
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            Text(
+            YatteText(
                 "UI Debug: Segmented Button Fix",
-                style = MaterialTheme.typography.headlineSmall
+                style = YatteTheme.typography.headlineSmall
             )
 
-            HorizontalDivider()
+            YatteDivider()
 
-            Text("❌ Legacy (Problematic)", style = MaterialTheme.typography.labelLarge, color = Color.Red)
-            Text("Placeholder for the buggy usage.", style = MaterialTheme.typography.bodySmall)
+            YatteText("❌ Legacy (Problematic)", style = YatteTheme.typography.labelLarge, color = Color.Red)
+            YatteText("Placeholder for the buggy usage.", style = YatteTheme.typography.bodySmall)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -58,18 +61,18 @@ fun MockUiScreen() {
                     .border(1.dp, Color.Red, RoundedCornerShape(16.dp)),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Legacy Code Removed (Was Swelling)", color = Color.Red)
+                YatteText("Legacy Code Removed (Was Swelling)", color = Color.Red)
             }
 
-            HorizontalDivider()
+            YatteDivider()
 
-            Text("✅ Fixed (Custom Implementation)", style = MaterialTheme.typography.labelLarge, color = Color(0xFF2E7D32))
-            Text("Static layout, clean 3D bevel.", style = MaterialTheme.typography.bodySmall)
+            YatteText("✅ Fixed (Custom Implementation)", style = YatteTheme.typography.labelLarge, color = Color(0xFF2E7D32))
+            YatteText("Static layout, clean 3D bevel.", style = YatteTheme.typography.bodySmall)
             YatteSegmentedButtonRow(
                 options = options,
                 selectedIndex = selectedIndex,
                 onOptionSelected = { i, _ -> selectedIndex = i }
-            ) { Text(it) }
+            ) { YatteText(it) }
         }
     }
 }

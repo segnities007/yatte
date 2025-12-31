@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
@@ -51,22 +51,22 @@ fun HistoryCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(
+                YatteText(
                     text = history.title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = YatteTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(YatteSpacing.xxs))
-                Text(
+                YatteText(
                     text = DateFormatter.formatDateTime(history.completedAt),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = YatteTheme.typography.bodySmall,
+                    color = YatteTheme.colors.onSurfaceVariant,
                 )
             }
             YatteIconButton(
                 icon = Icons.Default.Delete,
                 onClick = onDelete,
                 contentDescription = stringResource(CoreRes.string.common_delete),
-                tint = MaterialTheme.colorScheme.error,
+                tint = YatteTheme.colors.error,
             )
         }
     }
@@ -75,7 +75,7 @@ fun HistoryCard(
 @Composable
 @Preview
 fun HistoryCardPreview() {
-    MaterialTheme {
+    YatteTheme {
         HistoryCard(
             history = History(
                 id = HistoryId("1"),

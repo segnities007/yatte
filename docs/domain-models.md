@@ -38,6 +38,7 @@ classDiagram
 
     Task "1" --> "0..*" History : generates
     Task "1" --> "0..*" Alarm : schedules
+    Task "0..*" --> "0..1" Category : belongs to
     Task -- UserSettings : refers default
 ```
 
@@ -61,6 +62,7 @@ classDiagram
 | `createdAt` | `LocalDateTime` | ✅ | 作成日時 | - |
 | `alarmTriggeredAt` | `LocalDateTime?` | - | アラーム発火日時 | ONE_TIMEタスクの削除判定用 |
 | `skipUntil` | `LocalDate?` | - | スキップ期限日 | WEEKLY_LOOPのみ有効 |
+| `categoryId` | `CategoryId?` | - | カテゴリID | 任意 |
 
 ### 状態遷移（ONE_TIME）
 
@@ -141,6 +143,26 @@ OSのアラーム機能との橋渡しを行うモデル。
 | `notificationVibration` | `Boolean` | true |
 | `customSoundUri` | `String?` | null |
 | `themeMode` | `ThemeMode` | SYSTEM |
+
+---
+
+## 5. Category 集約
+
+タスクの分類。
+
+### Category
+
+| プロパティ | 型 | 必須 | 説明 |
+|------------|----|------|------|
+| `id` | `CategoryId` | ✅ | カテゴリID |
+| `name` | `String` | ✅ | カテゴリ名 |
+| `color` | `CategoryColor` | ✅ | 表示色 |
+| `createdAt` | `Long` | ✅ | 作成日時 (EpochMillis) |
+
+### CategoryColor
+
+Androidの `Color` 定義に対応するEnum。
+`RED`, `PINK`, `PURPLE`, ... `BLUE_GREY` まで定義。
 
 ---
 

@@ -16,7 +16,7 @@ import yatte.presentation.feature.history.generated.resources.empty_no_history
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 import kotlinx.datetime.toLocalDateTime
@@ -62,7 +62,7 @@ fun HistoryContent(
 @Composable
 @Preview
 fun HistoryContentPreview() {
-    MaterialTheme {
+    YatteTheme {
         HistoryContent(
             state = HistoryState(
                 historyItems = listOf(

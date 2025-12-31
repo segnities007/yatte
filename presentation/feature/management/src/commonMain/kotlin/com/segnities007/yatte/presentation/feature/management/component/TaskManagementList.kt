@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.padding
 import kotlinx.datetime.toLocalDateTime
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
@@ -77,14 +77,14 @@ fun TaskManagementCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
+                YatteText(
                     text = task.title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = YatteTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium,
                 )
-                Text(
+                YatteText(
                     text = "${task.time.hour}:${task.time.minute.toString().padStart(2, '0')}",
-                    style = MaterialTheme.typography.titleMedium,
+                    style = YatteTheme.typography.titleMedium,
                 )
             }
             Spacer(modifier = Modifier.height(YatteSpacing.xxs))
@@ -103,18 +103,18 @@ fun TaskManagementCard(
                 } else {
                     stringResource(ManagementRes.string.task_type_one_time)
                 }
-                Text(
+                YatteText(
                     text = typeLabel,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = YatteTheme.typography.bodySmall,
+                    color = YatteTheme.colors.onSurfaceVariant,
                 )
-                Text(
+                YatteText(
                     text = stringResource(
                         ManagementRes.string.notification_minutes_before,
                         task.minutesBefore,
                     ),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = YatteTheme.typography.bodySmall,
+                    color = YatteTheme.colors.onSurfaceVariant,
                 )
             }
         }
@@ -124,7 +124,7 @@ fun TaskManagementCard(
 @Composable
 @Preview
 fun TaskManagementCardPreview() {
-    MaterialTheme {
+    YatteTheme {
         TaskManagementCard(
             task = Task(
                 id = TaskId("1"),
@@ -143,7 +143,7 @@ fun TaskManagementCardPreview() {
 @Composable
 @Preview
 fun TaskManagementListPreview() {
-    MaterialTheme {
+    YatteTheme {
         TaskManagementList(
             tasks = listOf(
                 Task(

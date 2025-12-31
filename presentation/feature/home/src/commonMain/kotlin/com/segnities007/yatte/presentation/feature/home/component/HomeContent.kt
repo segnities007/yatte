@@ -30,7 +30,7 @@ import yatte.presentation.feature.home.generated.resources.empty_no_tasks
 import yatte.presentation.feature.home.generated.resources.empty_tasks_emoji
 
 import yatte.presentation.feature.home.generated.resources.Res as HomeRes
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 
 private const val INITIAL_PAGE = 500
 
@@ -88,7 +88,7 @@ fun HomeContent(
 @Composable
 @Preview
 fun HomeContentPreview() {
-    MaterialTheme {
+    YatteTheme {
         val pagerState = rememberPagerState(initialPage = 0, pageCount = { 1 })
         HomeContent(
             state = HomeState(

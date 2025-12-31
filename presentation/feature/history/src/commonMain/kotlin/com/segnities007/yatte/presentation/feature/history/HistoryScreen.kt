@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -41,7 +40,7 @@ import com.segnities007.yatte.presentation.feature.history.component.HistoryCont
 import com.segnities007.yatte.presentation.feature.history.component.HistoryHeader
 import com.segnities007.yatte.presentation.feature.history.component.HistorySideEffects
 
-import androidx.compose.material3.MaterialTheme
+
 
 @Composable
 internal fun HistoryScreen(
@@ -87,7 +86,7 @@ internal fun HistoryScreen(
 @Composable
 @Preview
 fun HistoryScreenPreview() {
-    MaterialTheme {
+    YatteTheme {
         HistoryScreen(
             state = HistoryState(),
             contentPadding = PaddingValues(0.dp),

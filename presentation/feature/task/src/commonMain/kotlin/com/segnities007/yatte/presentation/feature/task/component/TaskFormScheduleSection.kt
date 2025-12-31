@@ -15,8 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Schedule
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
@@ -58,10 +58,10 @@ fun TaskFormScheduleSection(
         title = stringResource(TaskRes.string.section_schedule),
         icon = Icons.Default.Schedule,
     ) {
-        Text(
+        YatteText(
              text = stringResource(TaskRes.string.label_execute_time),
-             style = MaterialTheme.typography.labelMedium,
-             color = MaterialTheme.colorScheme.onSurfaceVariant
+             style = YatteTheme.typography.labelMedium,
+             color = YatteTheme.colors.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(YatteSpacing.xs))
 
@@ -69,7 +69,7 @@ fun TaskFormScheduleSection(
 
         // Schedule Button with 3D Bevel
         val scheduleBrush = YatteBrushes.Yellow.Action
-        val scheduleContentColor = MaterialTheme.colorScheme.onSecondary // Dark Brown
+        val scheduleContentColor = YatteTheme.colors.onSecondary // Dark Brown
 
         Box(
             contentAlignment = Alignment.Center,
@@ -85,17 +85,17 @@ fun TaskFormScheduleSection(
                     .padding(vertical = YatteSpacing.md),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
+                YatteText(
                     text = "${state.time.hour.toString().padStart(2, '0')}:${
                         state.time.minute.toString().padStart(2, '0')
                     }",
-                    style = MaterialTheme.typography.displayMedium,
+                    style = YatteTheme.typography.displayMedium,
                     fontWeight = FontWeight.Bold,
                     color = scheduleContentColor
                 )
-                Text(
+                YatteText(
                     text = stringResource(TaskRes.string.tap_to_change_time),
-                    style = MaterialTheme.typography.labelSmall,
+                    style = YatteTheme.typography.labelSmall,
                     color = scheduleContentColor.copy(alpha = 0.7f)
                 )
             }
@@ -121,10 +121,10 @@ fun TaskFormScheduleSection(
              stringResource(TaskRes.string.label_repeat_weekdays)
         }
 
-        Text(
+        YatteText(
             text = repeatLabel,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = YatteTheme.typography.labelMedium,
+            color = YatteTheme.colors.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(YatteSpacing.xs))
         FlowRow(
@@ -145,7 +145,7 @@ fun TaskFormScheduleSection(
 @Composable
 @Preview
 fun TaskFormScheduleSectionPreview() {
-    MaterialTheme {
+    YatteTheme {
         TaskFormScheduleSection(
             state = TaskFormState(),
             onIntent = {},

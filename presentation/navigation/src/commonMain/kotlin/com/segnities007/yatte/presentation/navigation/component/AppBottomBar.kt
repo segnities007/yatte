@@ -2,6 +2,7 @@ package com.segnities007.yatte.presentation.navigation.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteFloatingNavigation
 import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteNavigationItem
 import org.jetbrains.compose.resources.stringResource
+
 
 @Composable
 fun AppBottomBar(
@@ -38,3 +40,7 @@ fun AppBottomBar(
         )
     }
 }
+
+
+
+

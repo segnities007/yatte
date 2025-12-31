@@ -12,7 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.presentation.core.sound.SoundPickerLauncher
 import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
@@ -50,7 +50,7 @@ fun TaskFormContent(
 @Composable
 @Preview
 fun TaskFormContentPreview() {
-    MaterialTheme {
+    YatteTheme {
         val soundPickerLauncher = rememberSoundPickerLauncher {}
         TaskFormContent(
             state = TaskFormState(),

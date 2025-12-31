@@ -30,6 +30,7 @@
 | **ドメイン** | [domain.md](docs/guidelines/domain.md) | UseCase実装、Model設計 |
 | **データ** | [data.md](docs/guidelines/data.md) | Repository実装、Room/DAO |
 | **UI** | [ui.md](docs/guidelines/ui.md) | Compose実装、Preview、テーマ |
+| **UI構成** | [composable-structure.md](docs/guidelines/composable-structure.md) | **【重要】** ファイル構成、Screenビルダー、厳格ルール |
 | **テスト** | [testing.md](docs/guidelines/testing.md) | テスト方針、配置場所 |
 
 ---
@@ -42,4 +43,10 @@
 
 ---
 
-*Updated: 2025-12-26*
+*Updated: 2026-01-01*
+
+> [!IMPORTANT]
+> **厳格なルールの適用**
+> プロジェクトの品質を維持するため、以下の厳格なルールを必ず守ってください。
+> - [UI実装ルール (Strict)](docs/guidelines/composable-structure.md#厳格な実装ルール必ず守ること)
+> - [KDoc記述ルール (Strict)](docs/guidelines/coding.md#kdocドキュメントコメント)

@@ -18,10 +18,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteIcon
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.material3.TimePickerDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -71,7 +72,7 @@ fun TaskTimePickerSheet(
     YatteModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = YatteTheme.colors.surface,
     ) {
         Column(
             modifier = Modifier
@@ -89,12 +90,12 @@ fun TaskTimePickerSheet(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
+                        YatteIcon(
                             imageVector = if (item == TimePickerMode.Dial) Icons.Default.Schedule else Icons.Default.Keyboard,
                             contentDescription = item.name,
                             modifier = Modifier.padding(end = YatteSpacing.xs)
                         )
-                        Text(text = if (item == TimePickerMode.Dial) "Clock" else "Input")
+                        YatteText(text = if (item == TimePickerMode.Dial) "Clock" else "Input")
                     }
                 },
                 modifier = Modifier.fillMaxWidth().padding(bottom = YatteSpacing.lg)
@@ -111,13 +112,18 @@ fun TaskTimePickerSheet(
                     .defaultMinSize(minHeight = minHeight)
             ) {
                 MaterialTheme(
-                    colorScheme = MaterialTheme.colorScheme.copy(
+                    colorScheme = YatteTheme.colors.copy(
                         primary = SelectorYellow,
                         onPrimary = SelectorContent,
                         tertiary = SelectorYellow,
                         onTertiary = SelectorContent,
                     )
                 ) {
+                    val surfaceInfo = YatteTheme.colors.surface
+                    val onSurfaceVariantInfo = YatteTheme.colors.onSurfaceVariant
+                    val onSurfaceInfo = YatteTheme.colors.onSurface
+                    val surfaceVariantInfo = YatteTheme.colors.surfaceVariant
+
                     if (mode == TimePickerMode.Dial) {
                         YatteTimePicker(
                             state = timePickerState,
@@ -127,20 +133,20 @@ fun TaskTimePickerSheet(
                                 }
                             },
                             colors = TimePickerDefaults.colors(
-                                clockDialColor = MaterialTheme.colorScheme.surface,
+                                clockDialColor = surfaceVariantInfo,
                                 clockDialSelectedContentColor = SelectorContent,
-                                clockDialUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                clockDialUnselectedContentColor = onSurfaceInfo,
                                 selectorColor = SelectorYellow,
-                                containerColor = MaterialTheme.colorScheme.surface,
+                                containerColor = surfaceInfo,
                                 periodSelectorBorderColor = SelectorYellow,
                                 periodSelectorSelectedContainerColor = SelectorYellow,
-                                periodSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorUnselectedContainerColor = surfaceInfo,
                                 periodSelectorSelectedContentColor = SelectorContent,
-                                periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                periodSelectorUnselectedContentColor = onSurfaceVariantInfo,
                                 timeSelectorSelectedContainerColor = SelectorYellow,
-                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                timeSelectorUnselectedContainerColor = surfaceInfo,
                                 timeSelectorSelectedContentColor = SelectorContent,
-                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                timeSelectorUnselectedContentColor = onSurfaceVariantInfo,
                             )
                         )
                     } else {
@@ -149,13 +155,13 @@ fun TaskTimePickerSheet(
                             colors = TimePickerDefaults.colors(
                                 periodSelectorBorderColor = SelectorYellow,
                                 periodSelectorSelectedContainerColor = SelectorYellow,
-                                periodSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorUnselectedContainerColor = surfaceInfo,
                                 periodSelectorSelectedContentColor = SelectorContent,
-                                periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                periodSelectorUnselectedContentColor = onSurfaceVariantInfo,
                                 timeSelectorSelectedContainerColor = SelectorYellow,
-                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                timeSelectorUnselectedContainerColor = surfaceInfo,
                                 timeSelectorSelectedContentColor = SelectorContent,
-                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                timeSelectorUnselectedContentColor = onSurfaceVariantInfo,
                             )
                         )
                     }

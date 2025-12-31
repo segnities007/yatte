@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -120,7 +120,7 @@ fun SettingsDataSection(
 @Composable
 @Preview
 fun SettingsDataSectionPreview() {
-    MaterialTheme {
+    YatteTheme {
         val fileHelper = rememberFileHelper()
         val scope = rememberCoroutineScope()
         SettingsDataSection(

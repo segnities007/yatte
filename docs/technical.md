@@ -143,9 +143,10 @@ root/
 │   │   └── HomeScreen.kt, ViewModel, State
 │   ├── :presentation:feature:task/
 │   │   ├── list/TaskListScreen.kt, ViewModel
-│   │   └── create/CreateTaskScreen.kt, ViewModel
+│   │   └── create/TaskFormScreen.kt, ViewModel
 │   ├── :presentation:feature:history/
-│   └── :presentation:feature:settings/
+│   ├── :presentation:feature:settings/
+│   └── :presentation:feature:category/
 
 ├── :domain/                             # Aggregate（集約）で分割
 │   ├── :domain:common/
@@ -155,7 +156,8 @@ root/
 │   │   └── usecase/CreateTask, GetTasks
 │   ├── :domain:aggregate:history/
 │   ├── :domain:aggregate:alarm/
-│   └── :domain:aggregate:settings/
+│   ├── :domain:aggregate:settings/
+│   └── :domain:aggregate:category/
 
 ├── :data/                               # Aggregateに対応
 │   ├── :data:common/
@@ -166,7 +168,8 @@ root/
 │   ├── :data:aggregate:history/
 │   ├── :data:aggregate:alarm/
 │   │   └── platform/Android, Ios, Desktop
-│   └── :data:aggregate:settings/
+│   ├── :data:aggregate:settings/
+│   └── :data:aggregate:category/
 
 └── :di/
 ```
@@ -183,7 +186,8 @@ root/
 
 ```
 :presentation:feature:home/ → :domain:aggregate:task/, history/
-:presentation:feature:task/ → :domain:aggregate:task/
+:presentation:feature:task/ → :domain:aggregate:task/, category/
+:presentation:feature:category/ → :domain:aggregate:category/
 ```
 
 ---
@@ -231,7 +235,8 @@ data class TaskEntity(
     @ColumnInfo(name = "completed_dates") val completedDates: String,
     @ColumnInfo(name = "created_at") val createdAt: Long,
     @ColumnInfo(name = "alarm_triggered_at") val alarmTriggeredAt: Long?,
-    @ColumnInfo(name = "skip_until") val skipUntil: Long?
+    @ColumnInfo(name = "skip_until") val skipUntil: Long?,
+    @ColumnInfo(name = "category_id") val categoryId: String?
 )
 
 // 履歴
@@ -252,6 +257,15 @@ data class AlarmEntity(
     @ColumnInfo(name = "scheduled_at") val scheduledAt: Long,
     @ColumnInfo(name = "notify_at") val notifyAt: Long,
     @ColumnInfo(name = "is_triggered") val isTriggered: Boolean
+)
+
+// カテゴリ
+@Entity(tableName = "categories")
+data class CategoryEntity(
+    @PrimaryKey val id: String,
+    val name: String,
+    val color: Long,
+    @ColumnInfo(name = "created_at") val createdAt: Long
 )
 ```
 

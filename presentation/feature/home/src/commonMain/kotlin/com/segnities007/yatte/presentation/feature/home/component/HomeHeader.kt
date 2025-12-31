@@ -4,7 +4,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
@@ -42,7 +42,7 @@ fun HomeHeader(
     val headerConfig = remember(dateText, pagerState.currentPage) {
         HeaderConfig(
             title = { 
-                Text(
+                YatteText(
                     text = dateText,
                     modifier = Modifier.bounceClick(onTap = {
                         coroutineScope.launch {

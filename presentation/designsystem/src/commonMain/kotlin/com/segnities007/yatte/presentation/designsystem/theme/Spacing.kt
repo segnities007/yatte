@@ -31,6 +31,9 @@ data class YatteSpacingTokens(
     val xl: Dp = 32.dp,
     /** 48.dp - セクション間 */
     val xxl: Dp = 48.dp,
+    
+    /** 1.dp - Divider thickness */
+    val divider: Dp = 1.dp,
 )
 
 /**
@@ -44,6 +47,7 @@ object YatteSpacing {
     val lg: Dp = 24.dp
     val xl: Dp = 32.dp
     val xxl: Dp = 48.dp
+    val divider: Dp = 1.dp
 }
 
 /**

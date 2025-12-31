@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -42,25 +42,25 @@ fun LicenseContent(
                         .fillMaxWidth()
                         .padding(YatteSpacing.md)
                 ) {
-                    Text(
+                    YatteText(
                         text = library.name,
-                        style = MaterialTheme.typography.titleMedium,
+                        style = YatteTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                         Text(
+                         YatteText(
                             text = library.artifactVersion ?: "",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = YatteTheme.typography.bodySmall,
+                            color = YatteTheme.colors.onSurfaceVariant
                         )
                         if (library.licenses.isNotEmpty()) {
-                             Text(
+                             YatteText(
                                 text = library.licenses.firstOrNull()?.name ?: "",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                style = YatteTheme.typography.bodySmall,
+                                color = YatteTheme.colors.onSurfaceVariant
                             )
                         }
                     }

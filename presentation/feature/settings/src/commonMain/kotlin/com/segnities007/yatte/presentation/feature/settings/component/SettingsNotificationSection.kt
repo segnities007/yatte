@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
@@ -94,15 +94,15 @@ fun SettingsNotificationSection(
 
         if (state.settings.notificationVibration) {
             Spacer(modifier = Modifier.height(YatteSpacing.xs))
-            Text(
+            YatteText(
                 text = stringResource(SettingsRes.string.vibration_pattern_title),
-                style = MaterialTheme.typography.bodyMedium,
+                style = YatteTheme.typography.bodyMedium,
             )
             YatteSegmentedButtonRow(
                 options = VibrationPattern.entries.toList(),
                 selectedIndex = VibrationPattern.entries.indexOf(state.settings.vibrationPattern),
                 onOptionSelected = { _, pattern -> onIntent(SettingsIntent.UpdateVibrationPattern(pattern)) },
-                content = { Text(it.toUiLabel()) },
+                content = { YatteText(it.toUiLabel()) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = YatteSpacing.xs),
@@ -137,7 +137,7 @@ private fun VibrationPattern.toUiLabel(): String = when (this) {
 @Composable
 @Preview
 fun SettingsNotificationSectionPreview() {
-    MaterialTheme {
+    YatteTheme {
         val soundPickerLauncher = rememberSoundPickerLauncher {}
         SettingsNotificationSection(
             state = SettingsState(),

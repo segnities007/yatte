@@ -10,7 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.presentation.core.file.FileHelper
 import com.segnities007.yatte.presentation.core.file.rememberFileHelper
 import com.segnities007.yatte.presentation.core.sound.SoundPickerLauncher
@@ -71,7 +71,7 @@ fun SettingsContent(
 @Composable
 @Preview
 fun SettingsContentPreview() {
-    MaterialTheme {
+    YatteTheme {
         val fileHelper = rememberFileHelper()
         val soundPickerLauncher = rememberSoundPickerLauncher {}
         val scope = rememberCoroutineScope()

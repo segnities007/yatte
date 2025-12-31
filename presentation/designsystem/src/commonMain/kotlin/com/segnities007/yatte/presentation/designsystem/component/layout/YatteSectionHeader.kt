@@ -19,6 +19,15 @@ fun YatteSectionHeader(
         text = title,
         style = MaterialTheme.typography.titleSmall,
         modifier = modifier.padding(horizontal = YatteSpacing.md, vertical = YatteSpacing.xs),
-        color = MaterialTheme.colorScheme.primary,
     )
+}
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun YatteSectionHeaderPreview() {
+    MaterialTheme {
+        YatteSectionHeader(
+            title = "Section Title"
+        )
+    }
 }

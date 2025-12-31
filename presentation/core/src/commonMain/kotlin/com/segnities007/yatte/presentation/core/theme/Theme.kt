@@ -5,8 +5,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
-import com.segnities007.yatte.presentation.designsystem.theme.YatteShapes
+import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme as DesignSystemYatteTheme
 
 private val LightColorScheme = lightColorScheme(
     primary = GreenPrimary,
@@ -17,10 +19,10 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = LightOnSecondary,
     secondaryContainer = CreamSecondaryVariant,
     onSecondaryContainer = LightOnSecondary,
-    background = LightBackground,
-    onBackground = LightOnBackground,
-    surface = LightSurface,
-    onSurface = LightOnSurface,
+    background = GreenBackground, // Green tinted background
+    onBackground = GreenOnBackground,
+    surface = GreenSurface,       // Green tinted surface
+    onSurface = GreenOnBackground,
     surfaceVariant = LightSurfaceVariant,
     onSurfaceVariant = LightOnSurfaceVariant,
 )
@@ -42,10 +44,27 @@ private val DarkColorScheme = darkColorScheme(
     onSurfaceVariant = DarkOnSurfaceVariant,
 )
 
+private val YellowColorScheme = lightColorScheme(
+    primary = YellowPrimary,
+    onPrimary = YellowOnPrimary,
+    primaryContainer = YellowPrimaryContainer,
+    onPrimaryContainer = YellowOnPrimaryContainer,
+    secondary = GreenPrimary,
+    onSecondary = LightOnPrimary,
+    secondaryContainer = GreenPrimaryVariant,
+    onSecondaryContainer = LightOnPrimary,
+    background = YellowBackground, // Yellow tinted background
+    onBackground = YellowOnBackground,
+    surface = YellowSurface,       // Yellow tinted surface
+    onSurface = YellowOnBackground,
+    surfaceVariant = LightSurfaceVariant,
+    onSurfaceVariant = LightOnSurfaceVariant,
+)
+
 /**
  * Yatteアプリのテーマ
  *
- * @param themeMode テーマモード（ライト/ダーク/システム）
+ * @param themeMode テーマモード（ライト/ダーク/システム/グリーン/イエロー）
  * @param content コンテンツ
  */
 @Composable
@@ -54,16 +73,25 @@ fun YatteTheme(
     content: @Composable () -> Unit,
 ) {
     val isDarkTheme = when (themeMode) {
-        ThemeMode.LIGHT -> false
+        ThemeMode.LIGHT, ThemeMode.GREEN, ThemeMode.YELLOW -> false
         ThemeMode.DARK -> true
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
     }
 
-    val colorScheme = if (isDarkTheme) DarkColorScheme else LightColorScheme
+    val colorScheme = when (themeMode) {
+        ThemeMode.YELLOW -> YellowColorScheme
+        else -> if (isDarkTheme) DarkColorScheme else LightColorScheme
+    }
 
-    MaterialTheme(
+    val primaryBrush: Brush = when (themeMode) {
+        ThemeMode.YELLOW -> YatteBrushes.Yellow.Main
+        ThemeMode.DARK -> YatteBrushes.Green.Dark // Use Darker for Dark mode
+        else -> YatteBrushes.Green.Main
+    }
+
+    DesignSystemYatteTheme(
         colorScheme = colorScheme,
-        shapes = YatteShapes,
+        primaryBrush = primaryBrush,
         content = content
     )
 }

@@ -107,15 +107,14 @@ data class TaskEntity(
 | テーブル名 | スネークケース複数形 | `tasks`, `histories` |
 | カラム名 | スネークケース | `created_at`, `is_completed` |
 
-### ルール
+### 厳格な実装ルール
 
-| ルール | 説明 |
-|--------|------|
-| `@PrimaryKey` は String | UUID文字列を使用 |
-| 日時は `Long` | Epoch milliseconds |
-| 日付は `Long` | Epoch days |
-| Enum は `String` | 文字列として保存 |
-| List は `String` | JSON文字列に変換 |
+| 項目 | ルール | 理由 |
+|------|------|------|
+| **PrimaryKey** | **必ず String (UUID) を使用する** | オフライン分散、マージ競合の回避。<br>❌ `Int/Long` の AutoIncrement は禁止。 |
+| **List/Object** | **JSON String に変換して保存する** | 正規化のしすぎを防ぐ。<br>❌ 単純なデータ構造のために別テーブルを作らない。 |
+| **Enum** | **String として保存する** | 順序変更に強くする (`name` プロパティを使用)。 |
+| **日時** | **Long (Epoch Millis) で保存する** | タイムゾーン問題を回避し、ソートを高速化。 |
 
 ---
 
@@ -165,9 +164,10 @@ interface TaskDao {
 @Query("SELECT * FROM tasks WHERE id = :id")
 suspend fun getById(id: String): TaskEntity?
 
-// ❌ 悪い例: value class をそのまま渡す
+// ❌ 禁止: value class をそのまま渡す
+// Roomはvalue classを正しく認識できない場合があるため、必ずプリミティブ型(String)に展開して渡すこと。
 @Query("SELECT * FROM tasks WHERE id = :id")
-suspend fun getById(id: TaskId): TaskEntity?  // 動かない
+suspend fun getById(id: TaskId): TaskEntity?
 ```
 
 ---

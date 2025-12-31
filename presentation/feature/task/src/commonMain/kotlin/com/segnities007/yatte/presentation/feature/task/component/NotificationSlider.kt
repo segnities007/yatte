@@ -1,9 +1,9 @@
 package com.segnities007.yatte.presentation.feature.task.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteSlider
 import org.jetbrains.compose.resources.stringResource
@@ -20,9 +20,9 @@ fun NotificationSlider(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        Text(
+        YatteText(
             text = stringResource(TaskRes.string.notification_minutes_before, minutesBefore),
-            style = MaterialTheme.typography.labelLarge,
+            style = YatteTheme.typography.labelLarge,
         )
         YatteSlider(
             value = minutesBefore.toFloat(),

@@ -12,7 +12,7 @@ import com.segnities007.yatte.presentation.designsystem.component.card.YatteSect
 import com.segnities007.yatte.presentation.designsystem.component.layout.YatteSoundPicker
 import com.segnities007.yatte.presentation.designsystem.component.list.YatteSliderRow
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import com.segnities007.yatte.presentation.feature.task.TaskFormIntent
 import com.segnities007.yatte.presentation.feature.task.TaskFormState
@@ -62,7 +62,7 @@ fun TaskFormNotificationSection(
 @Composable
 @Preview
 fun TaskFormNotificationSectionPreview() {
-    MaterialTheme {
+    YatteTheme {
         val soundPickerLauncher = rememberSoundPickerLauncher {}
         TaskFormNotificationSection(
             state = TaskFormState(),

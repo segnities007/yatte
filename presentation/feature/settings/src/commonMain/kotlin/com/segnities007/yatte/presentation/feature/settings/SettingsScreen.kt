@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -139,7 +137,7 @@ internal fun SettingsScreen(
 @Composable
 @Preview
 fun SettingsScreenPreview() {
-    MaterialTheme {
+    YatteTheme {
         // Mock FileHelper and SoundPickerLauncher
         val fileHelper = rememberFileHelper()
         val soundPickerLauncher = rememberSoundPickerLauncher {}

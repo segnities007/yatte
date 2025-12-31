@@ -40,3 +40,13 @@ fun YatteSnackbarHost(
         )
     }
 }
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun YatteSnackbarHostPreview() {
+    MaterialTheme {
+        YatteSnackbarHost(
+            hostState = SnackbarHostState(),
+        )
+    }
+}

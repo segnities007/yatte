@@ -18,10 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.foundation.background
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -115,7 +112,7 @@ internal fun TaskFormScreen(
 @Composable
 @Preview
 fun TaskFormScreenPreview() {
-    MaterialTheme {
+    YatteTheme {
         val soundPickerLauncher = rememberSoundPickerLauncher {}
         TaskFormScreen(
             state = TaskFormState(),

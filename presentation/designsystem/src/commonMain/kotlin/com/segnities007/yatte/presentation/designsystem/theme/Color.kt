@@ -5,6 +5,14 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.staticCompositionLocalOf
+
+/**
+ * Yatte Primary Brush Provider
+ */
+val LocalYattePrimaryBrush = staticCompositionLocalOf<Brush> {
+    YatteBrushes.Green.Main
+}
 
 // ============================================================
 // Yatte Color Palette

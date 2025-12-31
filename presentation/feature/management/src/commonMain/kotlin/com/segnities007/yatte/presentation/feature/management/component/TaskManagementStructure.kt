@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -31,7 +31,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 
 @Composable
 fun TaskManagementSetupHeader(
@@ -43,7 +43,7 @@ fun TaskManagementSetupHeader(
     
     val headerConfig = remember {
         HeaderConfig(
-            title = { Text(manageTitle) },
+            title = { YatteText(manageTitle) },
             actions = {
                 YatteIconButton(
                     onClick = actions.onAddTask,
@@ -96,7 +96,7 @@ fun TaskManagementContent(
 @Composable
 @Preview
 fun TaskManagementContentPreview() {
-    MaterialTheme {
+    YatteTheme {
         TaskManagementContent(
             state = TaskManagementState(
                 tasks = listOf(

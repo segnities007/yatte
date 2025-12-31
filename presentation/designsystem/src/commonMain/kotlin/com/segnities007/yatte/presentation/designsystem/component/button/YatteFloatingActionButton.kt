@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.rememberStrongBounceInteraction
 import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
@@ -44,7 +45,7 @@ fun YatteFloatingActionButton(
     contentDescription: String,
     modifier: Modifier = Modifier,
     icon: ImageVector = Icons.Default.Add,
-    brush: Brush = YatteBrushes.Yellow.Main, // Using Main for better visibility (Vivid definition is currently flat)
+    brush: Brush = YatteTheme.primaryBrush,
 ) {
     val (interactionSource, bounceModifier) = rememberStrongBounceInteraction()
     val shape = CircleShape

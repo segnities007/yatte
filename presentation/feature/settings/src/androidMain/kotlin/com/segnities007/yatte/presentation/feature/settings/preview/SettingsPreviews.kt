@@ -3,7 +3,7 @@ package com.segnities007.yatte.presentation.feature.settings.preview
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,7 +14,7 @@ import com.segnities007.yatte.presentation.designsystem.component.list.YatteSwit
 @Preview
 @Composable
 private fun SettingsSectionWithSwitchPreview() {
-    MaterialTheme {
+    YatteTheme {
         YatteSectionCard(
             modifier = Modifier.padding(16.dp),
             icon = Icons.Default.Notifications,

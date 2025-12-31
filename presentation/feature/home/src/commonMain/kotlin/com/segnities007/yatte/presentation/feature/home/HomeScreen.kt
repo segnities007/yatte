@@ -13,7 +13,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -57,7 +56,7 @@ import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 import com.segnities007.yatte.presentation.feature.home.component.HomeContent
 import com.segnities007.yatte.presentation.feature.home.component.HomeHeader
 import com.segnities007.yatte.presentation.feature.home.component.HomeSideEffects
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.ui.unit.dp
 
 private const val INITIAL_PAGE = 500
@@ -132,7 +131,7 @@ fun HomeScreen(
 @Composable
 @Preview
 fun HomeScreenPreview() {
-    MaterialTheme {
+    YatteTheme {
         val pagerState = rememberPagerState(initialPage = 0, pageCount = { 1 })
         HomeScreen(
             state = HomeState(),

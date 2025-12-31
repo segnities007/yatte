@@ -4,9 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -79,7 +77,7 @@ fun TaskManagementScreen(
 @Composable
 @Preview
 fun TaskManagementScreenPreview() {
-    MaterialTheme {
+    YatteTheme {
         TaskManagementScreen(
             state = TaskManagementState(),
             contentPadding = PaddingValues(0.dp),

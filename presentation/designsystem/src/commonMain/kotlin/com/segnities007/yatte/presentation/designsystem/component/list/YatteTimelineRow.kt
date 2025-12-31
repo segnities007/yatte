@@ -56,3 +56,18 @@ fun YatteTimelineRow(
         content()
     }
 }
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun YatteTimelineRowPreview() {
+    MaterialTheme {
+        YatteTimelineRow(
+            time = "10:00",
+            lineColor = Color.Gray,
+            isFirst = true,
+            isLast = false,
+        ) {
+            Text("Task Content")
+        }
+    }
+}

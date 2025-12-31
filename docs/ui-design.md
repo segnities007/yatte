@@ -1,6 +1,162 @@
 # UIデザイン
 
+> [!IMPORTANT]
+> **実装時の注意**: 本ドキュメントに記載されているカラーコードや数値（アニメーションパラメータ等）を Feature モジュールのコードに**直接記述（ハードコーディング）することを禁止**します。
+> 必ず `:presentation:designsystem` モジュールで定義されている **Token (`YatteColors`, `YatteMotion`, `YatteShapes`)** を使用してください。
+
 ## テーマコンセプト
+
+**「Playful & Stress-free」**
+
+まるでゲームのUIを触っているかのような「手触りの良さ」と「反応の楽しさ」を追求する。
+任天堂のアプリに見られるような、物理法則を感じさせる**バウンス**、**音**、**触覚**の融合。
+
+---
+
+## "Nintendo Quality" への挑戦（徹底的な詰め）
+
+### 1. 物理ベースのアニメーション (Physics-based Motion)
+
+リニアな動きを排除し、バネ（Spring）の挙動を取り入れる。
+
+- **実装ルール**: `YatteMotion` オブジェクトを使用すること。
+    - **Stiffness**: `YatteMotion.Stiffness.MediumLow`
+    - **Damping**: `YatteMotion.Damping.MediumBouncy`
+- **適用箇所**:
+    - **ボタン**: `YatteButton` 等に内蔵済み（開発者が意識する必要なし）。
+    - **ダイアログ**: `YatteDialog` に内蔵済み。
+    - **スクロール**: `Modifier.yatteOverscroll()` (仮) 等を使用。
+
+### 2. インタラクティブ・サウンド (UI SFX)
+
+操作に対する聴覚フィードバックを徹底する。
+
+| アクション | 音のイメージ | 役割 |
+|------------|--------------|------|
+| **Tap** | ポッ (Pop) | 軽い肯定感 |
+| **Complete** | チャリーン♪ (Sparkle) | 達成感・報酬 |
+| **Toggle** | カチッ / コトッ (Switch) | 物理的な切り替え感 |
+| **Delete** | シュッ (Whoosh) | 軽快な消去 |
+| **Error** | ブブッ (Buzzer) | 柔らかい否定 |
+
+### 3. 形状のこだわり (Squircle)
+
+- **Squircle (スーパー楕円)**:
+    - ただの角丸四角形ではなく、Appleや任天堂が好む「視覚的に自然な曲線」を持つSquircle形状を採用する。
+    - **実装ルール**: `RoundedCornerShape` を直接使用せず、必ず **`YatteShapes`** を使用する。
+
+---
+
+## カラーパレット
+
+目への刺激を抑えた、優しいコントラスト配色。
+
+> **Note**: コード上では `YatteTheme.colors` または `YatteColors` を参照すること。
+
+| 用途 | トークン名 | 説明 |
+|------|-----------|------|
+| プライマリ | `primary` | 安心感、肯定感（パステルグリーン） |
+| セカンダリ | `secondary` | 明るさ、楽しさ（ソフトイエロー） |
+| サーフェイス | `surface` | 純白を避けたオフホワイト |
+| テキスト | `onSurface` | 純黒を避けたダークグレー |
+
+---
+
+## UX演出詳細
+
+### 1. 完了の喜び (Joy of Completion)
+
+- **Confetti Animation (紙吹雪)**:
+    - 完了チェック時に、控えめなパーティクル（丸や星）を弾けさせる。
+- **Haptic Feedback (触覚)**:
+    - 完了時: 「コツン」 (Light Impact)。
+    - 全削除時: 「ブルッ」 (Heavy Impact)。
+- **打ち消し線アニメーション**:
+    - 左から右へ、ペンで線を引くようにテキストを取り消す。
+
+### 2. ポジティブな空白 (Positive Empty State)
+
+- 「タスクがない」＝「自由な時間」として肯定する。
+    - メッセージ例: "You're free! Enjoy your time."
+    - イラスト: `YatteEmptyState` コンポーネントが提供する。
+
+### 3. マイクロインタラクション (Micro-interactions)
+
+- **ボタン押下**: 
+    - `bounceClick` モディファイアにより自動適用される。
+- **リスト追加時の割り込み**:
+    - リスト全体が少し下にバウンドして場所を空ける。
+
+---
+
+## アニメーション仕様 (Spring)
+
+すべて `YatteMotion` で定義されたプリセットを使用してください。
+
+| 場面 | 動きの特徴 |
+|------|-----------|
+| **画面遷移** | 横からスライドインし、行き過ぎて少し戻る (Overshoot) |
+| **タスク完了** | チェックボックスが弾け、全体が少し沈む |
+| **ダイアログ表示** | スケール0から拡大し、ボヨンと弾んで静止 |
+| **FAB展開** | アイコンが回転しながら変形 |
+
+---
+
+## デザインシステム コンポーネント一覧
+
+これらのコンポーネントは **Design System (`:presentation:designsystem`)** で定義されています。
+Featureモジュールではこれらをimportして使用してください。
+
+### button/
+| コンポーネント | 説明 |
+|---------------|------|
+| `YatteButton` | プライマリボタン |
+| `YatteTextButton` | テキストのみのボタン（ダイアログ用） |
+| `YatteIconButton` | アイコンボタン |
+| `YatteFloatingActionButton` | フローティングアクションボタン |
+
+### card/
+| コンポーネント | 説明 |
+|---------------|------|
+| `YatteCard` | 汎用カード |
+| `YatteSectionCard` | セクション区切りカード（アイコン付き） |
+
+### input/
+| コンポーネント | 説明 |
+|---------------|------|
+| `YatteTextField` | テキスト入力フィールド |
+| `YatteSlider` | スライダー |
+| `YatteSwitch` | ON/OFFスイッチ |
+| `YatteChip` | 選択チップ |
+| `YatteSegmentedButtonRow` | セグメントボタン（複数選択肢） |
+
+### navigation/
+| コンポーネント | 説明 |
+|---------------|------|
+| `YatteFloatingHeader` | フローティングヘッダー |
+| `YatteFloatingNavigation` | フローティングナビゲーションバー |
+| `YatteTopAppBar` | トップアプリバー |
+
+### feedback/
+| コンポーネント | 説明 |
+|---------------|------|
+| `YatteConfirmDialog` | 確認ダイアログ（メッセージ型） |
+| `YatteDialog` | 汎用ダイアログ（カスタムコンテンツ型） |
+| `YatteLoadingIndicator` | ローディングインジケーター |
+| `YatteEmptyState` | 空状態表示 |
+
+### layout/
+| コンポーネント | 説明 |
+|---------------|------|
+| `YatteScaffold` | スクロール連動対応画面コンテナ |
+| `YatteSoundPicker` | 通知音選択UI |
+
+> **詳細**: コンポーネント作成のベストプラクティスは [guidelines/design-system-component.md](guidelines/design-system-component.md) を参照。
+
+---
+
+*作成日: 2025-12-20*
+*更新日: 2025-12-31*
 
 **「Playful & Stress-free」**
 

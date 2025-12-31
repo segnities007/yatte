@@ -8,6 +8,9 @@ yatteでは**Compose Multiplatform**を使用し、**MVI (Model-View-Intent)**�
 - **Android/iOS準拠**: プラットフォーム固有の挙動（バックハンドリングなど）を尊重するが、見た目は統一する。
 - **Atomic Design**: 再利用可能なコンポーネントを `:presentation:common:components` に定義する。
 
+> [!IMPORTANT]
+> ファイル構成、命名規則、厳格な実装ルール（FQN禁止など）については **[composable-structure.md](composable-structure.md)** を必ず参照してください。
+
 ---
 
 ## 🔄 MVI パターン実装

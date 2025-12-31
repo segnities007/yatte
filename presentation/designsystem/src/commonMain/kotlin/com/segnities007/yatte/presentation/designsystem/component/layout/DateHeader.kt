@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -83,5 +84,19 @@ fun formatDate(date: LocalDate): String {
         date.month.number,
         date.day,
         dayOfWeekJapanese,
+        dayOfWeekJapanese,
     )
+}
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun DateHeaderPreview() {
+    MaterialTheme {
+        DateHeader(
+            selectedDate = LocalDate(2025, 1, 1),
+            onPreviousDay = {},
+            onNextDay = {},
+            onTodayClick = {}
+        )
+    }
 }

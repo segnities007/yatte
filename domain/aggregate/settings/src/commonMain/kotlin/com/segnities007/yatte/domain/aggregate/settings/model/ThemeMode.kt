@@ -14,8 +14,15 @@ enum class ThemeMode {
      */
     DARK,
 
-    /**
-     * システム設定に従う
-     */
     SYSTEM,
+
+    /**
+     * グリーンテーマ (Default/Light)
+     */
+    GREEN,
+
+    /**
+     * イエローテーマ (Yellow/Sunshine)
+     */
+    YELLOW,
 }

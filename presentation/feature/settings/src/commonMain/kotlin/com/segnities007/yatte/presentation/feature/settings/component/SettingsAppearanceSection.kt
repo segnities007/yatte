@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Palette
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
@@ -33,16 +33,16 @@ fun SettingsAppearanceSection(
         icon = Icons.Default.Palette,
         title = stringResource(SettingsRes.string.section_appearance),
     ) {
-        Text(
+        YatteText(
             text = stringResource(SettingsRes.string.theme_title),
-            style = MaterialTheme.typography.bodyLarge,
+            style = YatteTheme.typography.bodyLarge,
         )
         Spacer(modifier = Modifier.height(YatteSpacing.sm))
         YatteSegmentedButtonRow(
             options = ThemeMode.entries.toList(),
             selectedIndex = ThemeMode.entries.indexOf(state.settings.themeMode),
             onOptionSelected = { _, mode -> onIntent(SettingsIntent.UpdateThemeMode(mode)) },
-            content = { Text(it.toUiLabel()) },
+            content = { YatteText(it.toUiLabel()) },
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -53,12 +53,14 @@ private fun ThemeMode.toUiLabel(): String = when (this) {
     ThemeMode.LIGHT -> stringResource(SettingsRes.string.theme_light)
     ThemeMode.DARK -> stringResource(SettingsRes.string.theme_dark)
     ThemeMode.SYSTEM -> stringResource(SettingsRes.string.theme_system)
+    ThemeMode.GREEN -> "グリーン"
+    ThemeMode.YELLOW -> "イエロー"
 }
 
 @Composable
 @Preview
 fun SettingsAppearanceSectionPreview() {
-    MaterialTheme {
+    YatteTheme {
         SettingsAppearanceSection(
             state = SettingsState(),
             onIntent = {},
