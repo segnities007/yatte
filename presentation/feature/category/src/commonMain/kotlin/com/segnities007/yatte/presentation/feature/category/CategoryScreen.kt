@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -40,7 +41,6 @@ import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteFloatingActionButton
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteLoadingIndicator
-import com.segnities007.yatte.presentation.designsystem.component.button.YatteTextButton
 import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteDialog
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteTextField
 import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteTopAppBar
@@ -68,26 +68,64 @@ fun CategoryScreen(
         onShowSnackbar = onShowSnackbar
     )
 
+    CategoryScreen(
+        state = state,
+        onBack = onBack,
+        onFabClick = { viewModel.onIntent(CategoryIntent.ShowAddDialog) },
+        onDeleteCategory = { viewModel.onIntent(CategoryIntent.DeleteCategory(it)) },
+        onNameChange = { viewModel.onIntent(CategoryIntent.UpdateNewCategoryName(it)) },
+        onColorSelect = { viewModel.onIntent(CategoryIntent.UpdateSelectedColor(it)) },
+        onDismissDialog = { viewModel.onIntent(CategoryIntent.DismissAddDialog) },
+        onConfirmAdd = { viewModel.onIntent(CategoryIntent.AddCategory) },
+    )
+}
+
+@Composable
+fun CategoryScreen(
+    state: CategoryState,
+    onBack: () -> Unit,
+    onFabClick: () -> Unit,
+    onDeleteCategory: (Category) -> Unit,
+    onNameChange: (String) -> Unit,
+    onColorSelect: (CategoryColor) -> Unit,
+    onDismissDialog: () -> Unit,
+    onConfirmAdd: () -> Unit,
+) {
     YatteBasicScaffold(
         topBar = { CategoryTopBar(onBack = onBack) },
         floatingActionButton = {
-            CategoryFab(
-                onClick = { viewModel.onIntent(CategoryIntent.ShowAddDialog) }
-            )
+            CategoryFab(onClick = onFabClick)
         },
     ) { padding ->
         CategoryContent(
             state = state,
-            onDelete = { viewModel.onIntent(CategoryIntent.DeleteCategory(it)) },
+            onDelete = onDeleteCategory,
             contentPadding = padding,
         )
 
         CategoryDialogs(
             state = state,
-            onNameChange = { viewModel.onIntent(CategoryIntent.UpdateNewCategoryName(it)) },
-            onColorSelect = { viewModel.onIntent(CategoryIntent.UpdateSelectedColor(it)) },
-            onDismiss = { viewModel.onIntent(CategoryIntent.DismissAddDialog) },
-            onConfirm = { viewModel.onIntent(CategoryIntent.AddCategory) },
+            onNameChange = onNameChange,
+            onColorSelect = onColorSelect,
+            onDismiss = onDismissDialog,
+            onConfirm = onConfirmAdd,
+        )
+    }
+}
+
+@Composable
+@Preview
+fun CategoryScreenPreview() {
+    MaterialTheme {
+        CategoryScreen(
+            state = CategoryState(),
+            onBack = {},
+            onFabClick = {},
+            onDeleteCategory = {},
+            onNameChange = {},
+            onColorSelect = {},
+            onDismissDialog = {},
+            onConfirmAdd = {},
         )
     }
 }

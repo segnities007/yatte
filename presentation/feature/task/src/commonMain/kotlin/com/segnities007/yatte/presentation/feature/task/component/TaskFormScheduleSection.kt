@@ -1,6 +1,8 @@
 package com.segnities007.yatte.presentation.feature.task.component
 
 import androidx.compose.foundation.background
+
+import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +32,6 @@ import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteChip
-import com.segnities007.yatte.presentation.designsystem.component.input.YatteSegmentedButtonRow
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.feature.task.TaskFormIntent
 import com.segnities007.yatte.presentation.feature.task.TaskFormState
@@ -65,6 +67,10 @@ fun TaskFormScheduleSection(
 
         var showTimeSheet by remember { mutableStateOf(false) }
 
+        // Schedule Button with 3D Bevel
+        val scheduleBrush = YatteBrushes.Yellow.Action
+        val scheduleContentColor = MaterialTheme.colorScheme.onSecondary // Dark Brown
+
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -75,7 +81,7 @@ fun TaskFormScheduleSection(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.secondaryContainer, RoundedCornerShape(YatteSpacing.md))
+                    .background(scheduleBrush, RoundedCornerShape(YatteSpacing.md))
                     .padding(vertical = YatteSpacing.md),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -85,12 +91,12 @@ fun TaskFormScheduleSection(
                     }",
                     style = MaterialTheme.typography.displayMedium,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = scheduleContentColor
                 )
                 Text(
                     text = stringResource(TaskRes.string.tap_to_change_time),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                    color = scheduleContentColor.copy(alpha = 0.7f)
                 )
             }
         }
@@ -108,8 +114,15 @@ fun TaskFormScheduleSection(
 
         Spacer(modifier = Modifier.height(YatteSpacing.md))
 
+        // Weekdays Selection
+        val repeatLabel = if (state.taskType == TaskType.ONE_TIME) {
+            "${stringResource(TaskRes.string.label_repeat_weekdays)} (${stringResource(TaskRes.string.task_type_one_time)})"
+        } else {
+             stringResource(TaskRes.string.label_repeat_weekdays)
+        }
+
         Text(
-            text = stringResource(TaskRes.string.label_repeat_weekdays),
+            text = repeatLabel,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -126,6 +139,17 @@ fun TaskFormScheduleSection(
                 )
             }
         }
+    }
+}
+
+@Composable
+@Preview
+fun TaskFormScheduleSectionPreview() {
+    MaterialTheme {
+        TaskFormScheduleSection(
+            state = TaskFormState(),
+            onIntent = {},
+        )
     }
 }
 

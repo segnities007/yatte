@@ -15,6 +15,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -56,12 +57,13 @@ import yatte.presentation.feature.home.generated.resources.Res as HomeRes
 import com.segnities007.yatte.presentation.feature.home.component.HomeContent
 import com.segnities007.yatte.presentation.feature.home.component.HomeHeader
 import com.segnities007.yatte.presentation.feature.home.component.HomeSideEffects
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.unit.dp
 
 private const val INITIAL_PAGE = 500
 private const val PAGE_COUNT = 1000
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
@@ -88,6 +90,29 @@ fun HomeScreen(
     )
     HomeHeader(state = state, pagerState = pagerState, coroutineScope = coroutineScope)
 
+    HomeScreen(
+        state = state,
+        pagerState = pagerState,
+        isNavigationVisible = isNavigationVisible,
+        contentPadding = contentPadding,
+        onCompleteTask = { task, date -> viewModel.onIntent(HomeIntent.CompleteTask(task, date)) },
+        onSkipTask = { task, date -> viewModel.onIntent(HomeIntent.SkipTask(task, date)) },
+        onSnoozeTask = { task -> viewModel.onIntent(HomeIntent.SnoozeTask(task)) },
+        onTaskClick = { viewModel.onIntent(HomeIntent.NavigateToEditTask(it.id.value)) },
+    )
+}
+
+@Composable
+fun HomeScreen(
+    state: HomeState,
+    pagerState: PagerState,
+    isNavigationVisible: Boolean,
+    contentPadding: PaddingValues,
+    onCompleteTask: (Task, LocalDate) -> Unit,
+    onSkipTask: (Task, LocalDate) -> Unit,
+    onSnoozeTask: (Task) -> Unit,
+    onTaskClick: (Task) -> Unit,
+) {
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = contentPadding,
@@ -96,10 +121,28 @@ fun HomeScreen(
             state = state,
             pagerState = pagerState,
             contentPadding = listContentPadding,
-            onCompleteTask = { task, date -> viewModel.onIntent(HomeIntent.CompleteTask(task, date)) },
-            onSkipTask = { task, date -> viewModel.onIntent(HomeIntent.SkipTask(task, date)) },
-            onSnoozeTask = { task -> viewModel.onIntent(HomeIntent.SnoozeTask(task)) },
-            onTaskClick = { viewModel.onIntent(HomeIntent.NavigateToEditTask(it.id.value)) },
+            onCompleteTask = onCompleteTask,
+            onSkipTask = onSkipTask,
+            onSnoozeTask = onSnoozeTask,
+            onTaskClick = onTaskClick,
+        )
+    }
+}
+
+@Composable
+@Preview
+fun HomeScreenPreview() {
+    MaterialTheme {
+        val pagerState = rememberPagerState(initialPage = 0, pageCount = { 1 })
+        HomeScreen(
+            state = HomeState(),
+            pagerState = pagerState,
+            isNavigationVisible = true,
+            contentPadding = PaddingValues(0.dp),
+            onCompleteTask = { _, _ -> },
+            onSkipTask = { _, _ -> },
+            onSnoozeTask = {},
+            onTaskClick = {},
         )
     }
 }

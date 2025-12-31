@@ -14,11 +14,14 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import com.segnities007.yatte.domain.aggregate.category.model.Category
+import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
+import com.segnities007.yatte.domain.aggregate.category.model.CategoryColor
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
@@ -61,5 +64,21 @@ fun CategoryItem(
                 tint = MaterialTheme.colorScheme.error,
             )
         }
+    }
+}
+
+@Composable
+@Preview
+fun CategoryItemPreview() {
+    MaterialTheme {
+        CategoryItem(
+            category = Category(
+                id = CategoryId("1"),
+                name = "Shopping",
+                color = CategoryColor.BLUE,
+                createdAt = 1735686000000L,
+            ),
+            onDelete = {},
+        )
     }
 }

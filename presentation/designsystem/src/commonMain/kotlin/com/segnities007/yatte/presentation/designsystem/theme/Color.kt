@@ -2,6 +2,8 @@ package com.segnities007.yatte.presentation.designsystem.theme
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 // ============================================================
@@ -32,8 +34,8 @@ val YatteCoral = Color(0xFFFF7043)
 val YatteBerry = Color(0xFFAB47BC)
 
 // --- Light Mode Base Colors ---
-val YatteSurfaceLight = Color(0xFFFFFFFF)
-val YatteBackgroundLight = Color(0xFFFAFAFA)
+val YatteSurfaceLight = Color(0xFFF1F8E9) // Light Green 50
+val YatteBackgroundLight = Color(0xFFF1F8E9)
 val YatteOnPrimaryLight = Color.White
 val YatteOnBackgroundLight = Color(0xFF1B2E1B) // Dark green-tinted text
 
@@ -178,5 +180,236 @@ object YatteColors {
     val badgeBronze = Color(0xFFCD7F32)
     val badgeSilver = Color(0xFFC0C0C0)
     val badgeGold = Color(0xFFFFD700)
+}
+
+/**
+ * Yatte Gradient Brushes
+ * "Colors are not increased, but expressions are varied using Brushes."
+ */
+object YatteBrushes {
+    
+    // ============================================================
+    // Unified 1:8:1 Ratio System
+    // Highlight (10%) -> Body (80%) -> Shadow (10%)
+    // 
+    // 「心地よいフィードバック」を実現するための
+    // 統一された3Dボタン効果システム
+    // ============================================================
+    
+    /**
+     * 1:8:1比率でグラデーションを生成するヘルパー関数
+     * @param highlight 上部のハイライト色（10%）
+     * @param body メインのボディ色（80%）
+     * @param shadow 下部のシャドウ色（10%）
+     */
+    private fun create181Gradient(
+        highlight: Color,
+        body: Color,
+        shadow: Color
+    ) = Brush.verticalGradient(
+        0.0f to highlight,
+        0.1f to body,
+        0.9f to body,
+        1.0f to shadow
+    )
+    
+    // ============================================================
+    // Green Variants (テーマカラー / プライマリ)
+    // 
+    // 用途: メインアクション、成功状態、肯定的なフィードバック
+    // Docs: "緑を基調としつつ、黄色で活気を出す"
+    // ============================================================
+    object Green {
+        /**
+         * Main - 標準グリーン
+         * 
+         * 使用場面:
+         * - プライマリボタン (YatteButton)
+         * - セグメントボタンの選択状態
+         * - タスク完了チェックボックス
+         * - メインのCTA (Call to Action)
+         * 
+         * @see YatteColors.primary (#4CAF50)
+         */
+        val Main = create181Gradient(
+            highlight = YatteColors.mint,
+            body = YatteColors.primary,
+            shadow = Color(0xFF3A8F3E)
+        )
+        
+        /**
+         * Light - 明るく柔らかい
+         * 
+         * 使用場面:
+         * - ホバー状態 / サブアクション
+         * - セカンダリボタン
+         * - 背景アクセント
+         * - 選択状態のハイライト
+         * 
+         * @see YatteColors.leaf (#81C784)
+         */
+        val Light = create181Gradient(
+            highlight = Color(0xFFF1F8E9),
+            body = YatteColors.leaf,
+            shadow = YatteColors.primary
+        )
+        
+        /**
+         * Vivid - 鮮やかで目立つ
+         * 
+         * 使用場面:
+         * - 重要アクションの強調
+         * - プロモーション的なボタン
+         * - ゲーミフィケーション要素（レベルアップなど）
+         * - 注目を集めたいUI要素
+         * 
+         * 注意: 控えめに使用すること
+         */
+        val Vivid = create181Gradient(
+            highlight = YatteColors.leaf,
+            body = Color(0xFF43A047),
+            shadow = YatteColors.forest
+        )
+        
+        /**
+         * Dark - 深いフォレスト
+         * 
+         * 使用場面:
+         * - ヘッダーやナビゲーション
+         * - 重要アクションの背景
+         * - ダークモードでの強調要素
+         * - プレミアム感を出したい場面
+         * 
+         * @see YatteColors.forest (#2E7D32)
+         */
+        val Dark = create181Gradient(
+            highlight = YatteColors.primary,
+            body = YatteColors.forest,
+            shadow = Color(0xFF1B5E20)
+        )
+        
+        /**
+         * Muted - 彩度低め、落ち着いた
+         * 
+         * 使用場面:
+         * - 無効状態（Disabled）のボタン
+         * - 控えめなセカンダリ要素
+         * - 読み込み中やプレースホルダー
+         * - 背景に溶け込ませたい要素
+         * 
+         * 注意: コントラストが低いため、アクセシビリティに注意
+         */
+        val Muted = create181Gradient(
+            highlight = Color(0xFFE8F5E9),
+            body = Color(0xFF81C784).copy(alpha = 0.8f),
+            shadow = Color(0xFF66BB6A)
+        )
+    }
+    
+    // ============================================================
+    // Yellow Variants (アクセントカラー)
+    // 
+    // 用途: 注意、ハイライト、達成感、ゲーミフィケーション
+    // Docs: "Sunshine - 注意、ハイライト、達成"
+    // ============================================================
+    object Yellow {
+        /**
+         * Main - 標準イエロー
+         * 
+         * 使用場面:
+         * - 達成・報酬のハイライト（XP獲得、バッジなど）
+         * - 注意を引きたい非破壊的アクション
+         * - ストリーク継続の表示
+         * - 「新着」「おすすめ」バッジ
+         * 
+         * @see YatteColors.sunshine (#FFC107)
+         */
+        val Main = create181Gradient(
+            highlight = Color(0xFFFFF9C4),
+            body = YatteColors.sunshine,
+            shadow = YatteColors.honey
+        )
+        
+        /**
+         * Light - 明るくソフト
+         * 
+         * 使用場面:
+         * - 控えめなハイライト
+         * - 背景アクセント
+         * - ホバー状態
+         * - 軽い注意を促す要素
+         * 
+         * 注意: 白背景では見えにくいため、ボーダー併用推奨
+         */
+        val Light = create181Gradient(
+            highlight = Color(0xFFFFFDE7),
+            body = Color(0xFFFFF59D),
+            shadow = YatteColors.sunshine
+        )
+        
+        /**
+         * Vivid - 鮮やかで注目を引く
+         * 
+         * 使用場面:
+         * - 重要な報酬・達成の強調（レベルアップ、新記録）
+         * - CTAボタン（ただしGreenがメイン）
+         * - ゲーミフィケーション要素の強調
+         * - 期間限定・特別なアクション
+         * 
+         * 注意: 多用すると効果が薄れる、ここぞという場面で使用
+         */
+        val Vivid = create181Gradient(
+            highlight = Color(0xFFFFFF8D), // Fixed: was same as body, now lighter yellow
+            body = Color(0xFFFFC107),
+            shadow = Color(0xFFFF8F00)
+        )
+        
+        /**
+         * Dark - 深いアンバー
+         * 
+         * 使用場面:
+         * - 警告状態（Warning）
+         * - 進行中タスクの強調
+         * - 期限が近いことを示す
+         * - オレンジ寄りのアクセント
+         * 
+         * @see YatteColors.honey (#FFB300)
+         */
+        val Dark = create181Gradient(
+            highlight = YatteColors.honey,
+            body = Color(0xFFFF8F00),
+            shadow = Color(0xFFE65100)
+        )
+        
+        // 後方互換性のためのエイリアス
+        /** @deprecated Use Main instead */
+        val Action = Main
+        /** @deprecated Use Vivid instead */
+        val Glossy = Vivid
+    }
+    
+    // ============================================================
+    // Horizontal Variants (ヘッダー/ナビゲーション用)
+    // 
+    // 用途: 横方向のグラデーションが必要な場面
+    // ============================================================
+    object Horizontal {
+        /**
+         * Header - ヘッダー/ナビゲーション用の水平グラデーション
+         * 
+         * 使用場面:
+         * - YatteFloatingHeader（グラデーションモード）
+         * - 横長バナー
+         * - プログレスバー
+         * 
+         * @see YatteColors.forest, YatteColors.primary
+         */
+        val Header = Brush.horizontalGradient(
+            colors = listOf(
+                YatteColors.forest,
+                YatteColors.primary,
+            )
+        )
+    }
 }
 

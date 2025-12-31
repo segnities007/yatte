@@ -11,7 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mikepenz.aboutlibraries.entity.Library
-import com.segnities007.yatte.presentation.designsystem.component.button.YatteTextButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButtonStyle
 import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteDialog
 
 @Composable
@@ -23,9 +24,10 @@ fun LicenseDialog(
         title = library.name,
         onDismiss = onDismiss,
         confirmButton = {
-            YatteTextButton(
+            YatteButton(
                 onClick = onDismiss,
                 text = "Close",
+                style = YatteButtonStyle.Secondary,
             )
         },
     ) {

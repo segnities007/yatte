@@ -20,7 +20,7 @@ object SpringSpecs {
     
     val PlayfulBounce = spring<Float>(
         stiffness = 400f,
-        dampingRatio = 0.55f
+        dampingRatio = 0.8f // Reduced bounce to prevent "swelling" (0.55f -> 0.8f)
     )
 
     // Standard interactive bounce

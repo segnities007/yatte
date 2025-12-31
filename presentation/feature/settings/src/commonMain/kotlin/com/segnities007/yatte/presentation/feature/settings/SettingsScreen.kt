@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -61,7 +62,6 @@ import com.segnities007.yatte.presentation.feature.settings.component.SettingsDi
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsHeader
 import com.segnities007.yatte.presentation.feature.settings.component.SettingsSideEffects
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
@@ -91,19 +91,71 @@ internal fun SettingsScreen(
         scope = scope,
     )
 
+    SettingsScreen(
+        state = state,
+        contentPadding = contentPadding,
+        isNavigationVisible = isNavigationVisible,
+        onIntent = viewModel::onIntent,
+        onLicenseClick = actions.onLicenseClick,
+
+        fileHelper = fileHelper,
+        soundPickerLauncher = soundPickerLauncher,
+        scope = scope,
+        onShowSnackbar = onShowSnackbar,
+    )
+}
+
+@Composable
+internal fun SettingsScreen(
+    state: SettingsState,
+    contentPadding: PaddingValues,
+    isNavigationVisible: Boolean,
+    onIntent: (SettingsIntent) -> Unit,
+    onLicenseClick: () -> Unit,
+
+    fileHelper: FileHelper,
+    soundPickerLauncher: SoundPickerLauncher,
+    scope: CoroutineScope,
+    onShowSnackbar: (String) -> Unit,
+) {
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = contentPadding,
     ) { listContentPadding ->
         SettingsContent(
             state = state,
-            onIntent = viewModel::onIntent,
-            onLicenseClick = actions.onLicenseClick,
+            onIntent = onIntent,
+            onLicenseClick = onLicenseClick,
+
             fileHelper = fileHelper,
             soundPickerLauncher = soundPickerLauncher,
             scope = scope,
             contentPadding = listContentPadding,
             onShowSnackbar = onShowSnackbar,
+        )
+    }
+}
+
+@Composable
+@Preview
+fun SettingsScreenPreview() {
+    MaterialTheme {
+        // Mock FileHelper and SoundPickerLauncher
+        val fileHelper = rememberFileHelper()
+        val soundPickerLauncher = rememberSoundPickerLauncher {}
+        val scope = rememberCoroutineScope()
+
+        SettingsScreen(
+            state = SettingsState(),
+            contentPadding = PaddingValues(0.dp),
+            isNavigationVisible = true,
+            onIntent = {},
+            onLicenseClick = {},
+
+            fileHelper = fileHelper,
+            soundPickerLauncher = soundPickerLauncher,
+            scope = scope,
+            onShowSnackbar = {},
         )
     }
 }

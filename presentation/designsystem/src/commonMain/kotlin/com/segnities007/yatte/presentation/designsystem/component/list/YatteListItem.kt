@@ -3,6 +3,7 @@ package com.segnities007.yatte.presentation.designsystem.component.list
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,8 +44,8 @@ fun YatteListItem(
 @Composable
 private fun YatteListItemPreview() {
     YatteListItem(
-        headlineContent = { androidx.compose.material3.Text("Headline") },
-        supportingContent = { androidx.compose.material3.Text("Supporting content") },
-        leadingContent = { androidx.compose.material3.Text("Icon") }
+        headlineContent = { Text("Headline") },
+        supportingContent = { Text("Supporting content") },
+        leadingContent = { Text("Icon") }
     )
 }

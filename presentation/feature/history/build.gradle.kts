@@ -20,6 +20,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.navigation.compose)
@@ -33,6 +34,7 @@ kotlin {
             implementation(projects.presentation.designsystem)
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.history)
+            implementation(projects.domain.aggregate.task)
             implementation(projects.di)
         }
 

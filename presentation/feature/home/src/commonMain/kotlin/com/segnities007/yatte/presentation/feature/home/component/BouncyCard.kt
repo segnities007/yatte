@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +35,7 @@ import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiEffect
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiParticle
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
@@ -62,11 +64,11 @@ fun BouncyCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(YatteSpacing.lg)
         ) {
             Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(YatteSpacing.xl)
                     .bounceClick(onTap = {
                         isChecked = !isChecked
                         if (isChecked) {
@@ -81,8 +83,8 @@ fun BouncyCard(
                             }
                         }
                     })
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(if (isChecked) primaryColor else Color.LightGray.copy(alpha = 0.3f)),
+                    .clip(RoundedCornerShape(YatteSpacing.sm))
+                    .background(if (isChecked) primaryColor else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)),
                 contentAlignment = Alignment.Center
             ) {
                 if (isChecked) {
@@ -90,12 +92,12 @@ fun BouncyCard(
                         imageVector = Icons.Default.Check,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(YatteSpacing.md)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(YatteSpacing.md))
 
             Column {
                 Text(
@@ -119,5 +121,19 @@ fun BouncyCard(
                  confettis.clear()
             }
         }
+    }
+}
+
+
+
+@Composable
+@Preview
+fun BouncyCardPreview() {
+    MaterialTheme {
+        BouncyCard(
+            title = "Bounce Task",
+            time = "10:00",
+            isCompleted = false,
+        )
     }
 }

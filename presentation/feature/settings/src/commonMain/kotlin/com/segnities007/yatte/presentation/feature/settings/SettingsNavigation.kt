@@ -4,12 +4,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
+import com.segnities007.yatte.presentation.feature.settings.screen.MockUiScreen
 
 @Serializable
 object SettingsRoute
 
 @Serializable
 object LicenseRoute
+
+@Serializable
+object MockUiRoute
 
 /**
  * 設定画面から実行可能なナビゲーションアクションの定義。

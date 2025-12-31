@@ -2,6 +2,7 @@ package com.segnities007.yatte.presentation.designsystem.component.button
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -13,36 +14,86 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import com.segnities007.yatte.presentation.designsystem.animation.rememberBounceInteraction
-import com.segnities007.yatte.presentation.designsystem.theme.YatteShapes
+import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
+import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
+
+
+enum class YatteButtonStyle {
+    Primary,    // Green Gradient (Theme) - メインアクション
+    Emphasis,   // Yellow Gradient (Action) - 強調アクション
+    Secondary   // Outlined with light background - サブアクション
+}
 
 @Composable
 fun YatteButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.primary,
-    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+    style: YatteButtonStyle = YatteButtonStyle.Primary,
     enabled: Boolean = true,
+    fillContainer: Boolean = false,
 ) {
     val (interactionSource, bounceModifier) = rememberBounceInteraction()
+    val shape = CircleShape
+
+    val containerColor = Color.Transparent
+    val contentColor = when (style) {
+        YatteButtonStyle.Primary -> Color.White
+        YatteButtonStyle.Emphasis -> Color(0xFF3E2723) // Dark Brown
+        YatteButtonStyle.Secondary -> YatteColors.primary
+    }
+
+    val brush = when (style) {
+        YatteButtonStyle.Primary -> YatteBrushes.Green.Main
+        YatteButtonStyle.Emphasis -> YatteBrushes.Yellow.Action
+        YatteButtonStyle.Secondary -> null
+    }
 
     Button(
         onClick = onClick,
         modifier = modifier.then(bounceModifier),
-        shape = YatteShapes.medium,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
-            contentColor = contentColor
+            contentColor = contentColor,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
         ),
         enabled = enabled,
         interactionSource = interactionSource,
+        contentPadding = PaddingValues(0.dp),
+        shape = shape
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold
-        )
+        Box(
+            modifier = Modifier
+                .then(if (fillContainer) Modifier.fillMaxSize() else Modifier)
+                .clip(shape)
+                .then(
+                    when {
+                        brush != null && enabled -> Modifier.background(brush, shape)
+                        style == YatteButtonStyle.Secondary && enabled -> Modifier
+                            .background(YatteColors.mint.copy(alpha = 0.15f), shape)
+                            .border(1.dp, YatteColors.primary, shape)
+                        else -> Modifier
+                    }
+                )
+                .padding(horizontal = 24.dp, vertical = 12.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
@@ -53,9 +104,9 @@ private fun YatteButtonPreview() {
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        YatteButton(text = "Primary Button", onClick = {})
+        YatteButton(text = "Primary Button", onClick = {}, style = YatteButtonStyle.Primary)
+        YatteButton(text = "Emphasis Button", onClick = {}, style = YatteButtonStyle.Emphasis)
+        YatteButton(text = "Secondary Button", onClick = {}, style = YatteButtonStyle.Secondary)
         YatteButton(text = "Disabled", onClick = {}, enabled = false)
     }
 }
-
-

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
-import com.segnities007.yatte.presentation.designsystem.theme.YatteShapeTokens
+
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 private val AccentBarWidth = 6.dp
@@ -39,7 +39,7 @@ private val AccentBarWidth = 6.dp
 fun YatteCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    shape: Shape = YatteShapeTokens.large,
+    shape: Shape = CardDefaults.shape,
     containerColor: Color = MaterialTheme.colorScheme.surface,
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     accentColor: Color? = null,

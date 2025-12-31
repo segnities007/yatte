@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import com.segnities007.yatte.presentation.designsystem.theme.YatteShapes
+
 
 /**
  * Yatte統一スナックバーホスト
@@ -18,7 +18,7 @@ import com.segnities007.yatte.presentation.designsystem.theme.YatteShapes
 fun YatteSnackbarHost(
     hostState: SnackbarHostState,
     modifier: Modifier = Modifier,
-    shape: Shape = YatteShapes.small,
+    shape: Shape = SnackbarDefaults.shape,
     containerColor: Color = SnackbarDefaults.color,
     contentColor: Color = SnackbarDefaults.contentColor,
     actionColor: Color = MaterialTheme.colorScheme.inversePrimary,

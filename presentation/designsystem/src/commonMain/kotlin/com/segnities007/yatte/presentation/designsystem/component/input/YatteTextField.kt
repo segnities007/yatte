@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -75,7 +75,7 @@ fun YatteTextField(
             onSearch = { focusManager.clearFocus(); keyboardController?.hide(); onImeAction() },
             onSend = { focusManager.clearFocus(); keyboardController?.hide(); onImeAction() },
         ),
-        shape = RoundedCornerShape(YatteSpacing.sm),
+        // shape = RoundedCornerShape(YatteSpacing.sm), // Removed to use default
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.outline,

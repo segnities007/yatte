@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteChip
@@ -68,5 +69,16 @@ fun TaskFormBasicInfoSection(
                 }
             }
         }
+    }
+}
+
+@Composable
+@Preview
+fun TaskFormBasicInfoSectionPreview() {
+    MaterialTheme {
+        TaskFormBasicInfoSection(
+            state = TaskFormState(),
+            onIntent = {},
+        )
     }
 }

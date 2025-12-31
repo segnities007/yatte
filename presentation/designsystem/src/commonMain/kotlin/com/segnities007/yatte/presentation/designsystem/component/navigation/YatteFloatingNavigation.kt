@@ -5,6 +5,8 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Color
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -14,7 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -36,6 +39,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.SpringSpecs
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
@@ -51,7 +55,7 @@ data class YatteNavigationItem(
  */
 private object YatteFloatingNavigationDefaults {
     val ContainerHeight = 72.dp
-    val ContainerShape = RoundedCornerShape(YatteSpacing.xl)
+    val ContainerShape = CircleShape
     val ContainerHorizontalMargin = YatteSpacing.lg
     val ContainerVerticalMargin = YatteSpacing.md
     val ItemIconSize = 28.dp
@@ -140,7 +144,7 @@ private fun YatteNavItemButton(
 
     val contentColor by animateColorAsState(
         targetValue = if (item.isSelected) {
-            MaterialTheme.colorScheme.onPrimary
+            Color.White // Force White for Green Gradient
         } else {
             MaterialTheme.colorScheme.onSurfaceVariant
         },
@@ -152,17 +156,12 @@ private fun YatteNavItemButton(
         modifier = modifier
             .width(buttonWidth)
             .height(YatteFloatingNavigationDefaults.ItemButtonHeight)
-            .clip(RoundedCornerShape(24.dp))
+            .clip(CircleShape)
             .bounceClick(onTap = item.onClick)
             .then(
                 if (item.isSelected) {
                     Modifier.background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                YatteColors.primary,
-                                YatteColors.leaf,
-                            )
-                        )
+                        brush = YatteBrushes.Green.Main
                     )
                 } else {
                     Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))

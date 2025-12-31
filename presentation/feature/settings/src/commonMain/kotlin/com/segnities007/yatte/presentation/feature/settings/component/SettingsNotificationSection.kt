@@ -9,6 +9,8 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
 import com.segnities007.yatte.presentation.core.sound.SoundPickerLauncher
@@ -130,4 +132,17 @@ private fun VibrationPattern.toUiLabel(): String = when (this) {
     VibrationPattern.LONG -> stringResource(SettingsRes.string.vibration_pattern_long)
     VibrationPattern.SOS -> stringResource(SettingsRes.string.vibration_pattern_sos)
     VibrationPattern.HEARTBEAT -> stringResource(SettingsRes.string.vibration_pattern_heartbeat)
+}
+
+@Composable
+@Preview
+fun SettingsNotificationSectionPreview() {
+    MaterialTheme {
+        val soundPickerLauncher = rememberSoundPickerLauncher {}
+        SettingsNotificationSection(
+            state = SettingsState(),
+            onIntent = {},
+            soundPickerLauncher = soundPickerLauncher
+        )
+    }
 }

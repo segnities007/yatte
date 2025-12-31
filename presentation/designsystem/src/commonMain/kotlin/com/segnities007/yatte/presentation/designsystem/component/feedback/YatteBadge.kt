@@ -3,7 +3,7 @@ package com.segnities007.yatte.presentation.designsystem.component.feedback
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +24,7 @@ fun YatteBadge(
         modifier = modifier
             .background(
                 color = containerColor,
-                shape = RoundedCornerShape(4.dp),
+                shape = MaterialTheme.shapes.extraSmall,
             )
             .padding(horizontal = YatteSpacing.sm, vertical = YatteSpacing.xxs),
     ) {

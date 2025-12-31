@@ -29,6 +29,7 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,11 +43,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteFilledIconButton
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiManager
+import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.coroutines.delay
+import kotlin.time.Clock
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.feature.home.generated.resources.cd_complete
 import yatte.presentation.feature.home.generated.resources.cd_skip
@@ -219,6 +228,26 @@ private fun TaskCardContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+@Preview
+fun TaskCardPreview() {
+    MaterialTheme {
+        TaskCard(
+            task = Task(
+                id = TaskId("1"),
+                title = "Design Mockup",
+                time = LocalTime(10, 0),
+                createdAt = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds()).toLocalDateTime(TimeZone.currentSystemDefault()),
+            ),
+            onComplete = {},
+            onClick = {},
+            onSnooze = {},
+            onSkip = {},
+            onDismiss = {},
+        )
     }
 }
 

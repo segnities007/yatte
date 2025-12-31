@@ -13,7 +13,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -63,16 +66,23 @@ fun YatteFilledIconButton(
     enabled: Boolean = true,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+    brush: Brush? = null,
     size: Dp = 24.dp,
 ) {
     val (interactionSource, bounceModifier) = rememberBounceInteraction()
+    val finalContainerColor = if (brush != null) Color.Transparent else containerColor
 
     IconButton(
         onClick = onClick,
-        modifier = modifier.then(bounceModifier),
+        modifier = modifier
+            .then(bounceModifier)
+            .then(
+                if (brush != null) Modifier.background(brush, CircleShape)
+                else Modifier
+            ),
         enabled = enabled,
         colors = IconButtonDefaults.filledIconButtonColors(
-            containerColor = containerColor,
+            containerColor = finalContainerColor,
             contentColor = contentColor,
         ),
         interactionSource = interactionSource,

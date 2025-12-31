@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
@@ -52,4 +53,15 @@ private fun ThemeMode.toUiLabel(): String = when (this) {
     ThemeMode.LIGHT -> stringResource(SettingsRes.string.theme_light)
     ThemeMode.DARK -> stringResource(SettingsRes.string.theme_dark)
     ThemeMode.SYSTEM -> stringResource(SettingsRes.string.theme_system)
+}
+
+@Composable
+@Preview
+fun SettingsAppearanceSectionPreview() {
+    MaterialTheme {
+        SettingsAppearanceSection(
+            state = SettingsState(),
+            onIntent = {},
+        )
+    }
 }

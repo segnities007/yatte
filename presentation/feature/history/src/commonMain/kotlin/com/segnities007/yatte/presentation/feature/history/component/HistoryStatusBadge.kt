@@ -2,6 +2,7 @@ package com.segnities007.yatte.presentation.feature.history.component
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
 import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteBadge
@@ -10,6 +11,10 @@ import yatte.presentation.feature.history.generated.resources.status_completed
 import yatte.presentation.feature.history.generated.resources.status_expired
 import yatte.presentation.feature.history.generated.resources.status_skipped
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun HistoryStatusBadge(
@@ -41,6 +46,18 @@ fun HistoryStatusBadge(
         text = text,
         containerColor = backgroundColor,
         contentColor = textColor,
-        modifier = modifier
+        modifier = modifier,
     )
+}
+
+@Composable
+@Preview
+fun HistoryStatusBadgePreview() {
+    MaterialTheme {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            HistoryStatusBadge(status = HistoryStatus.COMPLETED)
+            HistoryStatusBadge(status = HistoryStatus.SKIPPED)
+            HistoryStatusBadge(status = HistoryStatus.EXPIRED)
+        }
+    }
 }

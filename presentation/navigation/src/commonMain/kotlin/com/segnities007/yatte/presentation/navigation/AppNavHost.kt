@@ -130,7 +130,7 @@ fun AppNavHost(
     // - ライセンス画面: 常に表示（戻るボタン付き）
     // - その他: スクロール連動
     val isHeaderVisible = when {
-        isTaskFormScreen -> true
+        isTaskFormScreen -> isFnbVisible
         isLicenseScreen -> true
         else -> isFnbVisible
     }
