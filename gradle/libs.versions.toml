@@ -14,26 +14,26 @@ composeMultiplatform = "1.9.3"
 junit = "4.13.2"
 kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
-kotlinx-datetime = "0.7.1"
-kotlinx-serialization = "1.8.0"
+kotlinx-datetime = "0.7.1-0.6.x-compat"
+kotlinx-serialization = "1.9.0"
 # Navigation
 navigation-compose = "2.9.1"
 # Room & Data
 room = "2.7.0"
-ksp = "2.3.0"
+ksp = "2.3.4"
 sqlite = "2.5.1"
 datastore = "1.1.7"
 # Background
 work = "2.10.0"
 # DI
-koin = "4.0.3"
+koin = "4.1.1"
 # Lint & Tools
 ktlint = "14.0.1"
 detekt = "1.23.8"
 dokka = "2.1.0"
 dependencyCheck = "12.1.9"
 uuid = "0.8.4"
-aboutLibraries = "11.6.3"
+aboutLibraries = "13.2.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
