@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteFloatingActionButton
-import com.segnities007.yatte.presentation.feature.home.component.BouncyCard
+import com.segnities007.yatte.presentation.designsystem.component.card.YatteBouncyCard
 
 @Composable
 fun MockDesignScreen() {
@@ -41,15 +41,15 @@ fun MockDesignScreen() {
             )
 
             // Bouncy Card List (Refactored Component)
-            BouncyCard(
+            YatteBouncyCard(
                 title = "牛乳を買う",
-                time = "10:00",
+                supportingText = "10:00",
                 isCompleted = false
             )
 
-            BouncyCard(
+            YatteBouncyCard(
                 title = "ミーティング",
-                time = "14:00",
+                supportingText = "14:00",
                 isCompleted = true
             )
 

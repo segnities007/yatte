@@ -110,7 +110,7 @@ fun SettingsDataSection(
                 YatteButton(
                     text = stringResource(SettingsRes.string.reset_button),
                     onClick = { onIntent(SettingsIntent.RequestResetData) },
-                    style = YatteButtonStyle.Emphasis,
+                    style = YatteButtonStyle.Danger,
                 )
             }
         )

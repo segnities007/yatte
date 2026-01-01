@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsTopHeight
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteSnackbarHost
 import com.segnities007.yatte.presentation.designsystem.component.layout.YatteBasicScaffold
-import com.segnities007.yatte.presentation.designsystem.component.layout.YatteBasicScaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -55,12 +55,15 @@ import com.segnities007.yatte.presentation.feature.task.AddTaskRoute as TaskForm
 
 /**
  * アプリのメインナビゲーションホスト。
- *
- * 仕様:
- * - Global Header: 各画面ではなくAppNavHostレベルでHeaderを管理し、画面遷移時の違和感を解消
- * - Overlay Navigation: ScaffoldのbottomBarを使用せず、Boxでコンテンツの上にFNBを配置
- * - FNB Floating Effect: 下部に余白を設け、背景を透過させて浮遊感を演出
- * - Header Fix: ScaffoldのcontentWindowInsetsを0にし、各画面での二重適用を防ぐ
+ */
+object YatteNavigationDefaults {
+    val FnbBottomPadding = YatteSpacing.xl
+    val FabBottomPadding = 136.dp // Equivalent to FNB container + bottom padding + margins
+    val SnackbarBottomPadding = 140.dp // Offset to appear slightly above FNB
+}
+
+/**
+ * アプリのメインナビゲーションホスト。
  */
 @Composable
 fun AppNavHost(
@@ -199,7 +202,7 @@ fun AppNavHost(
                 .align(Alignment.TopCenter)
                 .fillMaxWidth()
                 .windowInsetsTopHeight(WindowInsets.statusBars)
-                .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.6f))
+                .background(YatteTheme.colors.surface.copy(alpha = 0.6f))
         )
 
         // Global Header Overlay
@@ -233,7 +236,7 @@ fun AppNavHost(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 32.dp), // Increased from 16.dp for better reachability
+                .padding(bottom = YatteNavigationDefaults.FnbBottomPadding),
         )
 
         // FAB Overlay
@@ -243,8 +246,7 @@ fun AppNavHost(
             contentDescription = stringResource(Res.string.cd_add_task),
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                // FNBの上部に配置 (112dp + margin) -> adjusted to match new BottomBar padding
-                .padding(bottom = 136.dp, end = 24.dp),
+                .padding(bottom = YatteNavigationDefaults.FabBottomPadding, end = YatteSpacing.lg),
         )
         
         // Snackbar Overlay (FNBの上に表示)
@@ -252,7 +254,7 @@ fun AppNavHost(
             hostState = snackbarHostState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 140.dp), // FNB(112dp) + margin より上に配置
+                .padding(bottom = YatteNavigationDefaults.SnackbarBottomPadding),
         )
         
         // Confetti Overlay

@@ -1,4 +1,4 @@
-package com.segnities007.yatte.presentation.core.util
+package com.segnities007.yatte.presentation.core.formatter
 
 import kotlinx.datetime.LocalDateTime
 

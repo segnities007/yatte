@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.segnities007.yatte.domain.aggregate.settings.model.ThemeColor
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
 import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
@@ -30,6 +31,7 @@ class SettingsRepositoryImpl(
         val KEY_NOTIFICATION_VIBRATION = booleanPreferencesKey("notification_vibration")
         val KEY_CUSTOM_SOUND_URI = stringPreferencesKey("custom_sound_uri")
         val KEY_THEME_MODE = stringPreferencesKey("theme_mode")
+        val KEY_THEME_COLOR = stringPreferencesKey("theme_color")
         val KEY_SNOOZE_DURATION = intPreferencesKey("snooze_duration")
         val KEY_VIBRATION_PATTERN = stringPreferencesKey("vibration_pattern")
     }
@@ -45,6 +47,9 @@ class SettingsRepositoryImpl(
                 themeMode = themeModeRaw
                     ?.let { raw -> ThemeMode.entries.firstOrNull { it.name == raw } }
                     ?: ThemeMode.SYSTEM,
+                themeColor = preferences[KEY_THEME_COLOR]
+                    ?.let { raw -> ThemeColor.entries.firstOrNull { it.name == raw } }
+                    ?: ThemeColor.DEFAULT,
                 snoozeDuration = preferences[KEY_SNOOZE_DURATION] ?: 10,
                 vibrationPattern = preferences[KEY_VIBRATION_PATTERN]
                     ?.let { raw -> VibrationPattern.entries.firstOrNull { it.name == raw } }
@@ -64,6 +69,7 @@ class SettingsRepositoryImpl(
                 preferences.remove(KEY_CUSTOM_SOUND_URI)
             }
             preferences[KEY_THEME_MODE] = settings.themeMode.name
+            preferences[KEY_THEME_COLOR] = settings.themeColor.name
             preferences[KEY_SNOOZE_DURATION] = settings.snoozeDuration
             preferences[KEY_VIBRATION_PATTERN] = settings.vibrationPattern.name
         }

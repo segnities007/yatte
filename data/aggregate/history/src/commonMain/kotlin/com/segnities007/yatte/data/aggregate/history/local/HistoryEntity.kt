@@ -1,4 +1,4 @@
-package com.segnities007.yatte.data.core.database.entity
+package com.segnities007.yatte.data.aggregate.history.local
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

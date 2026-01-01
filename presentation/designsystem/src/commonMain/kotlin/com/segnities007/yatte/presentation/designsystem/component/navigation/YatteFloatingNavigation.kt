@@ -39,6 +39,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.SpringSpecs
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYattePrimaryBrush
 import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
@@ -142,9 +143,12 @@ private fun YatteNavItemButton(
         label = "navItemScale",
     )
 
+    val primaryBrush = LocalYattePrimaryBrush.current
+    val onPrimaryBrushColor = com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnPrimaryBrushColor.current
+
     val contentColor by animateColorAsState(
         targetValue = if (item.isSelected) {
-            Color.White // Force White for Green Gradient
+            onPrimaryBrushColor
         } else {
             MaterialTheme.colorScheme.onSurfaceVariant
         },
@@ -161,7 +165,7 @@ private fun YatteNavItemButton(
             .then(
                 if (item.isSelected) {
                     Modifier.background(
-                        brush = YatteBrushes.Green.Main
+                        brush = primaryBrush
                     )
                 } else {
                     Modifier.background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))

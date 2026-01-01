@@ -1,6 +1,6 @@
 package com.segnities007.yatte.data.aggregate.alarm.mapper
 
-import com.segnities007.yatte.data.core.database.entity.AlarmEntity
+import com.segnities007.yatte.data.aggregate.alarm.local.AlarmEntity
 import com.segnities007.yatte.domain.aggregate.alarm.model.Alarm
 import com.segnities007.yatte.domain.aggregate.alarm.model.AlarmId
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId

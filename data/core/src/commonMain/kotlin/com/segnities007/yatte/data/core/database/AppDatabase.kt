@@ -5,14 +5,14 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import com.segnities007.yatte.data.core.database.dao.AlarmDao
-import com.segnities007.yatte.data.core.database.dao.CategoryDao
-import com.segnities007.yatte.data.core.database.dao.HistoryDao
-import com.segnities007.yatte.data.core.database.dao.TaskDao
-import com.segnities007.yatte.data.core.database.entity.AlarmEntity
-import com.segnities007.yatte.data.core.database.entity.CategoryEntity
-import com.segnities007.yatte.data.core.database.entity.HistoryEntity
-import com.segnities007.yatte.data.core.database.entity.TaskEntity
+import com.segnities007.yatte.data.aggregate.alarm.local.AlarmDao
+import com.segnities007.yatte.data.aggregate.category.local.CategoryDao
+import com.segnities007.yatte.data.aggregate.history.local.HistoryDao
+import com.segnities007.yatte.data.aggregate.task.local.TaskDao
+import com.segnities007.yatte.data.aggregate.alarm.local.AlarmEntity
+import com.segnities007.yatte.data.aggregate.category.local.CategoryEntity
+import com.segnities007.yatte.data.aggregate.history.local.HistoryEntity
+import com.segnities007.yatte.data.aggregate.task.local.TaskEntity
 
 
 @Database(

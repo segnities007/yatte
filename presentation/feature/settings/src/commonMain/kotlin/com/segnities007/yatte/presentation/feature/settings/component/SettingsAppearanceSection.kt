@@ -33,29 +33,20 @@ fun SettingsAppearanceSection(
         icon = Icons.Default.Palette,
         title = stringResource(SettingsRes.string.section_appearance),
     ) {
-        YatteText(
-            text = stringResource(SettingsRes.string.theme_title),
-            style = YatteTheme.typography.bodyLarge,
+        ThemeModeSelector(
+            selectedMode = state.settings.themeMode,
+            onModeSelected = { onIntent(SettingsIntent.UpdateThemeMode(it)) }
         )
-        Spacer(modifier = Modifier.height(YatteSpacing.sm))
-        YatteSegmentedButtonRow(
-            options = ThemeMode.entries.toList(),
-            selectedIndex = ThemeMode.entries.indexOf(state.settings.themeMode),
-            onOptionSelected = { _, mode -> onIntent(SettingsIntent.UpdateThemeMode(mode)) },
-            content = { YatteText(it.toUiLabel()) },
-            modifier = Modifier.fillMaxWidth(),
+        
+        Spacer(modifier = Modifier.height(YatteSpacing.md))
+        
+        ThemeColorSelector(
+            selectedColor = state.settings.themeColor,
+            onColorSelected = { onIntent(SettingsIntent.UpdateThemeColor(it)) }
         )
     }
 }
 
-@Composable
-private fun ThemeMode.toUiLabel(): String = when (this) {
-    ThemeMode.LIGHT -> stringResource(SettingsRes.string.theme_light)
-    ThemeMode.DARK -> stringResource(SettingsRes.string.theme_dark)
-    ThemeMode.SYSTEM -> stringResource(SettingsRes.string.theme_system)
-    ThemeMode.GREEN -> "グリーン"
-    ThemeMode.YELLOW -> "イエロー"
-}
 
 @Composable
 @Preview

@@ -5,6 +5,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 
@@ -16,8 +17,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 @Composable
 fun YatteTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    colorScheme: ColorScheme = if (darkTheme) YatteDarkColorScheme else YatteLightColorScheme,
-    primaryBrush: Brush = if (darkTheme) YatteBrushes.Green.Main else YatteBrushes.Green.Main, // Default to green
+    colorScheme: ColorScheme = if (darkTheme) YatteGreenDarkColorScheme else YatteGreenLightColorScheme,
+    primaryBrush: Brush = if (darkTheme) YatteBrushes.Green.Main else YatteBrushes.Green.Main,
+    onPrimaryBrushColor: Color = Color.White,
+    emphasisBrush: Brush = YatteBrushes.Yellow.Main,
+    onEmphasisBrushColor: Color = Color.White,
+    dangerBrush: Brush = YatteBrushes.Error.Main,
+    onDangerBrushColor: Color = Color.White,
     content: @Composable () -> Unit
 ) {
     val typography = YatteTypography
@@ -26,7 +32,12 @@ fun YatteTheme(
     CompositionLocalProvider(
         LocalYatteTypography provides typography,
         LocalYatteSpacing provides spacing.toTokens(),
-        LocalYattePrimaryBrush provides primaryBrush
+        LocalYattePrimaryBrush provides primaryBrush,
+        LocalYatteOnPrimaryBrushColor provides onPrimaryBrushColor,
+        LocalYatteEmphasisBrush provides emphasisBrush,
+        LocalYatteOnEmphasisBrushColor provides onEmphasisBrushColor,
+        LocalYatteDangerBrush provides dangerBrush,
+        LocalYatteOnDangerBrushColor provides onDangerBrushColor,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

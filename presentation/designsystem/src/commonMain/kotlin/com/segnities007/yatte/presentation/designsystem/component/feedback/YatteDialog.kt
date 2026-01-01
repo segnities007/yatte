@@ -12,6 +12,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteButtonStyle
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 
 /**
  * Yatte確認ダイアログ
@@ -30,8 +32,8 @@ fun YatteConfirmDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(title) },
-        text = { Text(message) },
+        title = { YatteText(title, style = YatteTheme.typography.titleMedium) },
+        text = { YatteText(message, style = YatteTheme.typography.bodyMedium) },
         confirmButton = {
             YatteButton(
                 onClick = onConfirm,
@@ -77,7 +79,7 @@ fun YatteDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(title) },
+        title = { YatteText(title, style = YatteTheme.typography.titleMedium) },
         text = {
             Column {
                 content()
@@ -92,24 +94,28 @@ fun YatteDialog(
 @Preview(showBackground = true)
 @Composable
 private fun YatteConfirmDialogPreview() {
-    YatteConfirmDialog(
-        title = "Delete Task?",
-        message = "Are you sure you want to delete this task? This action cannot be undone.",
-        onConfirm = {},
-        onDismiss = {},
-        isDestructive = true
-    )
+    YatteTheme {
+        YatteConfirmDialog(
+            title = "Delete Task?",
+            message = "Are you sure you want to delete this task? This action cannot be undone.",
+            onConfirm = {},
+            onDismiss = {},
+            isDestructive = true
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun YatteDialogPreview() {
-    YatteDialog(
-        title = "Custom Dialog",
-        onDismiss = {},
-        confirmButton = { YatteButton(text = "OK", onClick = {}, style = YatteButtonStyle.Emphasis) },
-        dismissButton = { YatteButton(text = "Cancel", onClick = {}, style = YatteButtonStyle.Secondary) },
-    ) {
-        Text("Custom content can be placed here.")
+    YatteTheme {
+        YatteDialog(
+            title = "Custom Dialog",
+            onDismiss = {},
+            confirmButton = { YatteButton(text = "OK", onClick = {}, style = YatteButtonStyle.Emphasis) },
+            dismissButton = { YatteButton(text = "Cancel", onClick = {}, style = YatteButtonStyle.Secondary) },
+        ) {
+            YatteText("Custom content can be placed here.")
+        }
     }
 }

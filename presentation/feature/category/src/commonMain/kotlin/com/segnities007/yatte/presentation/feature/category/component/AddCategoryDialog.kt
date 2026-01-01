@@ -3,8 +3,8 @@ package com.segnities007.yatte.presentation.feature.category.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.segnities007.yatte.domain.aggregate.category.model.CategoryColor
@@ -47,7 +47,11 @@ fun AddCategoryDialog(
             label = "カテゴリ名",
             singleLine = true,
         )
-        Text("カラー", style = MaterialTheme.typography.labelMedium)
+        YatteText(
+            text = "カラー",
+            style = YatteTheme.typography.labelMedium,
+            color = YatteTheme.colors.onSurfaceVariant
+        )
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(YatteSpacing.xs),
         ) {
@@ -65,7 +69,7 @@ fun AddCategoryDialog(
 @Composable
 @Preview
 fun AddCategoryDialogPreview() {
-    MaterialTheme {
+    YatteTheme {
         AddCategoryDialog(
             name = "New Category",
             selectedColor = CategoryColor.BLUE,

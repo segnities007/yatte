@@ -16,15 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ProvideTextStyle
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +23,16 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
-import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Surface
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYattePrimaryBrush
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 
 /**
  * フローティングヘッダーバー
@@ -77,8 +75,8 @@ private fun YatteFloatingHeaderContent(
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
-    val containerColor = if (useGradient) Color.Transparent else MaterialTheme.colorScheme.surface
-    val contentColor = if (useGradient) Color.White else MaterialTheme.colorScheme.onSurface
+    val containerColor = if (useGradient) Color.Transparent else YatteTheme.colors.surface
+    val contentColor = if (useGradient) Color.White else YatteTheme.colors.onSurface
 
     Surface(
         modifier = Modifier
@@ -87,11 +85,11 @@ private fun YatteFloatingHeaderContent(
             .heightIn(min = YatteFloatingHeaderDefaults.ContainerHeight)
             .shadow(
                 elevation = 8.dp,
-                shape = MaterialTheme.shapes.extraLarge,
-                ambientColor = YatteColors.forest.copy(alpha = 0.3f),
-                spotColor = YatteColors.primary.copy(alpha = 0.4f),
+                shape = YatteTheme.shapes.extraLarge,
+                ambientColor = YatteTheme.colors.primary.copy(alpha = 0.3f),
+                spotColor = YatteTheme.colors.primary.copy(alpha = 0.4f),
             ),
-        shape = MaterialTheme.shapes.extraLarge,
+        shape = YatteTheme.shapes.extraLarge,
         color = containerColor,
         shadowElevation = 0.dp, // We use custom shadow
         tonalElevation = 4.dp,
@@ -100,37 +98,37 @@ private fun YatteFloatingHeaderContent(
             modifier = Modifier
                 .then(
                     if (useGradient) {
-                        Modifier.background(brush = YatteBrushes.Horizontal.Header)
-                    } else {
-                        Modifier.background(MaterialTheme.colorScheme.surface)
-                    }
-                )
-                .padding(horizontal = YatteSpacing.xs, vertical = YatteSpacing.xs),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-        ) {
-            // Navigation Icon
-            if (navigationIcon != null) {
-                navigationIcon()
-                Spacer(modifier = Modifier.width(YatteSpacing.xs))
-            } else {
-                Spacer(modifier = Modifier.width(YatteSpacing.sm))
-            }
-
-            // Title (Weight 1f to push actions to right)
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                ProvideTextStyle(
-                    value = MaterialTheme.typography.titleMedium.copy(
-                        color = contentColor
-                    )
-                ) {
-                    title()
+                    Modifier.background(brush = LocalYattePrimaryBrush.current)
+                } else {
+                    Modifier.background(YatteTheme.colors.surface)
                 }
+            )
+            .padding(horizontal = YatteSpacing.xs, vertical = YatteSpacing.xs),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+    ) {
+        // Navigation Icon
+        if (navigationIcon != null) {
+            navigationIcon()
+            Spacer(modifier = Modifier.width(YatteSpacing.xs))
+        } else {
+            Spacer(modifier = Modifier.width(YatteSpacing.sm))
+        }
+
+        // Title (Weight 1f to push actions to right)
+        Row(
+            modifier = Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            ProvideTextStyle(
+                value = YatteTheme.typography.titleMedium.copy(
+                    color = contentColor
+                )
+            ) {
+                title()
             }
+        }
 
             // Actions
             Row(
@@ -149,18 +147,24 @@ private fun YatteFloatingHeaderContent(
 @Preview(showBackground = true)
 @Composable
 private fun YatteFloatingHeaderPreview() {
-    Column {
-        YatteFloatingHeader(
-            title = { Text("Header Title") },
-            navigationIcon = {
-                IconButton(onClick = {}) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+    YatteTheme {
+        Column {
+            YatteFloatingHeader(
+                title = { YatteText("Header Title") },
+                navigationIcon = {
+                    YatteIconButton(
+                        onClick = {},
+                        icon = Icons.AutoMirrored.Filled.ArrowBack,
+                    )
+                },
+                actions = {
+                    YatteIconButton(
+                        onClick = {},
+                        icon = Icons.Default.Settings,
+                    )
                 }
-            },
-            actions = {
-                IconButton(onClick = {}) { Icon(Icons.Default.Settings, contentDescription = null) }
-            }
-        )
+            )
+        }
     }
 }
 

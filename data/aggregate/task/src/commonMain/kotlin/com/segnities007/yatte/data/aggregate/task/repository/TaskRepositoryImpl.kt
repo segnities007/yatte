@@ -2,7 +2,7 @@ package com.segnities007.yatte.data.aggregate.task.repository
 
 import com.segnities007.yatte.data.aggregate.task.mapper.toDomain
 import com.segnities007.yatte.data.aggregate.task.mapper.toEntity
-import com.segnities007.yatte.data.core.database.dao.TaskDao
+import com.segnities007.yatte.data.aggregate.task.local.TaskDao
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId
 import com.segnities007.yatte.domain.aggregate.task.repository.TaskRepository

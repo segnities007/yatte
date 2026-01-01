@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.animation.rememberBounceInteraction
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYattePrimaryBrush
 import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -54,7 +55,7 @@ fun YatteChip(
     modifier: Modifier = Modifier,
     leadingIcon: ImageVector? = null,
     enabled: Boolean = true,
-    brush: Brush = YatteBrushes.Green.Main,
+    brush: Brush = LocalYattePrimaryBrush.current,
 ) {
     val shape = RoundedCornerShape(8.dp)
     val (interactionSource, bounceModifier) = rememberBounceInteraction()
@@ -88,13 +89,13 @@ fun YatteChip(
                     imageVector = leadingIcon,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp),
-                    tint = if (selected) Color.White else MaterialTheme.colorScheme.onSurface
+                    tint = if (selected) com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnPrimaryBrushColor.current else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelLarge,
-                color = if (selected) Color.White else MaterialTheme.colorScheme.onSurface
+                color = if (selected) com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnPrimaryBrushColor.current else MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -110,7 +111,7 @@ fun YatteColorChip(
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    brush: Brush = YatteBrushes.Green.Main,
+    brush: Brush = LocalYattePrimaryBrush.current,
 ) {
     val shape = RoundedCornerShape(8.dp)
     val (interactionSource, bounceModifier) = rememberBounceInteraction()
@@ -147,7 +148,7 @@ fun YatteColorChip(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelLarge,
-                color = if (selected) Color.White else MaterialTheme.colorScheme.onSurface
+                color = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -162,7 +163,7 @@ fun YatteDismissibleChip(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     leadingIcon: ImageVector? = null,
-    brush: Brush = YatteBrushes.Green.Main,
+    brush: Brush = LocalYattePrimaryBrush.current,
 ) {
     val shape = RoundedCornerShape(8.dp)
     
@@ -182,13 +183,13 @@ fun YatteDismissibleChip(
                     imageVector = leadingIcon,
                     contentDescription = null,
                     modifier = Modifier.size(16.dp),
-                    tint = Color.White
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelLarge,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onPrimary
             )
             Icon(
                 imageVector = Icons.Default.Close,
@@ -196,7 +197,7 @@ fun YatteDismissibleChip(
                 modifier = Modifier
                     .size(18.dp)
                     .bounceClick(onTap = onDismiss),
-                tint = Color.White
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
     }

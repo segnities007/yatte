@@ -2,7 +2,7 @@ package com.segnities007.yatte.data.aggregate.history.repository
 
 import com.segnities007.yatte.data.aggregate.history.mapper.toDomain
 import com.segnities007.yatte.data.aggregate.history.mapper.toEntity
-import com.segnities007.yatte.data.core.database.dao.HistoryDao
+import com.segnities007.yatte.data.aggregate.history.local.HistoryDao
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
 import com.segnities007.yatte.domain.aggregate.history.repository.HistoryRepository

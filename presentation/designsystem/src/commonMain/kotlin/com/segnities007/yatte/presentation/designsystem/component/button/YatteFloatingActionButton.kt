@@ -64,8 +64,8 @@ fun YatteFloatingActionButton(
                     .shadow(
                         elevation = 8.dp,
                         shape = shape,
-                        ambientColor = YatteColors.sunshine.copy(alpha = 0.4f),
-                        spotColor = YatteColors.honey.copy(alpha = 0.6f),
+                        ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                        spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
                     )
                     .clip(shape)
                     .background(brush)
@@ -80,7 +80,7 @@ fun YatteFloatingActionButton(
                     imageVector = icon,
                     contentDescription = contentDescription,
                     modifier = Modifier.size(24.dp),
-                    tint = Color(0xFF3E2723) // Dark Brown for contrast against Yellow
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

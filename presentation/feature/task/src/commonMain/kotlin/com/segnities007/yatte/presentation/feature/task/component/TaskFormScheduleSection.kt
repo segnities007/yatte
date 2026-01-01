@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Schedule
 import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYattePrimaryBrush
 import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -27,12 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import com.segnities007.yatte.presentation.core.util.toDisplayString
+import com.segnities007.yatte.presentation.core.formatter.toDisplayString
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteChip
+import com.segnities007.yatte.presentation.designsystem.component.input.YatteTimePickerSheet
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnPrimaryBrushColor
 import com.segnities007.yatte.presentation.feature.task.TaskFormIntent
 import com.segnities007.yatte.presentation.feature.task.TaskFormState
 import kotlinx.datetime.DayOfWeek
@@ -68,8 +71,8 @@ fun TaskFormScheduleSection(
         var showTimeSheet by remember { mutableStateOf(false) }
 
         // Schedule Button with 3D Bevel
-        val scheduleBrush = YatteBrushes.Yellow.Action
-        val scheduleContentColor = YatteTheme.colors.onSecondary // Dark Brown
+        val scheduleBrush = LocalYattePrimaryBrush.current
+        val scheduleContentColor = LocalYatteOnPrimaryBrushColor.current
 
         Box(
             contentAlignment = Alignment.Center,
@@ -102,11 +105,12 @@ fun TaskFormScheduleSection(
         }
 
         if (showTimeSheet) {
-            TaskTimePickerSheet(
-                initialTime = state.time,
+            YatteTimePickerSheet(
+                initialHour = state.time.hour,
+                initialMinute = state.time.minute,
                 onDismiss = { showTimeSheet = false },
-                onConfirm = { newTime ->
-                    onIntent(TaskFormIntent.UpdateTime(newTime))
+                onConfirm = { h, m ->
+                    onIntent(TaskFormIntent.UpdateTime(kotlinx.datetime.LocalTime(h, m)))
                     showTimeSheet = false
                 }
             )

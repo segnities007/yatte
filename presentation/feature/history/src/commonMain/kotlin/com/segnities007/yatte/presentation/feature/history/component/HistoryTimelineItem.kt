@@ -17,9 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
-import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
-import com.segnities007.yatte.presentation.designsystem.component.list.YatteTimelineRow
-import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
+import com.segnities007.yatte.presentation.designsystem.component.list.YatteTimelineCard
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 @Composable
@@ -29,45 +27,23 @@ fun HistoryTimelineItem(
     isLast: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val statusColor = when (history.status) {
-        HistoryStatus.COMPLETED -> YatteColors.primary
-        HistoryStatus.SKIPPED -> YatteColors.sky
-        HistoryStatus.EXPIRED -> YatteColors.coral
+    val tint = when (history.status) {
+        HistoryStatus.COMPLETED -> YatteTheme.colors.primary
+        HistoryStatus.SKIPPED -> YatteTheme.colors.secondary
+        HistoryStatus.EXPIRED -> YatteTheme.colors.error
     }
 
-    YatteTimelineRow(
+    YatteTimelineCard(
         time = "${history.completedAt.hour.toString().padStart(2, '0')}:${history.completedAt.minute.toString().padStart(2, '0')}",
-        lineColor = statusColor,
+        modifier = modifier.fillMaxWidth(),
         isFirst = isFirst,
         isLast = isLast,
-        modifier = modifier
+        lineColor = tint,
     ) {
-        // タスク情報カード
-        YatteCard(
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = YatteSpacing.xs),
-            onClick = null,
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(YatteSpacing.sm),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                // 左側: タイトル
-                YatteText(
-                    text = history.title,
-                    style = YatteTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f)
-                )
-
-                // 右側: ステータスバッジ
-                Spacer(modifier = Modifier.width(YatteSpacing.sm))
-                HistoryStatusBadge(status = history.status)
-            }
-        }
+        YatteText(
+            text = history.title,
+            style = YatteTheme.typography.titleMedium,
+            color = YatteTheme.colors.onSurface
+        )
     }
 }
-

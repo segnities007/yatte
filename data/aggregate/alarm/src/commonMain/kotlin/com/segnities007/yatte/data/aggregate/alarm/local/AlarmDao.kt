@@ -1,10 +1,10 @@
-package com.segnities007.yatte.data.core.database.dao
+package com.segnities007.yatte.data.aggregate.alarm.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.segnities007.yatte.data.core.database.entity.AlarmEntity
+import com.segnities007.yatte.data.aggregate.alarm.local.AlarmEntity
 import kotlinx.coroutines.flow.Flow
 
 /**

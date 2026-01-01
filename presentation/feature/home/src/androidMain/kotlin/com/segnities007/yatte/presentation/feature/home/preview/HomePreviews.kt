@@ -1,6 +1,6 @@
 package com.segnities007.yatte.presentation.feature.home.preview
 
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.segnities007.yatte.domain.aggregate.task.model.Task
@@ -13,7 +13,7 @@ import kotlinx.datetime.LocalDateTime
 @Preview
 @Composable
 private fun DateHeaderPreview() {
-    MaterialTheme {
+    YatteTheme {
         DateHeader(
             selectedDate = LocalDateTime(2024, 1, 1, 12, 0).date,
             onPreviousDay = {},
@@ -33,7 +33,7 @@ private fun TaskCardPreview() {
         time = now.time,
         createdAt = now,
     )
-    MaterialTheme {
+    YatteTheme {
         TaskCard(
             task = mockTask,
             onComplete = {},
