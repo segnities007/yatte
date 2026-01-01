@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +23,7 @@ fun MockDesignScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(YatteTheme.colors.background)
     ) {
         Column(
             modifier = Modifier
@@ -32,11 +32,11 @@ fun MockDesignScreen() {
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             // Header
-            Text(
+            YatteText(
                 text = "Today",
-                style = MaterialTheme.typography.headlineMedium,
+                style = YatteTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Black,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = YatteTheme.colors.onBackground,
                 modifier = Modifier.padding(top = 24.dp)
             )
 

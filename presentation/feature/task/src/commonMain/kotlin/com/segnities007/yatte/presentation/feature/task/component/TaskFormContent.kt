@@ -11,10 +11,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.presentation.core.sound.SoundPickerLauncher
+import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.feature.task.TaskFormIntent
 import com.segnities007.yatte.presentation.feature.task.TaskFormState
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun TaskFormContent(
@@ -40,5 +44,19 @@ fun TaskFormContent(
         TaskFormScheduleSection(state = state, onIntent = onIntent)
         TaskFormNotificationSection(state = state, onIntent = onIntent, soundPickerLauncher = soundPickerLauncher)
         Spacer(modifier = Modifier.height(YatteSpacing.xl))
+    }
+}
+
+@Composable
+@Preview
+fun TaskFormContentPreview() {
+    YatteTheme {
+        val soundPickerLauncher = rememberSoundPickerLauncher {}
+        TaskFormContent(
+            state = TaskFormState(),
+            onIntent = {},
+            soundPickerLauncher = soundPickerLauncher,
+            contentPadding = PaddingValues(0.dp),
+        )
     }
 }

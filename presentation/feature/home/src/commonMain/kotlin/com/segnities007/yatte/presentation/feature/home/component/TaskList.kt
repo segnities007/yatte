@@ -11,6 +11,8 @@ import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.designsystem.component.list.YatteTimelineRow
+import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
  * タスクリスト表示
@@ -22,13 +24,13 @@ fun TaskList(
     onSkipTask: (Task) -> Unit,
     onSnoozeTask: (Task) -> Unit,
     onTaskClick: (Task) -> Unit,
-    contentPadding: PaddingValues = PaddingValues(16.dp),
+    contentPadding: PaddingValues = PaddingValues(YatteSpacing.md),
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(YatteSpacing.sm),
     ) {
         itemsIndexed(tasks, key = { _, task -> task.id.value }) { index, task ->
             val isFirst = index == 0
@@ -36,7 +38,7 @@ fun TaskList(
 
             YatteTimelineRow(
                 time = "${task.time.hour.toString().padStart(2, '0')}:${task.time.minute.toString().padStart(2, '0')}",
-                lineColor = com.segnities007.yatte.presentation.designsystem.theme.YatteColors.primary,
+                lineColor = YatteColors.primary,
                 isFirst = isFirst,
                 isLast = isLast,
             ) {

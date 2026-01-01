@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.category.model.CategoryColor
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 @Composable
 fun ColorOption(
@@ -53,4 +55,16 @@ fun ColorOption(
 
 private val ColorOptionSize = 40.dp
 private val ColorOptionIconSize = 20.dp
-private val ColorOptionBorderWidth = 2.dp
+private val ColorOptionBorderWidth = YatteSpacing.xxs
+
+@Composable
+@Preview
+fun ColorOptionPreview() {
+    MaterialTheme {
+        ColorOption(
+            color = CategoryColor.BLUE,
+            isSelected = true,
+            onClick = {},
+        )
+    }
+}

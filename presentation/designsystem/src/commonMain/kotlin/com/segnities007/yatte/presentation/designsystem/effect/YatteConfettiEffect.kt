@@ -3,6 +3,8 @@ package com.segnities007.yatte.presentation.designsystem.effect
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Spring
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -25,7 +27,7 @@ fun YatteConfettiEffect(particles: List<ConfettiParticle>) {
     val progress = remember { Animatable(0f) }
     
     LaunchedEffect(Unit) {
-        progress.animateTo(1f, androidx.compose.animation.core.spring(stiffness = androidx.compose.animation.core.Spring.StiffnessLow))
+        progress.animateTo(1f, spring(stiffness = Spring.StiffnessLow))
     }
     
     Canvas(modifier = Modifier.fillMaxSize()) {

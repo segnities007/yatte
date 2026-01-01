@@ -60,7 +60,7 @@ class TaskFormViewModel(
         loadCategories()
     }
 
-    private val _state = MutableStateFlow(TaskFormState(taskType = TaskType.WEEKLY_LOOP))
+    private val _state = MutableStateFlow(TaskFormState(taskType = TaskType.ONE_TIME))
     val state: StateFlow<TaskFormState> = _state.asStateFlow()
 
     private val _events = Channel<TaskFormEvent>(Channel.BUFFERED)
@@ -140,7 +140,16 @@ class TaskFormViewModel(
     }
 
     private fun updateTaskType(type: TaskType) {
-        _state.update { it.copy(taskType = type) }
+        // TaskType is now derived from selectedWeekDays, but we keep this for direct updates if needed.
+        // When switching to ONE_TIME manually, we should clear weekDays.
+        // When switching to WEEKLY manually, we might want to default to today or keep empty.
+        _state.update { 
+            if (type == TaskType.ONE_TIME) {
+                it.copy(taskType = type, selectedWeekDays = emptySet())
+            } else {
+                it.copy(taskType = type)
+            }
+        }
     }
 
     private fun toggleWeekDay(day: DayOfWeek) {
@@ -150,7 +159,17 @@ class TaskFormViewModel(
             } else {
                 current.selectedWeekDays + day
             }
-            current.copy(selectedWeekDays = newDays)
+            
+            val newTaskType = if (newDays.isEmpty()) {
+                TaskType.ONE_TIME
+            } else {
+                TaskType.WEEKLY_LOOP
+            }
+            
+            current.copy(
+                selectedWeekDays = newDays,
+                taskType = newTaskType
+            )
         }
     }
 
@@ -165,14 +184,10 @@ class TaskFormViewModel(
             return
         }
 
-        // 週次タスクの場合、曜日が1つ以上選択されていることを確認
-        if (currentState.taskType == TaskType.WEEKLY_LOOP && currentState.selectedWeekDays.isEmpty()) {
-            viewModelScope.launch {
-                val message = getString(TaskRes.string.error_weekdays_required)
-                _events.send(TaskFormEvent.ShowError(message))
-            }
-            return
-        }
+        // TaskType is inferred from selectedWeekDays:
+        // Empty weekDays -> ONE_TIME
+        // Non-empty weekDays -> WEEKLY_LOOP
+        // So we don't need to validate 'WEEKLY_LOOP must have days' because if it has no days, it's ONE_TIME.
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }

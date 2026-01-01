@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.presentation.core.sound.SoundPickerLauncher
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
 import com.segnities007.yatte.presentation.designsystem.component.layout.YatteSoundPicker
 import com.segnities007.yatte.presentation.designsystem.component.list.YatteSliderRow
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import com.segnities007.yatte.presentation.feature.task.TaskFormIntent
 import com.segnities007.yatte.presentation.feature.task.TaskFormState
 import org.jetbrains.compose.resources.stringResource
@@ -52,6 +55,19 @@ fun TaskFormNotificationSection(
             defaultText = stringResource(TaskRes.string.sound_default),
             selectButtonText = stringResource(TaskRes.string.sound_select),
             clearContentDescription = stringResource(TaskRes.string.sound_clear),
+        )
+    }
+}
+
+@Composable
+@Preview
+fun TaskFormNotificationSectionPreview() {
+    YatteTheme {
+        val soundPickerLauncher = rememberSoundPickerLauncher {}
+        TaskFormNotificationSection(
+            state = TaskFormState(),
+            onIntent = {},
+            soundPickerLauncher = soundPickerLauncher,
         )
     }
 }

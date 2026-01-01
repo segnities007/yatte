@@ -15,6 +15,18 @@ import yatte.presentation.feature.history.generated.resources.empty_history_desc
 import yatte.presentation.feature.history.generated.resources.empty_no_history
 import yatte.presentation.feature.history.generated.resources.Res as HistoryRes
 
+import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Clock
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import com.segnities007.yatte.domain.aggregate.history.model.History
+import com.segnities007.yatte.domain.aggregate.task.model.TaskId
+import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
+import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
+
 @Composable
 fun HistoryContent(
     state: HistoryState,
@@ -44,5 +56,26 @@ fun HistoryContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+@Preview
+fun HistoryContentPreview() {
+    YatteTheme {
+        HistoryContent(
+            state = HistoryState(
+                historyItems = listOf(
+                    History(
+                        id = HistoryId("1"),
+                        taskId = TaskId("1"),
+                        title = "Task 1",
+                        completedAt = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds()).toLocalDateTime(TimeZone.currentSystemDefault()),
+                        status = HistoryStatus.COMPLETED
+                    )
+                )
+            ),
+            contentPadding = PaddingValues(0.dp),
+        )
     }
 }

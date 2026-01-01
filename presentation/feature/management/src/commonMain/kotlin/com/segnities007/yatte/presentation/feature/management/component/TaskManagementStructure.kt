@@ -4,8 +4,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
@@ -22,6 +23,15 @@ import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.core.generated.resources.cd_add_task
 import yatte.presentation.core.generated.resources.nav_manage
 import yatte.presentation.core.generated.resources.Res as CoreRes
+import androidx.compose.ui.unit.dp
+import kotlin.time.Clock
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import com.segnities007.yatte.domain.aggregate.task.model.Task
+import com.segnities007.yatte.domain.aggregate.task.model.TaskId
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 
 @Composable
 fun TaskManagementSetupHeader(
@@ -33,7 +43,7 @@ fun TaskManagementSetupHeader(
     
     val headerConfig = remember {
         HeaderConfig(
-            title = { Text(manageTitle) },
+            title = { YatteText(manageTitle) },
             actions = {
                 YatteIconButton(
                     onClick = actions.onAddTask,
@@ -67,6 +77,8 @@ fun TaskManagementSetupSideEffects(
     }
 }
 
+
+
 @Composable
 fun TaskManagementContent(
     state: TaskManagementState,
@@ -79,4 +91,25 @@ fun TaskManagementContent(
         onTaskClick = { onIntent(TaskManagementIntent.NavigateToEditTask(it.id.value)) },
         modifier = Modifier.fillMaxSize(),
     )
+}
+
+@Composable
+@Preview
+fun TaskManagementContentPreview() {
+    YatteTheme {
+        TaskManagementContent(
+            state = TaskManagementState(
+                tasks = listOf(
+                    Task(
+                        id = TaskId("1"),
+                        title = "Weekly Meeting",
+                        time = LocalTime(14, 0),
+                        createdAt = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds()).toLocalDateTime(TimeZone.currentSystemDefault()),
+                    )
+                )
+            ),
+            onIntent = {},
+            contentPadding = PaddingValues(0.dp),
+        )
+    }
 }

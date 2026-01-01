@@ -65,9 +65,9 @@ class CreateTaskUseCaseTest {
 
 ## 📝 命名規則
 
-テストメソッド名は、バッククォートを使用し、Behavior Driven Development (BDD) スタイルの **GIVEN-WHEN-THEN** 形式で記述します。
+テストメソッド名は、バッククォートを使用し、Behavior Driven Development (BDD) スタイルの **GIVEN-WHEN-THEN** 形式で記述することを**義務付けます**。
 
-**フォーマット:**
+**必須フォーマット:**
 `` `GIVEN 英語で与えられた条件 WHEN テストするケース THEN 期待する結果` ``
 
 **例:**
@@ -83,18 +83,18 @@ fun `GIVEN empty title WHEN creating task THEN returns failure`() = runTest { ..
 
 ## ✅ ベストプラクティス
 
-1. **Arrange-Act-Assert (AAA)**: テスト内は必ず3つのセクションに分け、コメントで明示することを推奨します。
+1. **Arrange-Act-Assert (AAA) コメントの強制**: テスト内は必ず3つのセクションに分け、`// Arrange` (または GIVEN), `// Act` (または WHEN), `// Assert` (または THEN) のコメントを記述すること。
 
 ```kotlin
 @Test
 fun `GIVEN valid task WHEN save called THEN saves to db`() = runTest {
-    // Arrange (GIVEN)
+    // Arrange
     val task = Task(...)
     
-    // Act (WHEN)
+    // Act
     repository.save(task)
     
-    // Assert (THEN)
+    // Assert
     verify { dao.insert(any()) }
 }
 ```

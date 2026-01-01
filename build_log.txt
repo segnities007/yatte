@@ -1,70 +1,847 @@
 Reusing configuration cache.
-> Task :data:core:preBuild UP-TO-DATE
-> Task :data:core:preDebugBuild UP-TO-DATE
-> Task :domain:core:jvmProcessResources NO-SOURCE
+> Task :composeApp:preBuild UP-TO-DATE
+> Task :domain:aggregate:history:jvmProcessResources NO-SOURCE
+> Task :domain:aggregate:settings:kmpPartiallyResolvedDependenciesChecker
+> Task :composeApp:preDebugBuild UP-TO-DATE
+> Task :domain:aggregate:history:processJvmMainResources SKIPPED
+> Task :domain:aggregate:settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :composeApp:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:alarm:kmpPartiallyResolvedDependenciesChecker
 > Task :domain:core:kmpPartiallyResolvedDependenciesChecker
-> Task :data:core:kmpPartiallyResolvedDependenciesChecker
-> Task :domain:core:processJvmMainResources SKIPPED
+> Task :composeApp:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:aggregate:alarm:checkKotlinGradlePluginConfigurationErrors SKIPPED
 > Task :domain:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :data:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :composeApp:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :composeApp:generateComposeResClass UP-TO-DATE
+> Task :domain:aggregate:task:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:category:kmpPartiallyResolvedDependenciesChecker
+> Task :composeApp:copyNonXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :domain:aggregate:alarm:jvmProcessResources NO-SOURCE
+> Task :domain:aggregate:task:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:aggregate:category:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:aggregate:alarm:processJvmMainResources SKIPPED
+> Task :di:preBuild UP-TO-DATE
+> Task :data:core:preBuild UP-TO-DATE
+> Task :presentation:designsystem:preBuild UP-TO-DATE
+> Task :presentation:navigation:preBuild UP-TO-DATE
+> Task :di:preDebugBuild UP-TO-DATE
+> Task :data:core:preDebugBuild UP-TO-DATE
+> Task :presentation:designsystem:preDebugBuild UP-TO-DATE
+> Task :domain:aggregate:task:jvmProcessResources NO-SOURCE
+> Task :domain:aggregate:settings:jvmProcessResources NO-SOURCE
+> Task :domain:aggregate:category:jvmProcessResources NO-SOURCE
+> Task :composeApp:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :domain:aggregate:task:processJvmMainResources SKIPPED
+> Task :domain:aggregate:category:processJvmMainResources SKIPPED
+> Task :domain:aggregate:settings:processJvmMainResources SKIPPED
+> Task :presentation:navigation:preDebugBuild UP-TO-DATE
+> Task :di:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:designsystem:writeDebugAarMetadata UP-TO-DATE
+> Task :data:aggregate:alarm:preBuild UP-TO-DATE
+> Task :data:aggregate:history:preBuild UP-TO-DATE
+> Task :data:aggregate:category:preBuild UP-TO-DATE
+> Task :presentation:navigation:writeDebugAarMetadata UP-TO-DATE
+> Task :data:aggregate:category:preDebugBuild UP-TO-DATE
+> Task :data:aggregate:history:preDebugBuild UP-TO-DATE
+> Task :data:aggregate:settings:preBuild UP-TO-DATE
+> Task :data:aggregate:task:preBuild UP-TO-DATE
+> Task :data:aggregate:settings:preDebugBuild UP-TO-DATE
+> Task :presentation:feature:category:preBuild UP-TO-DATE
+> Task :presentation:core:preBuild UP-TO-DATE
+> Task :data:aggregate:task:preDebugBuild UP-TO-DATE
+> Task :presentation:feature:category:preDebugBuild UP-TO-DATE
+> Task :data:aggregate:category:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:core:preDebugBuild UP-TO-DATE
+> Task :data:aggregate:settings:writeDebugAarMetadata UP-TO-DATE
+> Task :composeApp:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :data:aggregate:task:writeDebugAarMetadata UP-TO-DATE
+> Task :composeApp:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :domain:core:jvmProcessResources NO-SOURCE
+> Task :presentation:feature:category:writeDebugAarMetadata UP-TO-DATE
+> Task :domain:core:processJvmMainResources SKIPPED
+> Task :domain:aggregate:history:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:history:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:core:writeDebugAarMetadata UP-TO-DATE
+> Task :data:aggregate:alarm:preDebugBuild UP-TO-DATE
+> Task :presentation:feature:task:preBuild UP-TO-DATE
+> Task :presentation:feature:history:preBuild UP-TO-DATE
+> Task :presentation:feature:settings:preBuild UP-TO-DATE
+> Task :presentation:feature:home:preBuild UP-TO-DATE
+> Task :composeApp:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:management:preBuild UP-TO-DATE
+> Task :presentation:feature:history:preDebugBuild UP-TO-DATE
+> Task :presentation:core:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:feature:task:preDebugBuild UP-TO-DATE
+> Task :presentation:feature:management:preDebugBuild UP-TO-DATE
+> Task :composeApp:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :composeApp:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :composeApp:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :composeApp:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :data:aggregate:alarm:writeDebugAarMetadata UP-TO-DATE
+> Task :composeApp:collectDependenciesDebug UP-TO-DATE
+> Task :composeApp:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :composeApp:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :composeApp:generateDebugResValues UP-TO-DATE
+> Task :presentation:feature:task:writeDebugAarMetadata UP-TO-DATE
+> Task :di:generateDebugResValues UP-TO-DATE
+> Task :presentation:feature:home:preDebugBuild UP-TO-DATE
+> Task :presentation:feature:settings:preDebugBuild UP-TO-DATE
+> Task :composeApp:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :presentation:feature:management:writeDebugAarMetadata UP-TO-DATE
 > Task :data:core:generateDebugResValues UP-TO-DATE
-> Task :data:core:generateDebugResources UP-TO-DATE
-> Task :data:core:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:history:writeDebugAarMetadata UP-TO-DATE
+> Task :composeApp:prepareLibraryDefinitionsDebug UP-TO-DATE
+> Task :presentation:core:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:category:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:history:generateDebugResValues UP-TO-DATE
+> Task :presentation:feature:home:writeDebugAarMetadata UP-TO-DATE
+> Task :di:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:settings:writeDebugAarMetadata UP-TO-DATE
+> Task :data:aggregate:alarm:generateDebugResValues UP-TO-DATE
 > Task :domain:core:compileKotlinJvm UP-TO-DATE
-> Task :data:core:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:settings:generateDebugResValues UP-TO-DATE
+> Task :presentation:designsystem:generateDebugResValues UP-TO-DATE
+> Task :composeApp:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:home:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:category:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:history:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:designsystem:generateDebugResources UP-TO-DATE
 > Task :domain:core:compileJvmMainJava NO-SOURCE
 > Task :domain:core:jvmMainClasses UP-TO-DATE
-> Task :data:core:generateDebugRFile UP-TO-DATE
+> Task :composeApp:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:core:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:history:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:settings:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:category:generateDebugResValues UP-TO-DATE
+> Task :presentation:navigation:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:alarm:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:home:generateDebugResources UP-TO-DATE
+> Task :data:aggregate:task:generateDebugResValues UP-TO-DATE
+> Task :data:core:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:history:generateDebugResValues UP-TO-DATE
+> Task :presentation:feature:management:generateDebugResValues UP-TO-DATE
+> Task :presentation:navigation:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:category:generateDebugResources UP-TO-DATE
 > Task :domain:core:jvmJar UP-TO-DATE
+> Task :presentation:feature:settings:generateDebugResValues UP-TO-DATE
+> Task :data:aggregate:task:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:history:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:management:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:settings:generateDebugResources UP-TO-DATE
+> Task :presentation:feature:task:generateDebugResValues UP-TO-DATE
+> Task :di:packageDebugResources UP-TO-DATE
+> Task :data:aggregate:category:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:generateDebugResources UP-TO-DATE
+> Task :composeApp:generateDebugResources UP-TO-DATE
+> Task :composeApp:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :di:extractDeepLinksDebug UP-TO-DATE
+> Task :composeApp:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:designsystem:packageDebugResources UP-TO-DATE
+> Task :presentation:core:packageDebugResources UP-TO-DATE
+> Task :data:aggregate:history:packageDebugResources UP-TO-DATE
+> Task :data:aggregate:settings:packageDebugResources UP-TO-DATE
+> Task :composeApp:checkDebugAarMetadata UP-TO-DATE
+> Task :data:aggregate:alarm:packageDebugResources UP-TO-DATE
+> Task :presentation:core:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:designsystem:extractDeepLinksDebug UP-TO-DATE
+> Task :data:core:packageDebugResources UP-TO-DATE
+> Task :data:core:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:navigation:extractDeepLinksDebug UP-TO-DATE
+> Task :data:aggregate:alarm:extractDeepLinksDebug UP-TO-DATE
+> Task :domain:aggregate:category:compileKotlinJvm UP-TO-DATE
+> Task :data:aggregate:task:packageDebugResources UP-TO-DATE
+> Task :di:processDebugManifest UP-TO-DATE
+> Task :presentation:navigation:packageDebugResources UP-TO-DATE
+> Task :presentation:core:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:history:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:category:packageDebugResources UP-TO-DATE
+> Task :domain:aggregate:category:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:category:jvmMainClasses UP-TO-DATE
+> Task :data:core:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:management:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:home:packageDebugResources UP-TO-DATE
+> Task :data:aggregate:settings:extractDeepLinksDebug UP-TO-DATE
+> Task :data:aggregate:history:extractDeepLinksDebug UP-TO-DATE
+> Task :data:aggregate:category:extractDeepLinksDebug UP-TO-DATE
+> Task :data:aggregate:task:extractDeepLinksDebug UP-TO-DATE
+> Task :domain:aggregate:category:jvmJar UP-TO-DATE
+> Task :presentation:designsystem:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:settings:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:task:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:category:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:feature:history:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:navigation:processDebugManifest UP-TO-DATE
+> Task :composeApp:packageDebugResources UP-TO-DATE
+> Task :presentation:feature:home:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:feature:management:extractDeepLinksDebug UP-TO-DATE
+> Task :data:aggregate:alarm:processDebugManifest UP-TO-DATE
+> Task :data:aggregate:settings:processDebugManifest UP-TO-DATE
+> Task :data:aggregate:history:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:settings:extractDeepLinksDebug UP-TO-DATE
+> Task :composeApp:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:category:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:task:extractDeepLinksDebug UP-TO-DATE
+> Task :data:aggregate:task:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:category:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:history:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:home:processDebugManifest UP-TO-DATE
+> Task :domain:aggregate:task:compileKotlinJvm UP-TO-DATE
+> Task :domain:aggregate:task:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:task:jvmMainClasses UP-TO-DATE
+> Task :presentation:feature:management:processDebugManifest UP-TO-DATE
+> Task :di:compileDebugLibraryResources UP-TO-DATE
+> Task :data:core:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:core:compileDebugLibraryResources UP-TO-DATE
+> Task :di:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:designsystem:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:navigation:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:designsystem:parseDebugLocalResources UP-TO-DATE
+> Task :data:core:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:navigation:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:feature:task:processDebugManifest UP-TO-DATE
+> Task :presentation:core:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:alarm:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:feature:settings:processDebugManifest UP-TO-DATE
+> Task :domain:aggregate:task:jvmJar UP-TO-DATE
+> Task :data:aggregate:alarm:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:category:compileDebugLibraryResources UP-TO-DATE
+> Task :data:aggregate:category:parseDebugLocalResources UP-TO-DATE
+> Task :composeApp:mapDebugSourceSetPaths UP-TO-DATE
+> Task :data:aggregate:history:compileDebugLibraryResources UP-TO-DATE
+> Task :data:aggregate:history:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:settings:compileDebugLibraryResources UP-TO-DATE
+> Task :data:aggregate:settings:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:task:compileDebugLibraryResources UP-TO-DATE
+> Task :data:aggregate:task:parseDebugLocalResources UP-TO-DATE
+> Task :di:generateDebugRFile UP-TO-DATE
+> Task :presentation:designsystem:generateDebugRFile UP-TO-DATE
+> Task :presentation:feature:category:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:navigation:generateDebugRFile UP-TO-DATE
+> Task :data:core:generateDebugRFile UP-TO-DATE
+> Task :presentation:feature:category:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:core:generateDebugRFile UP-TO-DATE
+> Task :data:aggregate:alarm:generateDebugRFile UP-TO-DATE
+> Task :domain:aggregate:alarm:compileKotlinJvm UP-TO-DATE
+> Task :domain:aggregate:history:compileKotlinJvm UP-TO-DATE
+> Task :presentation:feature:history:compileDebugLibraryResources UP-TO-DATE
+> Task :data:aggregate:category:generateDebugRFile UP-TO-DATE
+> Task :presentation:feature:management:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:feature:home:compileDebugLibraryResources UP-TO-DATE
+> Task :domain:aggregate:alarm:compileJvmMainJava NO-SOURCE
+> Task :domain:aggregate:alarm:jvmMainClasses UP-TO-DATE
+> Task :presentation:feature:home:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:feature:history:parseDebugLocalResources UP-TO-DATE
+> Task :composeApp:mergeDebugResources UP-TO-DATE
+> Task :data:aggregate:history:generateDebugRFile UP-TO-DATE
+> Task :data:aggregate:settings:generateDebugRFile UP-TO-DATE
+> Task :domain:aggregate:history:compileJvmMainJava NO-SOURCE
+> Task :presentation:feature:management:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:feature:task:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:feature:settings:compileDebugLibraryResources UP-TO-DATE
+> Task :di:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:feature:settings:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:feature:task:parseDebugLocalResources UP-TO-DATE
+> Task :data:aggregate:task:generateDebugRFile UP-TO-DATE
+> Task :di:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:category:generateDebugRFile UP-TO-DATE
+> Task :domain:aggregate:alarm:jvmJar UP-TO-DATE
+> Task :domain:aggregate:history:jvmMainClasses UP-TO-DATE
+> Task :data:core:kmpPartiallyResolvedDependenciesChecker
+> Task :data:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:core:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:feature:home:generateDebugRFile UP-TO-DATE
+> Task :data:aggregate:alarm:kmpPartiallyResolvedDependenciesChecker
+> Task :domain:aggregate:history:jvmJar UP-TO-DATE
+> Task :data:aggregate:alarm:javaPreCompileDebug UP-TO-DATE
+> Task :data:aggregate:category:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:alarm:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:history:generateDebugRFile UP-TO-DATE
+> Task :presentation:feature:task:generateDebugRFile UP-TO-DATE
+> Task :data:aggregate:category:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:settings:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:task:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:task:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:settings:generateDebugRFile UP-TO-DATE
+> Task :data:aggregate:category:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:feature:management:generateDebugRFile UP-TO-DATE
+> Task :presentation:core:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:core:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:core:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:core:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:aggregate:history:kmpPartiallyResolvedDependenciesChecker
+> Task :data:aggregate:history:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:core:generateComposeResClass UP-TO-DATE
+> Task :presentation:core:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:core:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:core:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:designsystem:kmpPartiallyResolvedDependenciesChecker
 > Task :data:core:kspDebugKotlinAndroid UP-TO-DATE
+> Task :di:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:core:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:designsystem:generateComposeResClass UP-TO-DATE
+> Task :presentation:designsystem:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:designsystem:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:core:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:core:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:designsystem:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:designsystem:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:core:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:navigation:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:core:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :presentation:designsystem:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :data:aggregate:settings:javaPreCompileDebug UP-TO-DATE
+> Task :data:aggregate:task:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:designsystem:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:designsystem:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:navigation:generateComposeResClass UP-TO-DATE
+> Task :presentation:core:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :presentation:core:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:navigation:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:navigation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:core:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :domain:aggregate:settings:compileKotlinJvm UP-TO-DATE
+> Task :presentation:feature:category:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:feature:category:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:navigation:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:category:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:designsystem:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:designsystem:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :data:aggregate:history:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:designsystem:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :presentation:navigation:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:category:generateComposeResClass UP-TO-DATE
+> Task :presentation:designsystem:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :data:core:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:core:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:feature:history:kmpPartiallyResolvedDependenciesChecker
+> Task :composeApp:processDebugMainManifest UP-TO-DATE
+> Task :presentation:feature:history:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:category:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:category:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:feature:category:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :domain:aggregate:settings:compileJvmMainJava NO-SOURCE
+> Task :presentation:navigation:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:category:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:navigation:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:navigation:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :domain:aggregate:settings:jvmMainClasses UP-TO-DATE
+> Task :presentation:designsystem:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:designsystem:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :data:core:compileDebugJavaWithJavac NO-SOURCE
 > Task :data:core:copyRoomSchemas NO-SOURCE
+> Task :presentation:feature:history:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:category:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:category:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:feature:history:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :composeApp:processDebugManifest UP-TO-DATE
+> Task :presentation:feature:history:generateComposeResClass UP-TO-DATE
+> Task :presentation:feature:history:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:history:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:navigation:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:navigation:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:designsystem:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:navigation:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:feature:category:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:designsystem:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:feature:history:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:category:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :presentation:feature:home:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:feature:home:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:aggregate:settings:jvmJar UP-TO-DATE
+> Task :data:core:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:feature:history:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :composeApp:processDebugManifestForPackage UP-TO-DATE
+> Task :presentation:feature:history:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:designsystem:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:feature:category:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:feature:history:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:navigation:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :presentation:navigation:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:navigation:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:feature:history:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :presentation:feature:home:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:feature:history:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:category:generateResourceAccessorsForCommonMain NO-SOURCE
+> Task :presentation:feature:category:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:feature:history:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:feature:home:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:navigation:generateResourceAccessorsForCommonMain NO-SOURCE
+> Task :data:aggregate:alarm:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:feature:home:generateComposeResClass UP-TO-DATE
+> Task :presentation:feature:home:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:history:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:feature:category:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:feature:home:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:feature:home:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:history:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:feature:home:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:history:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:feature:home:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:category:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:feature:home:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:feature:management:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:management:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:feature:home:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:feature:management:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:management:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:home:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :data:aggregate:alarm:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:aggregate:task:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:navigation:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:feature:category:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:feature:home:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:feature:history:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:feature:management:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:feature:management:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:feature:home:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:feature:settings:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:feature:settings:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:management:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:management:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:feature:settings:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:management:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :presentation:feature:management:generateComposeResClass UP-TO-DATE
+> Task :presentation:feature:management:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:settings:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :data:aggregate:task:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:aggregate:category:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:alarm:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:aggregate:history:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:feature:management:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:feature:management:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:home:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :presentation:feature:management:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:feature:settings:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:settings:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:feature:settings:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :data:aggregate:history:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:management:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:feature:settings:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:task:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :data:aggregate:category:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:settings:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:feature:settings:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :presentation:feature:settings:generateComposeResClass UP-TO-DATE
+> Task :presentation:feature:management:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :data:aggregate:settings:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:settings:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:task:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :presentation:feature:settings:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:feature:task:kmpPartiallyResolvedDependenciesChecker
+> Task :presentation:feature:task:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :presentation:feature:task:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:feature:settings:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :presentation:feature:task:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :data:aggregate:task:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:feature:settings:javaPreCompileDebug UP-TO-DATE
+> Task :data:aggregate:history:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:feature:task:convertXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:home:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:task:copyNonXmlValueResourcesForAndroidDebug NO-SOURCE
+> Task :presentation:feature:settings:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :data:aggregate:category:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :composeApp:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:task:prepareComposeResourcesTaskForAndroidDebug NO-SOURCE
+> Task :presentation:feature:task:convertXmlValueResourcesForCommonMain UP-TO-DATE
+> Task :presentation:feature:task:generateComposeResClass UP-TO-DATE
+> Task :presentation:feature:task:generateResourceAccessorsForAndroidDebug NO-SOURCE
+> Task :di:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:task:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :data:core:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:task:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+> Task :presentation:feature:management:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :data:aggregate:settings:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:designsystem:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:navigation:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:feature:task:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:core:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:designsystem:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:settings:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :composeApp:javaPreCompileDebug UP-TO-DATE
+> Task :composeApp:mergeDebugShaders UP-TO-DATE
+> Task :presentation:feature:home:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:designsystem:debugAssetsCopyForAGP NO-SOURCE
+> Task :composeApp:compileDebugShaders NO-SOURCE
+> Task :composeApp:generateDebugAssets UP-TO-DATE
+> Task :presentation:navigation:debugAssetsCopyForAGP NO-SOURCE
+> Task :di:mergeDebugShaders UP-TO-DATE
+> Task :data:core:mergeDebugShaders UP-TO-DATE
+> Task :di:compileDebugShaders NO-SOURCE
+> Task :data:core:compileDebugShaders NO-SOURCE
+> Task :di:generateDebugAssets UP-TO-DATE
+> Task :data:core:generateDebugAssets UP-TO-DATE
+> Task :composeApp:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :presentation:core:mergeDebugShaders UP-TO-DATE
+> Task :data:aggregate:alarm:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:core:compileDebugShaders NO-SOURCE
+> Task :presentation:core:generateDebugAssets UP-TO-DATE
+> Task :data:aggregate:category:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:task:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+> Task :presentation:feature:management:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :presentation:core:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :presentation:designsystem:mergeDebugShaders UP-TO-DATE
+> Task :presentation:designsystem:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :presentation:designsystem:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:aggregate:history:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:designsystem:compileDebugShaders NO-SOURCE
+> Task :data:aggregate:settings:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:settings:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :presentation:designsystem:generateDebugAssets UP-TO-DATE
+> Task :presentation:navigation:mergeDebugShaders UP-TO-DATE
+> Task :presentation:navigation:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :data:aggregate:alarm:mergeDebugShaders UP-TO-DATE
+> Task :data:core:mergeDebugAssets UP-TO-DATE
+> Task :di:mergeDebugAssets UP-TO-DATE
+> Task :presentation:navigation:compileDebugShaders NO-SOURCE
+> Task :data:aggregate:alarm:compileDebugShaders NO-SOURCE
+> Task :presentation:navigation:generateDebugAssets UP-TO-DATE
+> Task :data:aggregate:alarm:generateDebugAssets UP-TO-DATE
+> Task :data:aggregate:task:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:category:debugAssetsCopyForAGP NO-SOURCE
+> Task :data:aggregate:history:mergeDebugShaders UP-TO-DATE
+> Task :data:aggregate:category:mergeDebugShaders UP-TO-DATE
+> Task :presentation:feature:task:generateResourceAccessorsForCommonMain UP-TO-DATE
+> Task :data:aggregate:category:compileDebugShaders NO-SOURCE
+> Task :data:aggregate:history:compileDebugShaders NO-SOURCE
+> Task :data:aggregate:settings:mergeDebugShaders UP-TO-DATE
+> Task :presentation:core:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:settings:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :data:aggregate:category:generateDebugAssets UP-TO-DATE
+> Task :data:aggregate:history:generateDebugAssets UP-TO-DATE
+> Task :presentation:feature:history:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:designsystem:mergeDebugAssets UP-TO-DATE
+> Task :data:aggregate:settings:compileDebugShaders NO-SOURCE
+> Task :presentation:feature:category:mergeDebugShaders UP-TO-DATE
+> Task :data:aggregate:settings:generateDebugAssets UP-TO-DATE
+> Task :presentation:feature:category:compileDebugShaders NO-SOURCE
+> Task :presentation:feature:category:generateDebugAssets UP-TO-DATE
+> Task :presentation:navigation:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:category:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :data:aggregate:alarm:mergeDebugAssets UP-TO-DATE
+> Task :data:aggregate:task:mergeDebugShaders UP-TO-DATE
+> Task :presentation:feature:home:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:management:debugAssetsCopyForAGP NO-SOURCE
+> Task :data:aggregate:task:compileDebugShaders NO-SOURCE
+> Task :data:aggregate:task:generateDebugAssets UP-TO-DATE
+> Task :presentation:feature:history:mergeDebugShaders UP-TO-DATE
+> Task :presentation:feature:task:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+> Task :data:aggregate:category:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:settings:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:history:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :data:aggregate:history:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:home:mergeDebugShaders UP-TO-DATE
+> Task :data:aggregate:settings:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:home:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :presentation:feature:history:compileDebugShaders NO-SOURCE
+> Task :presentation:feature:management:mergeDebugShaders UP-TO-DATE
+> Task :presentation:feature:category:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:history:generateDebugAssets UP-TO-DATE
+> Task :presentation:feature:task:debugAssetsCopyForAGP NO-SOURCE
+> Task :presentation:feature:home:compileDebugShaders NO-SOURCE
+> Task :presentation:feature:home:generateDebugAssets UP-TO-DATE
+> Task :presentation:feature:settings:mergeDebugShaders UP-TO-DATE
+> Task :presentation:feature:management:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :di:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:task:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:settings:compileDebugShaders NO-SOURCE
+> Task :presentation:feature:settings:generateDebugAssets UP-TO-DATE
+> Task :di:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:management:compileDebugShaders NO-SOURCE
+> Task :presentation:feature:management:generateDebugAssets UP-TO-DATE
+> Task :presentation:feature:settings:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :presentation:feature:task:mergeDebugShaders UP-TO-DATE
+> Task :presentation:feature:task:copyDebugComposeResourcesToAndroidAssets UP-TO-DATE
+> Task :presentation:feature:history:mergeDebugAssets UP-TO-DATE
+> Task :presentation:feature:home:mergeDebugAssets UP-TO-DATE
+> Task :di:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:feature:task:compileDebugShaders NO-SOURCE
+> Task :presentation:feature:task:generateDebugAssets UP-TO-DATE
+> Task :composeApp:processDebugResources UP-TO-DATE
+> Task :presentation:feature:management:mergeDebugAssets UP-TO-DATE
+> Task :data:core:processDebugJavaRes UP-TO-DATE
+> Task :presentation:feature:settings:mergeDebugAssets UP-TO-DATE
+> Task :composeApp:desugarDebugFileDependencies UP-TO-DATE
+> Task :data:aggregate:settings:processDebugJavaRes UP-TO-DATE
+> Task :data:aggregate:category:processDebugJavaRes UP-TO-DATE
+> Task :data:aggregate:history:processDebugJavaRes UP-TO-DATE
+> Task :presentation:designsystem:processDebugJavaRes UP-TO-DATE
+> Task :presentation:feature:task:mergeDebugAssets UP-TO-DATE
+> Task :presentation:designsystem:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :data:aggregate:alarm:processDebugJavaRes UP-TO-DATE
+> Task :di:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :data:aggregate:settings:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :data:aggregate:history:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :data:aggregate:task:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :di:processDebugJavaRes UP-TO-DATE
+> Task :data:aggregate:task:processDebugJavaRes UP-TO-DATE
+> Task :presentation:core:compileDebugKotlinAndroid UP-TO-DATE
+> Task :data:aggregate:alarm:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :data:aggregate:category:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :presentation:core:compileDebugJavaWithJavac NO-SOURCE
+> Task :data:core:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :presentation:core:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:core:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :composeApp:checkDebugDuplicateClasses UP-TO-DATE
+> Task :presentation:core:processDebugJavaRes UP-TO-DATE
+> Task :composeApp:mergeDebugAssets UP-TO-DATE
+> Task :composeApp:mergeDebugJniLibFolders UP-TO-DATE
+> Task :di:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:core:mergeDebugJniLibFolders UP-TO-DATE
+> Task :di:mergeDebugNativeLibs NO-SOURCE
+> Task :composeApp:compressDebugAssets UP-TO-DATE
+> Task :presentation:core:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:core:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:core:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:designsystem:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:designsystem:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:navigation:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:navigation:mergeDebugNativeLibs NO-SOURCE
+> Task :di:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :data:core:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :data:aggregate:category:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:aggregate:history:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:aggregate:category:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:core:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :data:aggregate:alarm:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:aggregate:settings:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:designsystem:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:navigation:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :data:aggregate:history:mergeDebugNativeLibs NO-SOURCE
+> Task :data:aggregate:settings:mergeDebugNativeLibs NO-SOURCE
+> Task :data:aggregate:alarm:mergeDebugNativeLibs NO-SOURCE
+> Task :data:aggregate:task:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:feature:category:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:aggregate:category:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :data:aggregate:task:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:feature:history:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:feature:category:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:feature:history:mergeDebugNativeLibs NO-SOURCE
+> Task :data:aggregate:history:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:feature:home:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:aggregate:settings:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :data:aggregate:alarm:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:feature:management:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:feature:home:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:feature:management:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:feature:settings:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:aggregate:task:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:feature:category:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:feature:history:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:feature:task:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:feature:task:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:feature:settings:mergeDebugNativeLibs NO-SOURCE
+> Task :composeApp:validateSigningDebug UP-TO-DATE
+> Task :presentation:feature:settings:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:feature:category:compileDebugKotlinAndroid UP-TO-DATE
+> Task :presentation:feature:home:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:feature:task:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:settings:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:category:compileDebugJavaWithJavac NO-SOURCE
+> Task :presentation:feature:task:mergeDebugNativeLibs NO-SOURCE
+> Task :di:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:feature:management:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :composeApp:writeDebugAppMetadata UP-TO-DATE
+> Task :presentation:feature:settings:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :composeApp:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :composeApp:mergeExtDexDebug UP-TO-DATE
+> Task :di:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :di:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :presentation:feature:task:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :di:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :di:prepareDebugArtProfile UP-TO-DATE
+> Task :di:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:feature:settings:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:core:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:feature:settings:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :presentation:feature:task:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :presentation:feature:task:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:feature:category:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :presentation:feature:category:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:core:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :data:core:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :di:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :presentation:feature:task:processDebugJavaRes UP-TO-DATE
+> Task :data:core:prepareDebugArtProfile UP-TO-DATE
+> Task :data:core:prepareLintJarForPublish UP-TO-DATE
+> Task :di:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:core:stripDebugDebugSymbols NO-SOURCE
+> Task :data:core:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :presentation:core:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:feature:settings:processDebugJavaRes UP-TO-DATE
+> Task :presentation:feature:category:processDebugJavaRes UP-TO-DATE
+> Task :presentation:core:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :data:core:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :presentation:core:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:core:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:core:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :data:core:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:designsystem:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:designsystem:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:designsystem:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :presentation:designsystem:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :presentation:designsystem:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:designsystem:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:navigation:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:core:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :di:mergeDebugJavaResource UP-TO-DATE
+> Task :presentation:core:extractDebugAnnotations UP-TO-DATE
+> Task :data:aggregate:alarm:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:navigation:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:navigation:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:navigation:prepareLintJarForPublish UP-TO-DATE
+> Task :data:aggregate:alarm:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :data:aggregate:alarm:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:designsystem:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:aggregate:alarm:prepareDebugArtProfile UP-TO-DATE
+> Task :data:aggregate:alarm:prepareLintJarForPublish UP-TO-DATE
+> Task :data:aggregate:category:stripDebugDebugSymbols NO-SOURCE
+> Task :data:aggregate:alarm:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :presentation:navigation:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:core:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:category:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :data:aggregate:category:prepareDebugArtProfile UP-TO-DATE
+> Task :data:aggregate:category:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :data:aggregate:category:prepareLintJarForPublish UP-TO-DATE
+> Task :data:aggregate:category:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :data:aggregate:alarm:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:aggregate:history:stripDebugDebugSymbols NO-SOURCE
+> Task :data:aggregate:alarm:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:core:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:history:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:designsystem:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:designsystem:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:history:prepareDebugArtProfile UP-TO-DATE
+> Task :data:aggregate:history:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :data:aggregate:history:prepareLintJarForPublish UP-TO-DATE
+> Task :composeApp:mergeDebugNativeLibs UP-TO-DATE
+> Task :di:syncDebugLibJars UP-TO-DATE
+> Task :data:aggregate:history:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :data:aggregate:category:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:aggregate:settings:stripDebugDebugSymbols NO-SOURCE
+> Task :data:aggregate:category:extractDebugAnnotations UP-TO-DATE
+> Task :data:aggregate:history:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:aggregate:history:extractDebugAnnotations UP-TO-DATE
+> Task :data:aggregate:alarm:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:settings:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :data:aggregate:settings:prepareLintJarForPublish UP-TO-DATE
+> Task :data:aggregate:settings:prepareDebugArtProfile UP-TO-DATE
+> Task :data:aggregate:settings:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :composeApp:stripDebugDebugSymbols UP-TO-DATE
+> Task :data:aggregate:task:stripDebugDebugSymbols NO-SOURCE
+> Task :data:aggregate:settings:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :di:bundleDebugAar UP-TO-DATE
+> Task :data:aggregate:settings:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:core:syncDebugLibJars UP-TO-DATE
+> Task :data:aggregate:category:mergeDebugJavaResource UP-TO-DATE
+> Task :di:assembleDebug UP-TO-DATE
+> Task :data:aggregate:settings:extractDebugAnnotations UP-TO-DATE
+> Task :data:aggregate:task:prepareDebugArtProfile UP-TO-DATE
+> Task :data:aggregate:task:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :data:aggregate:task:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :presentation:feature:category:stripDebugDebugSymbols NO-SOURCE
+> Task :data:aggregate:task:prepareLintJarForPublish UP-TO-DATE
+> Task :data:aggregate:task:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :presentation:designsystem:syncDebugLibJars UP-TO-DATE
+> Task :presentation:feature:category:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:feature:category:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :presentation:feature:category:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :presentation:core:syncDebugLibJars UP-TO-DATE
+> Task :data:aggregate:history:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:task:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :presentation:feature:category:prepareLintJarForPublish UP-TO-DATE
+> Task :data:aggregate:alarm:syncDebugLibJars UP-TO-DATE
+> Task :data:core:bundleDebugAar UP-TO-DATE
+> Task :presentation:feature:category:prepareDebugArtProfile UP-TO-DATE
+> Task :data:core:assembleDebug UP-TO-DATE
+> Task :presentation:feature:history:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:feature:history:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :data:aggregate:task:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:feature:history:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:feature:history:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:feature:home:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:feature:home:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:feature:home:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:feature:category:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :presentation:feature:home:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:feature:management:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:feature:management:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:designsystem:bundleDebugAar UP-TO-DATE
+> Task :presentation:designsystem:assembleDebug UP-TO-DATE
+> Task :presentation:feature:management:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:feature:management:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:feature:settings:stripDebugDebugSymbols NO-SOURCE
+> Task :presentation:feature:category:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:feature:settings:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:feature:settings:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :data:aggregate:settings:mergeDebugJavaResource UP-TO-DATE
+> Task :presentation:core:bundleDebugAar UP-TO-DATE
+> Task :presentation:core:assembleDebug UP-TO-DATE
+> Task :presentation:feature:settings:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :data:aggregate:category:syncDebugLibJars UP-TO-DATE
+> Task :presentation:feature:settings:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:feature:settings:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:feature:task:stripDebugDebugSymbols NO-SOURCE
+> Task :data:aggregate:alarm:bundleDebugAar UP-TO-DATE
+> Task :data:aggregate:task:mergeDebugJavaResource UP-TO-DATE
+> Task :presentation:feature:home:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :presentation:feature:history:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:aggregate:alarm:assembleDebug UP-TO-DATE
+> Task :presentation:feature:task:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :presentation:feature:management:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :presentation:feature:settings:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :presentation:feature:task:prepareLintJarForPublish UP-TO-DATE
+> Task :presentation:feature:task:prepareDebugArtProfile UP-TO-DATE
+> Task :presentation:feature:settings:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:feature:task:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :presentation:feature:task:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :data:aggregate:history:syncDebugLibJars UP-TO-DATE
+> Task :data:aggregate:category:bundleDebugAar UP-TO-DATE
+> Task :presentation:feature:task:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :data:aggregate:category:assembleDebug UP-TO-DATE
+> Task :presentation:feature:category:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:settings:syncDebugLibJars UP-TO-DATE
+> Task :presentation:feature:task:extractDebugAnnotations UP-TO-DATE
+> Task :presentation:feature:settings:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:history:bundleDebugAar UP-TO-DATE
+> Task :data:aggregate:task:syncDebugLibJars UP-TO-DATE
+> Task :data:aggregate:history:assembleDebug UP-TO-DATE
+> Task :presentation:feature:task:mergeDebugJavaResource UP-TO-DATE
+> Task :data:aggregate:settings:bundleDebugAar UP-TO-DATE
+> Task :data:aggregate:settings:assembleDebug UP-TO-DATE
+> Task :data:aggregate:task:bundleDebugAar UP-TO-DATE
+> Task :presentation:feature:category:syncDebugLibJars UP-TO-DATE
+> Task :data:aggregate:task:assembleDebug UP-TO-DATE
+> Task :presentation:feature:settings:syncDebugLibJars UP-TO-DATE
+> Task :presentation:feature:task:syncDebugLibJars UP-TO-DATE
+> Task :presentation:feature:category:bundleDebugAar UP-TO-DATE
+> Task :presentation:feature:settings:bundleDebugAar UP-TO-DATE
+> Task :presentation:feature:category:assembleDebug UP-TO-DATE
+> Task :presentation:feature:settings:assembleDebug UP-TO-DATE
+> Task :presentation:feature:task:bundleDebugAar UP-TO-DATE
+> Task :presentation:feature:task:assembleDebug UP-TO-DATE
 
-> Task :data:core:compileDebugKotlinAndroid FAILED
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:11:5 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:11:14 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:11:16 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:12:9 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:12:19 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:12:26 Syntax error: Name expected.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:13:9 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:13:22 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:13:29 Syntax error: Name expected.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:14:9 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:14:20 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:14:27 Syntax error: Name expected.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:15:5 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:15:6 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:5 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:13 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:15 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:16:16 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:17:5 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:17:20 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:17:22 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:9 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:22 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:23 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:28 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:30 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:31 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:33 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:36 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:38 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:39 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:18:40 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:19:5 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:19:6 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:5 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:18 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:20 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:20:24 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:21:1 Syntax error: Expecting a top level declaration.
-e: file:///home/segnities007/AndroidStudioProjects/yatte/data/core/src/commonMain/kotlin/com/segnities007/yatte/data/core/database/AppDatabase.kt:24:29 Unresolved reference 'TaskDao'.
+> Task :presentation:feature:management:compileDebugKotlinAndroid FAILED
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/management/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/management/component/TaskManagementList.kt:127:35 Unresolved reference 'System'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/management/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/management/component/TaskManagementList.kt:147:39 Unresolved reference 'System'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/management/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/management/component/TaskManagementStructure.kt:100:43 Unresolved reference 'System'.
 
-FAILURE: Build failed with an exception.
+> Task :presentation:feature:history:compileDebugKotlinAndroid FAILED
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/history/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/history/component/HistoryCard.kt:80:37 Unresolved reference 'System'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/history/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/history/component/HistoryContent.kt:69:45 Unresolved reference 'System'.
 
+> Task :presentation:feature:home:compileDebugKotlinAndroid FAILED
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/home/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/home/component/HomeContent.kt:45:27 Unresolved reference 'System'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/home/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/home/component/HomeContent.kt:90:43 Unresolved reference 'System'.
+e: file:///home/segnities007/AndroidStudioProjects/yatte/presentation/feature/home/src/commonMain/kotlin/com/segnities007/yatte/presentation/feature/home/component/TaskCard.kt:237:35 Unresolved reference 'System'.
+
+FAILURE: Build completed with 3 failures.
+
+1: Task failed with an exception.
+-----------
 * What went wrong:
-Execution failed for task ':data:core:compileDebugKotlinAndroid'.
+Execution failed for task ':presentation:feature:management:compileDebugKotlinAndroid'.
 > A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
    > Compilation error. See log for more details
 
@@ -73,7 +850,36 @@ Execution failed for task ':data:core:compileDebugKotlinAndroid'.
 > Run with --info or --debug option to get more log output.
 > Run with --scan to get full insights.
 > Get more help at https://help.gradle.org.
+==============================================================================
 
-BUILD FAILED in 859ms
-11 actionable tasks: 3 executed, 8 up-to-date
+2: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':presentation:feature:history:compileDebugKotlinAndroid'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+3: Task failed with an exception.
+-----------
+* What went wrong:
+Execution failed for task ':presentation:feature:home:compileDebugKotlinAndroid'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+==============================================================================
+
+BUILD FAILED in 2s
+539 actionable tasks: 26 executed, 513 up-to-date
 Configuration cache entry reused.

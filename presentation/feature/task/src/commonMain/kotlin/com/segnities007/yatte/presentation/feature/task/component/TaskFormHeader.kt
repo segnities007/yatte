@@ -4,14 +4,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
+import androidx.compose.ui.graphics.Color
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteFilledIconButton
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
+import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.feature.task.TaskFormIntent
 import com.segnities007.yatte.presentation.feature.task.TaskFormState
 import org.jetbrains.compose.resources.stringResource
@@ -39,7 +42,7 @@ fun TaskFormHeader(
     val headerConfig = remember(isEditMode) {
         HeaderConfig(
             title = {
-                Text(if (isEditMode) titleEditTask else titleAddTask)
+                YatteText(if (isEditMode) titleEditTask else titleAddTask)
             },
             navigationIcon = {
                 YatteIconButton(
@@ -60,7 +63,7 @@ fun TaskFormHeader(
                     onClick = { onIntent(TaskFormIntent.SaveTask) },
                     icon = Icons.Default.Check,
                     contentDescription = saveDesc,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = YatteTheme.colors.primary,
                 )
             },
         )

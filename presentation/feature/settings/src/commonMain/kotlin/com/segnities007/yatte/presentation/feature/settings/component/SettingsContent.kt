@@ -9,10 +9,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.presentation.core.file.FileHelper
+import com.segnities007.yatte.presentation.core.file.rememberFileHelper
 import com.segnities007.yatte.presentation.core.sound.SoundPickerLauncher
+import com.segnities007.yatte.presentation.core.sound.rememberSoundPickerLauncher
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import androidx.compose.runtime.rememberCoroutineScope
 import com.segnities007.yatte.presentation.feature.settings.SettingsIntent
+import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.feature.settings.SettingsState
 import kotlinx.coroutines.CoroutineScope
 
@@ -21,6 +27,7 @@ fun SettingsContent(
     state: SettingsState,
     onIntent: (SettingsIntent) -> Unit,
     onLicenseClick: () -> Unit,
+
     fileHelper: FileHelper,
     soundPickerLauncher: SoundPickerLauncher,
     scope: CoroutineScope,
@@ -53,9 +60,32 @@ fun SettingsContent(
         SettingsDataSection(
             onIntent = onIntent,
             onLicenseClick = onLicenseClick,
+
             fileHelper = fileHelper,
             scope = scope,
             onShowSnackbar = onShowSnackbar
+        )
+    }
+}
+
+@Composable
+@Preview
+fun SettingsContentPreview() {
+    YatteTheme {
+        val fileHelper = rememberFileHelper()
+        val soundPickerLauncher = rememberSoundPickerLauncher {}
+        val scope = rememberCoroutineScope()
+
+        SettingsContent(
+            state = SettingsState(),
+            onIntent = {},
+            onLicenseClick = {},
+
+            fileHelper = fileHelper,
+            soundPickerLauncher = soundPickerLauncher,
+            scope = scope,
+            contentPadding = PaddingValues(0.dp),
+            onShowSnackbar = {},
         )
     }
 }

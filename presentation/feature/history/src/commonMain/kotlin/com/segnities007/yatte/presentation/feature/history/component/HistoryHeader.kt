@@ -1,6 +1,6 @@
 package com.segnities007.yatte.presentation.feature.history.component
 
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
@@ -16,7 +16,7 @@ fun HistoryHeader() {
     val historyTitle = stringResource(HistoryRes.string.title_history)
     
     val headerConfig = remember {
-        HeaderConfig(title = { Text(historyTitle) })
+        HeaderConfig(title = { YatteText(historyTitle) })
     }
     
     SideEffect {

@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.rememberCoroutineScope
 import com.segnities007.yatte.presentation.core.file.FileHelper
-import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
+import com.segnities007.yatte.presentation.core.file.rememberFileHelper
+
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
 import com.segnities007.yatte.presentation.designsystem.component.list.YatteActionRow
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
@@ -31,11 +34,14 @@ import yatte.presentation.feature.settings.generated.resources.section_license_d
 import yatte.presentation.feature.settings.generated.resources.section_license_title
 import yatte.presentation.feature.settings.generated.resources.snackbar_import_failed
 import yatte.presentation.feature.settings.generated.resources.Res as SettingsRes
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButtonStyle
 
 @Composable
 fun SettingsDataSection(
     onIntent: (SettingsIntent) -> Unit,
     onLicenseClick: () -> Unit,
+
     fileHelper: FileHelper,
     scope: CoroutineScope,
     onShowSnackbar: (String) -> Unit,
@@ -51,11 +57,12 @@ fun SettingsDataSection(
                 YatteButton(
                     text = stringResource(SettingsRes.string.action_show),
                     onClick = onLicenseClick,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                    style = YatteButtonStyle.Secondary,
                 )
             }
         )
+        
+
 
         Spacer(modifier = Modifier.height(YatteSpacing.md))
 
@@ -66,6 +73,7 @@ fun SettingsDataSection(
                 YatteButton(
                     text = stringResource(SettingsRes.string.action_execute),
                     onClick = { onIntent(SettingsIntent.RequestExportHistory) },
+                    style = YatteButtonStyle.Primary,
                 )
             }
         )
@@ -88,8 +96,7 @@ fun SettingsDataSection(
                             }
                         )
                     },
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    style = YatteButtonStyle.Primary,
                 )
             }
         )
@@ -103,10 +110,26 @@ fun SettingsDataSection(
                 YatteButton(
                     text = stringResource(SettingsRes.string.reset_button),
                     onClick = { onIntent(SettingsIntent.RequestResetData) },
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                    style = YatteButtonStyle.Emphasis,
                 )
             }
+        )
+    }
+}
+
+@Composable
+@Preview
+fun SettingsDataSectionPreview() {
+    YatteTheme {
+        val fileHelper = rememberFileHelper()
+        val scope = rememberCoroutineScope()
+        SettingsDataSection(
+            onIntent = {},
+            onLicenseClick = {},
+
+            fileHelper = fileHelper,
+            scope = scope,
+            onShowSnackbar = {},
         )
     }
 }

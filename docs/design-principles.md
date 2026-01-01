@@ -2,6 +2,10 @@
 
 > **「楽しくタスク管理ができる」** — ゲーム感覚で継続できるタスクアプリ
 
+> [!WARNING]
+> 本ドキュメントに記載されているカラーコードや数値は **Design Systemの実装定義** です。
+> Featureモジュール開発時は、これらの値を直接使用せず、必ず `YatteTheme` や `YatteColors` 経由で参照してください。
+
 ---
 
 ## 🎮 ブランド・パーソナリティ
@@ -26,35 +30,37 @@
 
 ---
 
-## 🌿 カラーパレット
+## 🌿 カラーパレット (定義値)
+
+実装時は `YatteTheme.colors.primary` のようにセマンティック名で参照します。
 
 ### プライマリカラー（グリーン系）
 
-| 名前 | Hex | 用途 |
+| トークン名 | Hex (Reference) | 用途 |
 |------|-----|------|
-| **Forest** (Dark Green) | `#2E7D32` | 強調、ヘッダー、重要アクション |
-| **Primary** (Green) | `#4CAF50` | メインアクション、成功状態 |
-| **Leaf** (Light Green) | `#81C784` | サブアクション、ホバー状態 |
-| **Mint** (Pale Green) | `#C8E6C9` | 背景アクセント、選択状態 |
+| `preview` | `#2E7D32` | 強調、ヘッダー、重要アクション |
+| `primary` | `#4CAF50` | メインアクション、成功状態 |
+| `secondary` | `#81C784` | サブアクション、ホバー状態 |
+| `tertiary` | `#C8E6C9` | 背景アクセント、選択状態 |
 
 ### アクセントカラー
 
-| 名前 | Hex | 用途 |
+| トークン名 | Hex (Reference) | 用途 |
 |------|-----|------|
-| **Sunshine** (Yellow) | `#FFC107` | 注意、ハイライト、達成 |
-| **Honey** (Amber) | `#FFB300` | 警告、進行中 |
-| **Sky** (Blue) | `#2196F3` | 情報、リンク |
-| **Coral** (Orange) | `#FF7043` | 通知、緊急 |
-| **Berry** (Purple) | `#AB47BC` | サウンド、特別 |
+| `accentSunshine` | `#FFC107` | 注意、ハイライト、達成 |
+| `accentHoney` | `#FFB300` | 警告、進行中 |
+| `accentSky` | `#2196F3` | 情報、リンク |
+| `accentCoral` | `#FF7043` | 通知、緊急 |
+| `accentBerry` | `#AB47BC` | サウンド、特別 |
 
 ### ダークモード
 
-| 名前 | Hex | 用途 |
+| トークン名 | Hex (Reference) | 用途 |
 |------|-----|------|
-| **Deep Forest** | `#0D1F0F` | 背景（最も暗い） |
-| **Night Moss** | `#1A2E1A` | Surface |
-| **Shadow Leaf** | `#2D3D2D` | カード背景 |
-| **Mist** | `#4A5D4A` | ボーダー、セパレーター |
+| `background` | `#0D1F0F` | 背景（最も暗い） |
+| `surface` | `#1A2E1A` | Surface |
+| `surfaceVariant` | `#2D3D2D` | カード背景 |
+| `outline` | `#4A5D4A` | ボーダー、セパレーター |
 
 > **Note**: ダークモードは「緑がかった森の中」をイメージ
 
@@ -73,6 +79,8 @@
 
 ## ✍️ タイポグラフィ
 
+`YatteTypography` を使用します。
+
 ### フォントファミリー
 
 | 用途 | フォント | 特徴 |
@@ -85,19 +93,19 @@
 
 | スタイル | サイズ | 用途 |
 |----------|--------|------|
-| Display | 36sp | ゲームオーバー的な大きな表示 |
-| Headline Large | 28sp | 画面タイトル |
-| Headline Medium | 24sp | セクションタイトル |
-| Title Large | 22sp | カードタイトル |
-| Title Medium | 18sp | リスト項目タイトル |
-| Body Large | 16sp | 本文 |
-| Body Medium | 14sp | 補足テキスト |
-| Label | 12sp | ラベル、バッジ |
+| `displayLarge` | 36sp | ゲームオーバー的な大きな表示 |
+| `headlineLarge` | 28sp | 画面タイトル |
+| `headlineMedium` | 24sp | セクションタイトル |
+| `titleLarge` | 22sp | カードタイトル |
+| `titleMedium` | 18sp | リスト項目タイトル |
+| `bodyLarge` | 16sp | 本文 |
+| `bodyMedium` | 14sp | 補足テキスト |
+| `labelSmall` | 12sp | ラベル、バッジ |
 
 ### 文字間隔（ゆったり）
 
 ```kotlin
-// 読みやすさを重視した設定
+// YatteTypography定義
 letterSpacing = 0.5.sp  // 本文
 letterSpacing = 1.sp    // 見出し
 lineHeight = 1.5.em     // 本文の行間
@@ -107,16 +115,16 @@ lineHeight = 1.5.em     // 本文の行間
 
 ## 🎬 モーション・アニメーション
 
+`YatteMotion` を使用します。
+
 ### bounceClick (Nintendo Quality)
 
 すべてのインタラクティブ要素に適用：
 
 ```kotlin
-// 押し込み: 素早く縮小
-stiffness = 400f (MediumLow)
-
-// 戻り: バウンスしながら戻る
-dampingRatio = 0.55f (MediumBouncy)
+// YatteMotion.BounceClick 定義
+stiffness = MediumLow
+dampingRatio = MediumBouncy
 ```
 
 ### 画面遷移
@@ -141,9 +149,11 @@ dampingRatio = 0.55f (MediumBouncy)
 
 ## 📐 レイアウト・スペーシング
 
+`YatteSpacing` および `YatteShapes` を使用します。
+
 ### スペーシングスケール（ゆったり）
 
-| トークン | 値 | 用途 |
+| トークン | 値 (Reference) | 用途 |
 |----------|-----|------|
 | `xxs` | 4dp | 最小間隔 |
 | `xs` | 8dp | アイコン-テキスト間 |
@@ -155,7 +165,7 @@ dampingRatio = 0.55f (MediumBouncy)
 
 ### 角丸（大きめ）
 
-| トークン | 値 | 用途 |
+| トークン | 値 (Reference) | 用途 |
 |----------|-----|------|
 | `small` | 8dp | チップ、バッジ |
 | `medium` | 16dp | カード、ボタン |
@@ -212,10 +222,10 @@ dampingRatio = 0.55f (MediumBouncy)
 ### カラー
 - [ ] 緑ベースの配色になっているか
 - [ ] アクセントカラーは意味を持って使われているか
-- [ ] ダークモードで緑がかった雰囲気が出ているか
+- [ ] **YatteColorsトークンを使用しているか** (Raw Hex禁止)
 
 ### タイポグラフィ
-- [ ] Nunitoフォントを使用しているか
+- [ ] **YatteTypographyを使用しているか**
 - [ ] 余白は十分にあるか（ゆったり）
 
 ### インタラクション
@@ -228,4 +238,5 @@ dampingRatio = 0.55f (MediumBouncy)
 
 ---
 
-*更新日: 2025-12-30*
+*更新日: 2025-12-31*
+

@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
@@ -29,10 +29,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
@@ -87,11 +87,11 @@ private fun YatteFloatingHeaderContent(
             .heightIn(min = YatteFloatingHeaderDefaults.ContainerHeight)
             .shadow(
                 elevation = 8.dp,
-                shape = RoundedCornerShape(YatteSpacing.xl),
+                shape = MaterialTheme.shapes.extraLarge,
                 ambientColor = YatteColors.forest.copy(alpha = 0.3f),
                 spotColor = YatteColors.primary.copy(alpha = 0.4f),
             ),
-        shape = RoundedCornerShape(YatteSpacing.xl),
+        shape = MaterialTheme.shapes.extraLarge,
         color = containerColor,
         shadowElevation = 0.dp, // We use custom shadow
         tonalElevation = 4.dp,
@@ -100,14 +100,7 @@ private fun YatteFloatingHeaderContent(
             modifier = Modifier
                 .then(
                     if (useGradient) {
-                        Modifier.background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    YatteColors.forest,
-                                    YatteColors.primary,
-                                )
-                            )
-                        )
+                        Modifier.background(brush = YatteBrushes.Horizontal.Header)
                     } else {
                         Modifier.background(MaterialTheme.colorScheme.surface)
                     }

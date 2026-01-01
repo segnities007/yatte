@@ -3,7 +3,7 @@ package com.segnities007.yatte.presentation.feature.task
 import com.segnities007.yatte.presentation.feature.task.component.TaskFormContent
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -13,7 +13,7 @@ import kotlinx.datetime.LocalTime
 @Preview
 @Composable
 private fun TaskFormContentPreview() {
-    MaterialTheme {
+    YatteTheme {
         TaskFormContent(
             state = TaskFormState(
                 title = "Buying Groceries",

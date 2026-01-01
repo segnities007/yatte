@@ -7,9 +7,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteSectionCard
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteChip
@@ -44,10 +45,10 @@ fun TaskFormBasicInfoSection(
         Spacer(modifier = Modifier.height(YatteSpacing.md))
 
         if (state.categories.isNotEmpty()) {
-            Text(
+            YatteText(
                 text = stringResource(TaskRes.string.section_category),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = YatteTheme.typography.labelMedium,
+                color = YatteTheme.colors.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(YatteSpacing.xs))
             FlowRow(
@@ -68,5 +69,17 @@ fun TaskFormBasicInfoSection(
                 }
             }
         }
+    }
+}
+
+@Composable
+@Preview
+@Preview
+fun TaskFormBasicInfoSectionPreview() {
+    YatteTheme {
+        TaskFormBasicInfoSection(
+            state = TaskFormState(),
+            onIntent = {},
+        )
     }
 }

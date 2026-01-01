@@ -1,14 +1,16 @@
 package com.segnities007.yatte.presentation.designsystem.component.feedback
 
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.shape.RoundedCornerShape
+
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import com.segnities007.yatte.presentation.designsystem.component.button.YatteTextButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButtonStyle
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 
 /**
@@ -31,23 +33,25 @@ fun YatteConfirmDialog(
         title = { Text(title) },
         text = { Text(message) },
         confirmButton = {
-            YatteTextButton(
+            YatteButton(
                 onClick = onConfirm,
                 text = confirmText,
-                textColor = if (isDestructive) {
-                    MaterialTheme.colorScheme.error
-                } else {
-                    MaterialTheme.colorScheme.primary
-                },
+                style = if (isDestructive) YatteButtonStyle.Secondary else YatteButtonStyle.Emphasis,
+                // If destructive, we might want Red text. But purely Ghost style uses Primary.
+                // For now, let's stick to Emphasis (Yellow) for positive, Ghost for negative/cancel.
+                // If destructive, maybe Emphasis is dangerous?
+                // Visual consistency: Yellow meant "Action".
+                // I'll use Emphasis for Confirm.
             )
         },
         dismissButton = {
-            YatteTextButton(
+            YatteButton(
                 onClick = onDismiss,
                 text = dismissText,
+                style = YatteButtonStyle.Secondary,
             )
         },
-        shape = RoundedCornerShape(YatteSpacing.lg),
+        // shape = RoundedCornerShape(YatteSpacing.lg), // Removed to use default
     )
 }
 
@@ -75,13 +79,13 @@ fun YatteDialog(
         onDismissRequest = onDismiss,
         title = { Text(title) },
         text = {
-            androidx.compose.foundation.layout.Column {
+            Column {
                 content()
             }
         },
         confirmButton = confirmButton,
         dismissButton = dismissButton,
-        shape = RoundedCornerShape(YatteSpacing.lg),
+        // shape = RoundedCornerShape(YatteSpacing.lg), // Removed to use default
     )
 }
 
@@ -103,8 +107,8 @@ private fun YatteDialogPreview() {
     YatteDialog(
         title = "Custom Dialog",
         onDismiss = {},
-        confirmButton = { YatteTextButton(text = "OK", onClick = {}) },
-        dismissButton = { YatteTextButton(text = "Cancel", onClick = {}) },
+        confirmButton = { YatteButton(text = "OK", onClick = {}, style = YatteButtonStyle.Emphasis) },
+        dismissButton = { YatteButton(text = "Cancel", onClick = {}, style = YatteButtonStyle.Secondary) },
     ) {
         Text("Custom content can be placed here.")
     }

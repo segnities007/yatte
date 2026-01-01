@@ -18,6 +18,7 @@
 | **タスク管理** | タスクのメンテナンス | TaskManagementList, WeeklyTaskCard |
 | **履歴** | 達成感の可視化 | HistoryTimeline, HistoryStats |
 | **設定** | アプリのカスタマイズ | SettingsList, ThemeSelector |
+| **カテゴリ管理** | カテゴリの追加・編集 | CategoryList, AddCategoryDialog |
 | **タスク作成** | タスクの新規登録 | TaskForm, TimePicker, WeekDaySelector |
 
 ---
@@ -103,6 +104,22 @@
 
 ---
 
+## 5. カテゴリ管理画面 (CategoryManagement)
+
+設定画面またはタスク作成画面から遷移。
+
+### レイアウト仕様
+
+- **リスト形式**:
+    - 登録済みカテゴリの色と名前を表示
+    - **スワイプ削除**: ゴミ箱アイコンで削除
+- **追加/編集ダイアログ**:
+    - 名前入力 (TextField)
+    - 色選択 (ColorPicker / Grid)
+
+---
+---
+
 ## 5. タスク作成画面 (TaskForm)
 
 ホームのFABから遷移するフルスクリーンダイアログ。
@@ -122,7 +139,11 @@
     - 選択: 1回のみ / 毎週
 5. **曜日選択** (Multi-select Chips)
     - `毎週`選択時のみ表示
+    - `毎週`選択時のみ表示
     - 月〜日を複数選択可
+6. **カテゴリ選択** (Dropdown / Modal)
+    - 登録済みカテゴリから選択
+    - 新規作成ボタンあり
 
 ### アクションバー
 

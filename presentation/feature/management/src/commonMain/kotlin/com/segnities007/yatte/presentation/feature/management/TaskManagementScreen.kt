@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -28,7 +28,6 @@ import com.segnities007.yatte.presentation.feature.management.component.TaskMana
 import com.segnities007.yatte.presentation.feature.management.component.TaskManagementSetupHeader
 import com.segnities007.yatte.presentation.feature.management.component.TaskManagementSetupSideEffects
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskManagementScreen(
     viewModel: TaskManagementViewModel = koinViewModel(),
@@ -46,14 +45,44 @@ fun TaskManagementScreen(
         onShowSnackbar = onShowSnackbar
     )
 
+    TaskManagementScreen(
+        state = state,
+        contentPadding = contentPadding,
+        isNavigationVisible = isNavigationVisible,
+        onIntent = viewModel::onIntent
+    )
+}
+
+@Composable
+fun TaskManagementScreen(
+    state: TaskManagementState,
+    contentPadding: PaddingValues,
+    isNavigationVisible: Boolean,
+    onIntent: (TaskManagementIntent) -> Unit,
+) {
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = contentPadding,
     ) { listContentPadding ->
         TaskManagementContent(
             state = state,
-            onIntent = viewModel::onIntent,
+            onIntent = onIntent,
             contentPadding = listContentPadding,
+        )
+    }
+}
+
+
+
+@Composable
+@Preview
+fun TaskManagementScreenPreview() {
+    YatteTheme {
+        TaskManagementScreen(
+            state = TaskManagementState(),
+            contentPadding = PaddingValues(0.dp),
+            isNavigationVisible = true,
+            onIntent = {},
         )
     }
 }

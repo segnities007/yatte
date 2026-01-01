@@ -6,8 +6,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import com.segnities007.yatte.domain.aggregate.category.model.CategoryColor
-import com.segnities007.yatte.presentation.designsystem.component.button.YatteTextButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
+import com.segnities007.yatte.presentation.designsystem.component.button.YatteButtonStyle
 import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteDialog
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteTextField
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
@@ -25,15 +27,17 @@ fun AddCategoryDialog(
         title = "カテゴリを追加",
         onDismiss = onDismiss,
         confirmButton = {
-            YatteTextButton(
+            YatteButton(
                 onClick = onConfirm,
                 text = "追加",
+                style = YatteButtonStyle.Emphasis,
             )
         },
         dismissButton = {
-            YatteTextButton(
+            YatteButton(
                 onClick = onDismiss,
                 text = "キャンセル",
+                style = YatteButtonStyle.Secondary,
             )
         },
     ) {
@@ -55,5 +59,20 @@ fun AddCategoryDialog(
                 )
             }
         }
+    }
+}
+
+@Composable
+@Preview
+fun AddCategoryDialogPreview() {
+    MaterialTheme {
+        AddCategoryDialog(
+            name = "New Category",
+            selectedColor = CategoryColor.BLUE,
+            onNameChange = {},
+            onColorSelect = {},
+            onDismiss = {},
+            onConfirm = {},
+        )
     }
 }

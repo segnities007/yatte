@@ -18,11 +18,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.foundation.background
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -59,7 +57,6 @@ import com.segnities007.yatte.presentation.feature.task.component.TaskFormConten
 import com.segnities007.yatte.presentation.feature.task.component.TaskFormHeader
 import com.segnities007.yatte.presentation.feature.task.component.TaskFormSideEffects
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TaskFormScreen(
     taskId: String? = null,
@@ -84,15 +81,44 @@ internal fun TaskFormScreen(
     TaskFormHeader(state = state, onIntent = viewModel::onIntent)
     TaskFormSideEffects(viewModel = viewModel, actions = actions, onShowSnackbar = onShowSnackbar)
 
+    TaskFormScreen(
+        state = state,
+        isNavigationVisible = isNavigationVisible,
+        onIntent = viewModel::onIntent,
+        soundPickerLauncher = soundPickerLauncher
+    )
+}
+
+@Composable
+internal fun TaskFormScreen(
+    state: TaskFormState,
+    isNavigationVisible: Boolean,
+    onIntent: (TaskFormIntent) -> Unit,
+    soundPickerLauncher: SoundPickerLauncher,
+) {
     YatteScaffold(
         isNavigationVisible = isNavigationVisible,
         contentPadding = PaddingValues(0.dp),
     ) { listContentPadding ->
         TaskFormContent(
             state = state,
-            onIntent = viewModel::onIntent,
+            onIntent = onIntent,
             soundPickerLauncher = soundPickerLauncher,
             contentPadding = listContentPadding,
+        )
+    }
+}
+
+@Composable
+@Preview
+fun TaskFormScreenPreview() {
+    YatteTheme {
+        val soundPickerLauncher = rememberSoundPickerLauncher {}
+        TaskFormScreen(
+            state = TaskFormState(),
+            isNavigationVisible = true,
+            onIntent = {},
+            soundPickerLauncher = soundPickerLauncher,
         )
     }
 }

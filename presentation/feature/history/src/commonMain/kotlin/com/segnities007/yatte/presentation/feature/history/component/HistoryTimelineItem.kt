@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,9 +57,9 @@ fun HistoryTimelineItem(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 // 左側: タイトル
-                Text(
+                YatteText(
                     text = history.title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = YatteTheme.typography.titleMedium,
                     modifier = Modifier.weight(1f)
                 )
 

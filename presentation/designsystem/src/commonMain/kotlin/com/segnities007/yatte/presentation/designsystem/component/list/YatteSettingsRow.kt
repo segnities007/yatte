@@ -121,3 +121,28 @@ fun YatteActionRow(
         action()
     }
 }
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun YatteSettingsRowsPreview() {
+    MaterialTheme {
+        Column {
+            YatteSwitchRow(
+                title = "Switch Row",
+                subtitle = "Subtitle",
+                checked = true,
+                onCheckedChange = {}
+            )
+            YatteSliderRow(
+                title = "Slider Row",
+                value = 30,
+                onValueChange = {}
+            )
+            YatteActionRow(
+                title = "Action Row",
+                subtitle = "With Button",
+                action = { Text("Action") }
+            )
+        }
+    }
+}

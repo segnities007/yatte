@@ -1,6 +1,6 @@
 package com.segnities007.yatte.presentation.feature.settings.component
 
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
@@ -16,7 +16,7 @@ fun SettingsHeader() {
     val settingsTitle = stringResource(CoreRes.string.nav_settings)
     
     val headerConfig = remember(settingsTitle) {
-        HeaderConfig(title = { Text(settingsTitle) })
+        HeaderConfig(title = { YatteText(settingsTitle) })
     }
     
     SideEffect {

@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -120,6 +123,27 @@ fun YatteMetric(
                     )
                 }
             }
+        }
+    }
+}
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun YatteMetricPreview() {
+    MaterialTheme {
+        Column {
+            YatteMetric(
+                value = "100",
+                label = "Primary",
+                style = MetricStyle.Primary,
+                icon = Icons.Default.Home
+            )
+            YatteMetric(
+                value = "50",
+                label = "List",
+                style = MetricStyle.List,
+                icon = Icons.Default.Settings
+            )
         }
     }
 }

@@ -12,9 +12,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteIcon
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +35,7 @@ import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiEffect
 import com.segnities007.yatte.presentation.designsystem.effect.ConfettiParticle
+import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
@@ -49,24 +51,24 @@ fun BouncyCard(
     
     // Confetti State
     val confettis = remember { mutableStateListOf<ConfettiParticle>() }
-    val primaryColor = MaterialTheme.colorScheme.primary
-    val secondaryColor = MaterialTheme.colorScheme.secondary
+    val primaryColor = YatteTheme.colors.primary
+    val secondaryColor = YatteTheme.colors.secondary
 
     // Outer Card -> YatteCard handles the bounce
     YatteCard(
         onClick = onClick,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = YatteTheme.colors.surface,
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(YatteSpacing.lg)
         ) {
             Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(YatteSpacing.xl)
                     .bounceClick(onTap = {
                         isChecked = !isChecked
                         if (isChecked) {
@@ -81,33 +83,33 @@ fun BouncyCard(
                             }
                         }
                     })
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(if (isChecked) primaryColor else Color.LightGray.copy(alpha = 0.3f)),
+                    .clip(RoundedCornerShape(YatteSpacing.sm))
+                    .background(if (isChecked) primaryColor else YatteTheme.colors.outlineVariant.copy(alpha = 0.3f)),
                 contentAlignment = Alignment.Center
             ) {
                 if (isChecked) {
-                    Icon(
+                    YatteIcon(
                         imageVector = Icons.Default.Check,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier.size(20.dp)
+                        tint = YatteTheme.colors.onPrimary,
+                        modifier = Modifier.size(YatteSpacing.md)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(YatteSpacing.md))
 
             Column {
-                Text(
+                YatteText(
                     text = title,
-                    color = if (isChecked) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.titleMedium,
+                    color = if (isChecked) YatteTheme.colors.onSurfaceVariant else YatteTheme.colors.onSurface,
+                    style = YatteTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
-                Text(
+                YatteText(
                     text = time,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    style = MaterialTheme.typography.bodyMedium
+                    color = YatteTheme.colors.onSurfaceVariant,
+                    style = YatteTheme.typography.bodyMedium
                 )
             }
         }
@@ -119,5 +121,19 @@ fun BouncyCard(
                  confettis.clear()
             }
         }
+    }
+}
+
+
+
+@Composable
+@Preview
+fun BouncyCardPreview() {
+    YatteTheme {
+        BouncyCard(
+            title = "Bounce Task",
+            time = "10:00",
+            isCompleted = false,
+        )
     }
 }

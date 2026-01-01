@@ -24,6 +24,13 @@ val LightGreenPrimaryVariant = Color(0xFF66BB6A)
 val GoldenSecondary = Color(0xFFFFE082)
 val GoldenSecondaryVariant = Color(0xFFFFD54F)
 
+// イエローモード - Primary
+val YellowPrimary = Color(0xFFFFCA28) // Amber 400
+val YellowPrimaryVariant = Color(0xFFFFB300) // Amber 600
+val YellowOnPrimary = Color(0xFF000000)
+val YellowPrimaryContainer = Color(0xFFFFF8E1) // Amber 50
+val YellowOnPrimaryContainer = Color(0xFF3E2723)
+
 // =====================================
 // Semantic Colors
 // =====================================
@@ -86,4 +93,18 @@ val SurfaceElevation3Light = Color(0xFFE0E0E0)
 val SurfaceElevation1Dark = Color(0xFF1E1E1E)
 val SurfaceElevation2Dark = Color(0xFF232323)
 val SurfaceElevation3Dark = Color(0xFF292929)
+
+// =====================================
+// Theme Specific Tints
+// =====================================
+
+// グリーンモード用
+val GreenBackground = Color(0xFFF1F8E9) // Light Green 50
+val GreenSurface = Color(0xFFE8F5E9)    // Light Green 100
+val GreenOnBackground = Color(0xFF1B2E1B)
+
+// イエローモード用
+val YellowBackground = Color(0xFFFFFDE7) // Yellow 50
+val YellowSurface = Color(0xFFFFF9C4)    // Yellow 100
+val YellowOnBackground = Color(0xFF3E2723)
 

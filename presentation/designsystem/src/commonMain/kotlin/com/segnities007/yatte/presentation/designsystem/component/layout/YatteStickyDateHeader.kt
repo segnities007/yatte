@@ -45,3 +45,13 @@ fun YatteStickyDateHeader(
         )
     }
 }
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun YatteStickyDateHeaderPreview() {
+    MaterialTheme {
+        YatteStickyDateHeader(
+            date = LocalDate(2025, 1, 1)
+        )
+    }
+}

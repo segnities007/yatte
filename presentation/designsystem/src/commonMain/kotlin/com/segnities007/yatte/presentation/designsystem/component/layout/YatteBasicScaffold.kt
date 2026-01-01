@@ -41,3 +41,14 @@ fun YatteBasicScaffold(
         content = content
     )
 }
+
+@org.jetbrains.compose.ui.tooling.preview.Preview
+@Composable
+private fun YatteBasicScaffoldPreview() {
+    MaterialTheme {
+        YatteBasicScaffold(
+            topBar = { androidx.compose.material3.Text("Top Bar") },
+            content = { androidx.compose.material3.Text("Content") }
+        )
+    }
+}

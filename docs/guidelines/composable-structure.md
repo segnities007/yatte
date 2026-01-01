@@ -17,6 +17,54 @@
 
 ---
 
+## ⚠️ 厳格な実装ルール（必ず守ること）
+
+### 1. 完全修飾子の禁止 (No Fully Qualified Names)
+コードの可読性を下げるため、型や関数の完全修飾子（FQN）の使用を禁止します。必ず `import` 文を使用してください。
+
+```kotlin
+// ❌ 禁止
+androidx.compose.material3.Text("Hello")
+
+// ✅ 正解
+import androidx.compose.material3.Text
+
+Text("Hello")
+```
+※ クラス名の衝突時のみエイリアス(`import ... as ...`)またはFQNを許可しますが、可能な限りエイリアスを推奨します。
+
+### 2. Previewの完全義務化
+UIコンポーネントを定義するファイルには、**必ず** `@Preview` を作成してください。
+プレビュー駆動開発を徹底し、実機ビルドなしでもUIの確認ができる状態を維持します。
+
+- 汎用コンポーネント: 単体のPreview
+- 画面 (`Screen`/`Content`): 全体のPreview
+
+### 3. Screen ビルダーパターン (Connector vs Content)
+画面作成時は、「接続層」と「表示層」を厳格に分離します。
+
+| 層 | コンポーネント名 | 役割 | 禁止事項 |
+|---|---|---|---|
+| **Connector** | `*Screen` | ViewModel/Koin依存、State収集、イベントハンドラ定義 | UIの詳細レイアウト記述 |
+| **Content** | `*Content` | 渡されたStateの描画、イベントの伝播 | ViewModelへの依存、複雑なロジック |
+
+```kotlin
+// Connector (Builder role)
+@Composable
+fun TaskFormScreen(viewModel: TaskFormViewModel = koinViewModel()) {
+    // 依存解決とState収集のみ行う
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    TaskFormContent(state = state, ...)
+}
+```
+
+### 4. Modifierの取り扱い
+- 全てのUIコンポーネントは `modifier: Modifier = Modifier` を引数に取る（順序はコールバック・データの次）
+- 受け取った `modifier` は **ルートのコンポーザブル** に適用する
+- それ以外の場所（子要素など）で `modifier` 引数を使ってはいけない（そこには固定のModifierや内部計算されたModifierを当てる）
+
+---
+
 ## 🌳 宣言的な階層構造
 
 **読む人がUIツリーを頭の中で構築できる順序**で記述します。
@@ -92,19 +140,31 @@ feature/settings/
 
 | ルール | 説明 |
 |--------|------|
-| **素のMaterial3禁止** | `Button`, `Card`, `TextField` 等を直接使用しない |
-| **Design System経由** | 必ず `YatteButton`, `YatteCard`, `YatteTextField` 等を使用 |
-| **必要なら先に作成** | 必要なコンポーネントがなければ、Design Systemに追加してから使用 |
+| **素のMaterial3禁止** | `androidx.compose.material3.*` のコンポーネント（Button, Card, Text等）をFeatureモジュールで直接使用することを禁止する。 |
+| **Design System強制** | 必ず `:presentation:designsystem` モジュール (`YatteButton` 等) 経由で使用する。 |
+| **ラップの実装** | 必要なコンポーネントがDesign Systemにない場合、**必ずDesign System内にラッパーを作成し**、テーマやスタイルを適用してから使用する。 |
 
 ```kotlin
-// ❌ 禁止: Material3を直接使用
+// ❌ 完全禁止: FeatureコードでMaterial3を直接import
 import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+
 Button(onClick = { ... }) { Text("保存") }
 
 // ✅ 正解: Design Systemを使用
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
+
 YatteButton(text = "保存", onClick = { ... })
 ```
+
+### 足りないコンポーネントがある場合
+
+「Design SystemにないからMaterial3を使う」は認められません。以下の手順を踏んでください。
+
+1. `presentation/designsystem` モジュールに新しいコンポーネントを作成する
+2. `Yatte` プレフィックスを付ける (例: `YatteSlider`)
+3. アプリのTheme/Typographyを適用するラッパーとして実装する
+4. Featureモジュールからはそれを使用する
 
 ### コンポーネント配置ルール
 
