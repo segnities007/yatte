@@ -71,6 +71,7 @@ module:settings
 com.segnities007.yatte.presentation.feature.settings
 com.segnities007.yatte.presentation.feature.settings.component
 com.segnities007.yatte.presentation.feature.settings.di
+com.segnities007.yatte.presentation.feature.settings.screen
 module:task
 com.segnities007.yatte.presentation.feature.task
 com.segnities007.yatte.presentation.feature.task.component
