@@ -1,11 +1,11 @@
-package com.segnities007.yatte.data.core.database.dao
+package com.segnities007.yatte.data.aggregate.task.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.segnities007.yatte.data.core.database.entity.TaskEntity
+import com.segnities007.yatte.data.aggregate.task.local.TaskEntity
 import kotlinx.coroutines.flow.Flow
 
 /**

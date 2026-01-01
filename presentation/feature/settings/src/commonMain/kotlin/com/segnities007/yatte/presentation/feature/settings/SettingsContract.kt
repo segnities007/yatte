@@ -1,5 +1,6 @@
 package com.segnities007.yatte.presentation.feature.settings
 
+import com.segnities007.yatte.domain.aggregate.settings.model.ThemeColor
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
 import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
@@ -26,6 +27,8 @@ sealed interface SettingsIntent {
     data class UpdateSnoozeDuration(val minutes: Int) : SettingsIntent
     data class UpdateVibrationPattern(val pattern: VibrationPattern) : SettingsIntent
     data class UpdateThemeMode(val mode: ThemeMode) : SettingsIntent
+    data class UpdateThemeColor(val color: ThemeColor) : SettingsIntent
+
     data object NavigateBack : SettingsIntent
     data object RequestResetData : SettingsIntent
     data object ConfirmResetData : SettingsIntent

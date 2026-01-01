@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.designsystem.animation.rememberBounceInteraction
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYattePrimaryBrush
 import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -47,7 +48,7 @@ fun <T> YatteSegmentedButtonRow(
     selectedIndex: Int,
     onOptionSelected: (Int, T) -> Unit,
     modifier: Modifier = Modifier,
-    brush: Brush = YatteBrushes.Green.Main,
+    brush: Brush = LocalYattePrimaryBrush.current,
     content: @Composable (T) -> Unit,
 ) {
     val cornerRadius = 8.dp
@@ -93,7 +94,7 @@ fun <T> YatteSegmentedButtonRow(
             ) {
                 androidx.compose.runtime.CompositionLocalProvider(
                     androidx.compose.material3.LocalContentColor provides 
-                        if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
+                        if (isSelected) com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnPrimaryBrushColor.current else MaterialTheme.colorScheme.onSurfaceVariant
                 ) {
                     content(option)
                 }

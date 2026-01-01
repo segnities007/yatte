@@ -16,8 +16,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.segnities007.yatte.domain.aggregate.history.model.History
-import com.segnities007.yatte.presentation.core.util.DateFormatter
-import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
+import com.segnities007.yatte.presentation.core.formatter.DateFormatter
+import com.segnities007.yatte.presentation.designsystem.component.card.YatteActionCard
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import org.jetbrains.compose.resources.stringResource
@@ -40,28 +40,18 @@ fun HistoryCard(
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    YatteCard(
+    YatteActionCard(
+        title = history.title,
+        onClick = {}, // TODO: Detail navigation?
         modifier = modifier.fillMaxWidth(),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(YatteSpacing.md),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                YatteText(
-                    text = history.title,
-                    style = YatteTheme.typography.titleMedium,
-                )
-                Spacer(modifier = Modifier.height(YatteSpacing.xxs))
-                YatteText(
-                    text = DateFormatter.formatDateTime(history.completedAt),
-                    style = YatteTheme.typography.bodySmall,
-                    color = YatteTheme.colors.onSurfaceVariant,
-                )
-            }
+        supportingContent = {
+            YatteText(
+                text = DateFormatter.formatDateTime(history.completedAt),
+                style = YatteTheme.typography.bodySmall,
+                color = YatteTheme.colors.onSurfaceVariant,
+            )
+        },
+        actions = {
             YatteIconButton(
                 icon = Icons.Default.Delete,
                 onClick = onDelete,
@@ -69,7 +59,7 @@ fun HistoryCard(
                 tint = YatteTheme.colors.error,
             )
         }
-    }
+    )
 }
 
 @Composable

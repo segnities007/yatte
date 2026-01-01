@@ -20,10 +20,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.domain.aggregate.category.model.Category
 import com.segnities007.yatte.domain.aggregate.category.model.CategoryColor
 import com.segnities007.yatte.presentation.designsystem.animation.bounceClick
@@ -54,7 +51,6 @@ import com.segnities007.yatte.presentation.feature.category.component.CategoryFa
 import com.segnities007.yatte.presentation.feature.category.component.CategorySetupSideEffects
 import com.segnities007.yatte.presentation.feature.category.component.CategoryTopBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryScreen(
     viewModel: CategoryViewModel = koinViewModel(),
@@ -116,7 +112,7 @@ fun CategoryScreen(
 @Composable
 @Preview
 fun CategoryScreenPreview() {
-    MaterialTheme {
+    YatteTheme {
         CategoryScreen(
             state = CategoryState(),
             onBack = {},

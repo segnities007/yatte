@@ -21,13 +21,6 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material.icons.filled.Update
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
+import com.segnities007.yatte.presentation.designsystem.component.card.YatteActionCard
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteFilledIconButton
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
@@ -99,142 +94,50 @@ fun TaskCard(
         visible = isVisible,
         exit = scaleOut(animationSpec = tween(150)) + fadeOut(animationSpec = tween(150)),
     ) {
-        if (onDismiss != null) {
-            val dismissState = rememberSwipeToDismissBoxState()
-
-            LaunchedEffect(dismissState.currentValue) {
-                if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart ||
-                    dismissState.currentValue == SwipeToDismissBoxValue.StartToEnd
-                ) {
-                    onDismiss()
-                }
-            }
-
-            SwipeToDismissBox(
-                state = dismissState,
-                backgroundContent = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.errorContainer)
-                            .padding(horizontal = YatteSpacing.lg),
-                        contentAlignment = if (dismissState.dismissDirection == SwipeToDismissBoxValue.StartToEnd) {
-                            Alignment.CenterStart
-                        } else {
-                            Alignment.CenterEnd
-                        },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onErrorContainer,
-                        )
-                    }
-                },
-                content = {
-                    TaskCardContent(
-                        task = task,
-                        scale = scale,
-                        onClick = onClick,
-                        onCompleteClick = {
-                            isCompleting = true
-                            ConfettiManager.burst()
-                        },
-                        onSnoozeClick = onSnooze,
-                        onSkipClick = onSkip,
-                        accentColor = accentColor,
-                        modifier = modifier,
-                    )
-                },
-            )
-        } else {
-            TaskCardContent(
-                task = task,
-                scale = scale,
-                onClick = onClick,
-                onCompleteClick = {
-                    isCompleting = true
-                    ConfettiManager.burst()
-                },
-                onSnoozeClick = onSnooze,
-                onSkipClick = onSkip,
-                accentColor = accentColor,
-                modifier = modifier,
-            )
-        }
-    }
-}
-
-@Composable
-private fun TaskCardContent(
-    task: Task,
-    scale: Float,
-    onClick: () -> Unit,
-    onCompleteClick: () -> Unit,
-    onSnoozeClick: (() -> Unit)? = null,
-    onSkipClick: (() -> Unit)? = null,
-    accentColor: Color? = null,
-    modifier: Modifier = Modifier,
-) {
-    YatteCard(
-        onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .scale(scale),
-        elevation = TaskCardElevation,
-        accentColor = accentColor,
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(YatteSpacing.md),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = task.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium,
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(YatteSpacing.sm),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                if (onSnoozeClick != null) {
+        YatteActionCard(
+            title = task.title,
+            onClick = onClick,
+            onDismiss = onDismiss,
+            accentColor = accentColor,
+            elevation = TaskCardElevation,
+            modifier = modifier.scale(scale),
+            actions = {
+                if (onSnooze != null) {
                     YatteIconButton(
-                        onClick = onSnoozeClick,
+                        onClick = onSnooze,
                         icon = Icons.Default.Update,
                         contentDescription = "Snooze",
-                        tint = MaterialTheme.colorScheme.secondary,
+                        tint = YatteTheme.colors.secondary,
                     )
                 }
-                
-                if (onSkipClick != null) {
+
+                if (onSkip != null) {
                     YatteIconButton(
-                        onClick = onSkipClick,
+                        onClick = onSkip,
                         icon = Icons.Default.SkipNext,
                         contentDescription = stringResource(HomeRes.string.cd_skip),
-                        tint = YatteColors.sky,
+                        tint = YatteTheme.colors.secondary,
                     )
                 }
-                
+
                 YatteIconButton(
-                    onClick = onCompleteClick,
+                    onClick = {
+                        isCompleting = true
+                        ConfettiManager.burst()
+                    },
                     icon = Icons.Default.Check,
                     contentDescription = stringResource(HomeRes.string.cd_complete),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = YatteTheme.colors.primary,
                 )
             }
-        }
+        )
     }
 }
 
 @Composable
 @Preview
 fun TaskCardPreview() {
-    MaterialTheme {
+    YatteTheme {
         TaskCard(
             task = Task(
                 id = TaskId("1"),

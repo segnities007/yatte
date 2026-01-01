@@ -14,7 +14,8 @@ kotlin {
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.alarm)
             implementation(projects.domain.aggregate.task)
-            implementation(projects.data.core)
+            implementation(projects.data.aggregate.task)
+            implementation(libs.room.runtime)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.coroutines.core)
         }

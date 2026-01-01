@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.card.YatteActionCard
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
@@ -25,6 +25,9 @@ import com.segnities007.yatte.domain.aggregate.category.model.CategoryColor
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun CategoryItem(
@@ -32,51 +35,41 @@ fun CategoryItem(
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    YatteCard(
+    YatteActionCard(
+        title = category.name,
+        onClick = {},
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = YatteSpacing.md, vertical = YatteSpacing.xs),
-    ) {
-        Column(
-            modifier = Modifier.padding(YatteSpacing.md),
-            verticalArrangement = Arrangement.spacedBy(YatteSpacing.md),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(YatteSpacing.lg)
-                        .clip(CircleShape)
-                        .background(Color(category.color.hex)),
-                )
-                Text(
-                    text = category.name,
-                    style = MaterialTheme.typography.titleMedium,
-                )
-            }
+        supportingContent = {
+            Box(
+                modifier = Modifier
+                    .size(YatteSpacing.lg)
+                    .clip(CircleShape)
+                    .background(Color(category.color.hex)),
+            )
+        },
+        actions = {
             YatteIconButton(
                 icon = Icons.Default.Delete,
                 onClick = onDelete,
                 contentDescription = "削除",
-                tint = MaterialTheme.colorScheme.error,
+                tint = YatteTheme.colors.error,
             )
         }
-    }
+    )
 }
 
 @Composable
 @Preview
-fun CategoryItemPreview() {
-    MaterialTheme {
+private fun CategoryItemPreview() {
+    YatteTheme {
         CategoryItem(
             category = Category(
                 id = CategoryId("1"),
                 name = "Shopping",
                 color = CategoryColor.BLUE,
-                createdAt = 1735686000000L,
+                createdAt = kotlinx.datetime.LocalDateTime(2024, 1, 1, 0, 0),
             ),
             onDelete = {},
         )

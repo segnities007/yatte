@@ -17,9 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -30,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
 import com.segnities007.yatte.presentation.designsystem.component.card.YatteCard
-import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
 import com.segnities007.yatte.presentation.designsystem.component.display.YatteMetric
 import com.segnities007.yatte.presentation.designsystem.component.display.MetricStyle
@@ -55,10 +53,10 @@ fun HistoryDashboard(
         Column(
             modifier = Modifier.padding(YatteSpacing.md)
         ) {
-            Text(
+            YatteText(
                 text = "TOTAL RESULT",
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = YatteTheme.typography.labelLarge,
+                color = YatteTheme.colors.onSurfaceVariant,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = YatteSpacing.sm)
             )
@@ -74,7 +72,7 @@ fun HistoryDashboard(
                     value = stats.totalCompleted.toString(),
                     label = "COMPLETED",
                     icon = Icons.Default.EmojiEvents,
-                    color = YatteColors.primary,
+                    color = YatteTheme.colors.primary,
                     style = MetricStyle.Primary,
                     modifier = Modifier.weight(1f)
                 )
@@ -84,7 +82,7 @@ fun HistoryDashboard(
                     modifier = Modifier
                         .width(1.dp)
                         .fillMaxHeight(0.8f)
-                        .background(MaterialTheme.colorScheme.outlineVariant)
+                        .background(YatteTheme.colors.outlineVariant)
                 )
 
                 // Sub Stats: Skipped & Missed
@@ -99,7 +97,7 @@ fun HistoryDashboard(
                         value = stats.totalSkipped.toString(),
                         label = "SKIPPED",
                         icon = Icons.Default.FastForward,
-                        color = YatteColors.sky,
+                        color = YatteTheme.colors.secondary,
                         style = MetricStyle.List
                     )
 
@@ -107,7 +105,7 @@ fun HistoryDashboard(
                         value = stats.totalMissed.toString(),
                         label = "MISSED",
                         icon = Icons.Default.Warning,
-                        color = YatteColors.coral,
+                        color = YatteTheme.colors.error,
                         style = MetricStyle.List
                     )
                 }

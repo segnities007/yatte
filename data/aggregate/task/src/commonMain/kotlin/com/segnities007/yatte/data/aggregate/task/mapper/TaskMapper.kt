@@ -1,6 +1,6 @@
 package com.segnities007.yatte.data.aggregate.task.mapper
 
-import com.segnities007.yatte.data.core.database.entity.TaskEntity
+import com.segnities007.yatte.data.aggregate.task.local.TaskEntity
 import com.segnities007.yatte.domain.aggregate.category.model.CategoryId
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskId

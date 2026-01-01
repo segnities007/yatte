@@ -11,8 +11,8 @@ import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 import com.segnities007.yatte.domain.aggregate.task.model.TaskType
 import com.segnities007.yatte.presentation.designsystem.component.list.YatteTimelineRow
-import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 
 /**
  * タスクリスト表示
@@ -38,7 +38,7 @@ fun TaskList(
 
             YatteTimelineRow(
                 time = "${task.time.hour.toString().padStart(2, '0')}:${task.time.minute.toString().padStart(2, '0')}",
-                lineColor = YatteColors.primary,
+                lineColor = YatteTheme.colors.primary,
                 isFirst = isFirst,
                 isLast = isLast,
             ) {

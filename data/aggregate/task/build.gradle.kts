@@ -13,7 +13,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.domain.core)
             implementation(projects.domain.aggregate.task)
-            implementation(projects.data.core)
+            implementation(libs.room.runtime)
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.coroutines.core)
         }

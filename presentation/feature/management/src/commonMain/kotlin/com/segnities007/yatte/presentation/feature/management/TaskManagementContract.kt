@@ -3,10 +3,21 @@ package com.segnities007.yatte.presentation.feature.management
 import com.segnities007.yatte.domain.aggregate.task.model.Task
 
 /**
+ * タスク管理画面のアイテム用UIモデル
+ */
+data class TaskManagementUiModel(
+    val id: String,
+    val title: String,
+    val timeLabel: String,
+    val typeLabel: String,
+    val notificationLabel: String,
+)
+
+/**
  * タスク管理画面の状態
  */
 data class TaskManagementState(
-    val tasks: List<Task> = emptyList(),
+    val tasks: List<TaskManagementUiModel> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
 )

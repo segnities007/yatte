@@ -1,30 +1,44 @@
 package com.segnities007.yatte.domain.aggregate.category.model
 
-import kotlin.jvm.JvmInline
 import kotlin.time.Clock
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
-@JvmInline
-value class CategoryId(val value: String)
-
+/**
+ * タスクカテゴリのドメインモデル
+ *
+ * @property id カテゴリの一意識別子
+ * @property name カテゴリ名（1文字以上50文字以下）
+ * @property color カテゴリの色
+ * @property createdAt 作成日時
+ */
 data class Category(
     val id: CategoryId,
     val name: String,
     val color: CategoryColor,
-    val createdAt: Long,
+    val createdAt: LocalDateTime,
 ) {
+    init {
+        require(name.isNotBlank()) { "カテゴリ名は必須です" }
+        require(name.length <= MAX_NAME_LENGTH) { "カテゴリ名は${MAX_NAME_LENGTH}文字以下にしてください" }
+    }
+
     companion object {
-        @OptIn(ExperimentalUuidApi::class)
+        private const val MAX_NAME_LENGTH = 50
+
+        /**
+         * 新しいカテゴリを作成する
+         */
         fun create(
             name: String,
             color: CategoryColor,
         ): Category {
             return Category(
-                id = CategoryId(Uuid.random().toString()),
+                id = CategoryId.generate(),
                 name = name,
                 color = color,
-                createdAt = Clock.System.now().toEpochMilliseconds(),
+                createdAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
             )
         }
     }

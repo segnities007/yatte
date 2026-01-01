@@ -2,8 +2,8 @@ package com.segnities007.yatte.data.aggregate.alarm.repository
 
 import com.segnities007.yatte.data.aggregate.alarm.mapper.toDomain
 import com.segnities007.yatte.data.aggregate.alarm.mapper.toEntity
-import com.segnities007.yatte.data.core.database.dao.AlarmDao
-import com.segnities007.yatte.data.core.database.dao.TaskDao
+import com.segnities007.yatte.data.aggregate.alarm.local.AlarmDao
+import com.segnities007.yatte.data.aggregate.task.local.TaskDao
 import com.segnities007.yatte.domain.aggregate.alarm.model.Alarm
 import com.segnities007.yatte.domain.aggregate.alarm.model.AlarmId
 import com.segnities007.yatte.domain.aggregate.alarm.repository.AlarmRepository

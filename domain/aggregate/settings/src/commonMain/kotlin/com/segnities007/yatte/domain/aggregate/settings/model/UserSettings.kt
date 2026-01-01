@@ -15,9 +15,12 @@ data class UserSettings(
     val notificationVibration: Boolean = true,
     val customSoundUri: String? = null,
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val themeColor: ThemeColor = ThemeColor.DEFAULT,
+
     val snoozeDuration: Int = 10,
     val vibrationPattern: VibrationPattern = VibrationPattern.NORMAL,
 ) {
+
     init {
         require(defaultMinutesBefore in 0..MAX_MINUTES_BEFORE) {
             "デフォルト通知時間は0〜${MAX_MINUTES_BEFORE}分の範囲で指定してください"

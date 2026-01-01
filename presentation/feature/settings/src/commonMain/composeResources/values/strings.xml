@@ -20,8 +20,13 @@
     <string name="theme_light">ライト</string>
     <string name="theme_dark">ダーク</string>
     <string name="theme_system">システム</string>
+    <string name="theme_default">デフォルト</string>
     <string name="theme_green">グリーン</string>
     <string name="theme_yellow">イエロー</string>
+    <string name="theme_blue">ブルー</string>
+    <string name="theme_orange">オレンジ</string>
+    <string name="theme_purple">パープル</string>
+
 
     <string name="section_data">データ管理</string>
     <string name="reset_title">データリセット</string>

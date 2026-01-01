@@ -14,6 +14,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.domain.core)
+            implementation(projects.data.aggregate.task)
+            implementation(projects.data.aggregate.history)
+            implementation(projects.data.aggregate.category)
+            implementation(projects.data.aggregate.alarm)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
             implementation(libs.kotlinx.coroutines.core)

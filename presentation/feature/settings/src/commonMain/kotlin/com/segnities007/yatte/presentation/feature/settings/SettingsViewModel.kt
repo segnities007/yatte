@@ -2,6 +2,7 @@ package com.segnities007.yatte.presentation.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.segnities007.yatte.domain.aggregate.settings.model.ThemeColor
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.model.UserSettings
 import com.segnities007.yatte.domain.aggregate.settings.model.VibrationPattern
@@ -54,6 +55,7 @@ class SettingsViewModel(
             is SettingsIntent.UpdateSnoozeDuration -> updateSnoozeDuration(intent.minutes)
             is SettingsIntent.UpdateVibrationPattern -> updateVibrationPattern(intent.pattern)
             is SettingsIntent.UpdateThemeMode -> updateThemeMode(intent.mode)
+            is SettingsIntent.UpdateThemeColor -> updateThemeColor(intent.color)
             is SettingsIntent.NavigateBack -> sendEvent(SettingsEvent.NavigateBack)
             is SettingsIntent.RequestResetData -> showResetConfirmation()
             is SettingsIntent.ConfirmResetData -> confirmResetData()
@@ -134,6 +136,14 @@ class SettingsViewModel(
     private fun updateThemeMode(mode: ThemeMode) {
         viewModelScope.launch {
             val newSettings = _state.value.settings.copy(themeMode = mode)
+            _state.update { it.copy(settings = newSettings) }
+            saveSettings(newSettings)
+        }
+    }
+
+    private fun updateThemeColor(color: ThemeColor) {
+        viewModelScope.launch {
+            val newSettings = _state.value.settings.copy(themeColor = color)
             _state.update { it.copy(settings = newSettings) }
             saveSettings(newSettings)
         }

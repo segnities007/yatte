@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
 import com.mikepenz.aboutlibraries.Libs
+import com.segnities007.yatte.domain.aggregate.settings.model.ThemeColor
 import com.segnities007.yatte.domain.aggregate.settings.model.ThemeMode
 import com.segnities007.yatte.domain.aggregate.settings.usecase.GetSettingsUseCase
 import com.segnities007.yatte.presentation.core.component.LocalLibraries
@@ -29,9 +30,11 @@ fun App() {
     val getSettingsUseCase: GetSettingsUseCase = koinInject()
     val settings by getSettingsUseCase().collectAsState(initial = null)
     val themeMode = settings?.themeMode ?: ThemeMode.SYSTEM
+    val themeColor = settings?.themeColor ?: ThemeColor.GREEN
 
-    YatteTheme(themeMode = themeMode) {
+    YatteTheme(themeMode = themeMode, themeColor = themeColor) {
         val snackbarHostState = remember { SnackbarHostState() }
+
         val scope = rememberCoroutineScope()
         val navController = rememberNavController()
 

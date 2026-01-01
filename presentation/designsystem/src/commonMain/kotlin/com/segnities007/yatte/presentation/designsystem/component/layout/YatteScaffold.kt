@@ -8,17 +8,18 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteText
 import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteFloatingHeader
 import com.segnities007.yatte.presentation.designsystem.component.navigation.YatteFloatingHeaderDefaults
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /**
  * スクロール連動対応の共通画面コンテナ。
@@ -83,18 +84,20 @@ object YatteScrollVisibilityController {
 @Preview(showBackground = true)
 @Composable
 private fun YatteScaffoldPreview() {
-    YatteScaffold(
-        isNavigationVisible = true,
-        contentPadding = PaddingValues(0.dp),
-        header = { isVisible ->
-            YatteFloatingHeader(
-                title = { Text("Preview Header") },
-                isVisible = isVisible
-            )
-        }
-    ) { padding ->
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Content Area with padding: $padding")
+    YatteTheme {
+        YatteScaffold(
+            isNavigationVisible = true,
+            contentPadding = PaddingValues(0.dp),
+            header = { isVisible ->
+                YatteFloatingHeader(
+                    title = { YatteText("Preview Header") },
+                    isVisible = isVisible
+                )
+            }
+        ) { padding ->
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                YatteText("Content Area with padding: $padding")
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.segnities007.yatte.presentation.feature.task.component
+package com.segnities007.yatte.presentation.designsystem.component.input
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,46 +33,42 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteButton
 import com.segnities007.yatte.presentation.designsystem.component.feedback.YatteModalBottomSheet
 import com.segnities007.yatte.presentation.designsystem.component.input.YatteSegmentedButtonRow
-import com.segnities007.yatte.presentation.designsystem.component.input.YatteTimeInput
-import com.segnities007.yatte.presentation.designsystem.component.input.YatteTimePicker
 import com.segnities007.yatte.presentation.designsystem.theme.YatteSpacing
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnPrimaryBrushColor
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalTime
 
 private enum class TimePickerMode {
     Dial, Input
 }
 
-private val SelectorYellow = Color(0xFFFBC02D)
-private val SelectorContent = Color(0xFF3E2723) // Dark Brown for Yellow contrast
-
+/**
+ * テーマ追従型タイムピッカーシート
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TaskTimePickerSheet(
-    initialTime: LocalTime,
+fun YatteTimePickerSheet(
+    initialHour: Int,
+    initialMinute: Int,
     onDismiss: () -> Unit,
-    onConfirm: (LocalTime) -> Unit,
+    onConfirm: (Int, Int) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var mode by remember { mutableStateOf(TimePickerMode.Dial) }
     
     val scope = rememberCoroutineScope()
     val timePickerState = rememberTimePickerState(
-        initialHour = initialTime.hour,
-        initialMinute = initialTime.minute,
+        initialHour = initialHour,
+        initialMinute = initialMinute,
         is24Hour = true,
     )
     
-
-
     YatteModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = YatteTheme.colors.surface,
+        containerColor = MaterialTheme.colorScheme.surface,
     ) {
         Column(
             modifier = Modifier
@@ -104,26 +100,23 @@ fun TaskTimePickerSheet(
             var minHeight by remember { mutableStateOf(Dp.Unspecified) }
             val density = LocalDensity.current
 
-            // Picker - dynamic height based on content, but keeping min height of Dial (Clock)
+            // Selection content color (Strict Visibility Rule)
+            val selectionColor = MaterialTheme.colorScheme.primary
+            val selectionContentColor = LocalYatteOnPrimaryBrushColor.current
+
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxWidth()
                     .defaultMinSize(minHeight = minHeight)
             ) {
+                // Apply theme-aware colors to TimePicker via MaterialTheme wrapper and TimePickerDefaults
                 MaterialTheme(
-                    colorScheme = YatteTheme.colors.copy(
-                        primary = SelectorYellow,
-                        onPrimary = SelectorContent,
-                        tertiary = SelectorYellow,
-                        onTertiary = SelectorContent,
+                    colorScheme = MaterialTheme.colorScheme.copy(
+                        primary = selectionColor,
+                        onPrimary = selectionContentColor,
                     )
                 ) {
-                    val surfaceInfo = YatteTheme.colors.surface
-                    val onSurfaceVariantInfo = YatteTheme.colors.onSurfaceVariant
-                    val onSurfaceInfo = YatteTheme.colors.onSurface
-                    val surfaceVariantInfo = YatteTheme.colors.surfaceVariant
-
                     if (mode == TimePickerMode.Dial) {
                         YatteTimePicker(
                             state = timePickerState,
@@ -133,35 +126,35 @@ fun TaskTimePickerSheet(
                                 }
                             },
                             colors = TimePickerDefaults.colors(
-                                clockDialColor = surfaceVariantInfo,
-                                clockDialSelectedContentColor = SelectorContent,
-                                clockDialUnselectedContentColor = onSurfaceInfo,
-                                selectorColor = SelectorYellow,
-                                containerColor = surfaceInfo,
-                                periodSelectorBorderColor = SelectorYellow,
-                                periodSelectorSelectedContainerColor = SelectorYellow,
-                                periodSelectorUnselectedContainerColor = surfaceInfo,
-                                periodSelectorSelectedContentColor = SelectorContent,
-                                periodSelectorUnselectedContentColor = onSurfaceVariantInfo,
-                                timeSelectorSelectedContainerColor = SelectorYellow,
-                                timeSelectorUnselectedContainerColor = surfaceInfo,
-                                timeSelectorSelectedContentColor = SelectorContent,
-                                timeSelectorUnselectedContentColor = onSurfaceVariantInfo,
+                                clockDialColor = MaterialTheme.colorScheme.surfaceVariant,
+                                clockDialSelectedContentColor = selectionContentColor,
+                                clockDialUnselectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                selectorColor = selectionColor,
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorBorderColor = selectionColor,
+                                periodSelectorSelectedContainerColor = selectionColor,
+                                periodSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorSelectedContentColor = selectionContentColor,
+                                periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                timeSelectorSelectedContainerColor = selectionColor,
+                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                timeSelectorSelectedContentColor = selectionContentColor,
+                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         )
                     } else {
                         YatteTimeInput(
                             state = timePickerState,
                             colors = TimePickerDefaults.colors(
-                                periodSelectorBorderColor = SelectorYellow,
-                                periodSelectorSelectedContainerColor = SelectorYellow,
-                                periodSelectorUnselectedContainerColor = surfaceInfo,
-                                periodSelectorSelectedContentColor = SelectorContent,
-                                periodSelectorUnselectedContentColor = onSurfaceVariantInfo,
-                                timeSelectorSelectedContainerColor = SelectorYellow,
-                                timeSelectorUnselectedContainerColor = surfaceInfo,
-                                timeSelectorSelectedContentColor = SelectorContent,
-                                timeSelectorUnselectedContentColor = onSurfaceVariantInfo,
+                                periodSelectorBorderColor = selectionColor,
+                                periodSelectorSelectedContainerColor = selectionColor,
+                                periodSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                periodSelectorSelectedContentColor = selectionContentColor,
+                                periodSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                timeSelectorSelectedContainerColor = selectionColor,
+                                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surface,
+                                timeSelectorSelectedContentColor = selectionContentColor,
+                                timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         )
                     }
@@ -176,7 +169,7 @@ fun TaskTimePickerSheet(
                 onClick = {
                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                         if (!sheetState.isVisible) {
-                            onConfirm(LocalTime(timePickerState.hour, timePickerState.minute))
+                            onConfirm(timePickerState.hour, timePickerState.minute)
                         }
                     }
                 },
@@ -188,5 +181,3 @@ fun TaskTimePickerSheet(
         }
     }
 }
-
-

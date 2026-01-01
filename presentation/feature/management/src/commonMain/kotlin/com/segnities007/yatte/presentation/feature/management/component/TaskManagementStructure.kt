@@ -11,6 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.segnities007.yatte.presentation.core.component.HeaderConfig
 import com.segnities007.yatte.presentation.core.component.LocalSetHeaderConfig
 import com.segnities007.yatte.presentation.designsystem.component.button.YatteIconButton
@@ -18,20 +19,13 @@ import com.segnities007.yatte.presentation.feature.management.TaskManagementActi
 import com.segnities007.yatte.presentation.feature.management.TaskManagementEvent
 import com.segnities007.yatte.presentation.feature.management.TaskManagementIntent
 import com.segnities007.yatte.presentation.feature.management.TaskManagementState
+import com.segnities007.yatte.presentation.feature.management.TaskManagementUiModel
 import com.segnities007.yatte.presentation.feature.management.TaskManagementViewModel
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import org.jetbrains.compose.resources.stringResource
 import yatte.presentation.core.generated.resources.cd_add_task
 import yatte.presentation.core.generated.resources.nav_manage
 import yatte.presentation.core.generated.resources.Res as CoreRes
-import androidx.compose.ui.unit.dp
-import kotlin.time.Clock
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.LocalTime
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import com.segnities007.yatte.domain.aggregate.task.model.Task
-import com.segnities007.yatte.domain.aggregate.task.model.TaskId
-import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 
 @Composable
 fun TaskManagementSetupHeader(
@@ -88,7 +82,7 @@ fun TaskManagementContent(
     TaskManagementList(
         tasks = state.tasks,
         contentPadding = contentPadding,
-        onTaskClick = { onIntent(TaskManagementIntent.NavigateToEditTask(it.id.value)) },
+        onTaskClick = { taskId -> onIntent(TaskManagementIntent.NavigateToEditTask(taskId)) },
         modifier = Modifier.fillMaxSize(),
     )
 }
@@ -100,11 +94,12 @@ fun TaskManagementContentPreview() {
         TaskManagementContent(
             state = TaskManagementState(
                 tasks = listOf(
-                    Task(
-                        id = TaskId("1"),
+                    TaskManagementUiModel(
+                        id = "1",
                         title = "Weekly Meeting",
-                        time = LocalTime(14, 0),
-                        createdAt = Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds()).toLocalDateTime(TimeZone.currentSystemDefault()),
+                        timeLabel = "14:00",
+                        typeLabel = "毎週月・水曜日",
+                        notificationLabel = "15分前",
                     )
                 )
             ),

@@ -23,6 +23,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import com.segnities007.yatte.presentation.designsystem.animation.rememberBounceInteraction
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYatteDangerBrush
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYatteEmphasisBrush
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnDangerBrushColor
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnEmphasisBrushColor
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYatteOnPrimaryBrushColor
+import com.segnities007.yatte.presentation.designsystem.theme.LocalYattePrimaryBrush
 import com.segnities007.yatte.presentation.designsystem.theme.YatteBrushes
 import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 
@@ -30,6 +36,7 @@ import com.segnities007.yatte.presentation.designsystem.theme.YatteColors
 enum class YatteButtonStyle {
     Primary,    // Green Gradient (Theme) - メインアクション
     Emphasis,   // Yellow Gradient (Action) - 強調アクション
+    Danger,     // Red Gradient (Danger) - 破壊的アクション
     Secondary   // Outlined with light background - サブアクション
 }
 
@@ -45,18 +52,28 @@ fun YatteButton(
     val (interactionSource, bounceModifier) = rememberBounceInteraction()
     val shape = CircleShape
 
+    val primaryBrush = LocalYattePrimaryBrush.current
+    val emphasisBrush = LocalYatteEmphasisBrush.current
+    val onEmphasisColor = LocalYatteOnEmphasisBrushColor.current
+    val dangerBrush = LocalYatteDangerBrush.current
+    val onDangerColor = LocalYatteOnDangerBrushColor.current
+
     val containerColor = Color.Transparent
+    val onPrimaryBrushColor = LocalYatteOnPrimaryBrushColor.current
     val contentColor = when (style) {
-        YatteButtonStyle.Primary -> Color.White
-        YatteButtonStyle.Emphasis -> Color(0xFF3E2723) // Dark Brown
-        YatteButtonStyle.Secondary -> YatteColors.primary
+        YatteButtonStyle.Primary -> onPrimaryBrushColor
+        YatteButtonStyle.Emphasis -> onEmphasisColor
+        YatteButtonStyle.Danger -> onDangerColor
+        YatteButtonStyle.Secondary -> MaterialTheme.colorScheme.primary
     }
 
     val brush = when (style) {
-        YatteButtonStyle.Primary -> YatteBrushes.Green.Main
-        YatteButtonStyle.Emphasis -> YatteBrushes.Yellow.Action
+        YatteButtonStyle.Primary -> primaryBrush
+        YatteButtonStyle.Emphasis -> emphasisBrush
+        YatteButtonStyle.Danger -> dangerBrush
         YatteButtonStyle.Secondary -> null
     }
+
 
     Button(
         onClick = onClick,
@@ -80,8 +97,8 @@ fun YatteButton(
                     when {
                         brush != null && enabled -> Modifier.background(brush, shape)
                         style == YatteButtonStyle.Secondary && enabled -> Modifier
-                            .background(YatteColors.mint.copy(alpha = 0.15f), shape)
-                            .border(1.dp, YatteColors.primary, shape)
+                            .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f), shape)
+                            .border(1.dp, MaterialTheme.colorScheme.primary, shape)
                         else -> Modifier
                     }
                 )

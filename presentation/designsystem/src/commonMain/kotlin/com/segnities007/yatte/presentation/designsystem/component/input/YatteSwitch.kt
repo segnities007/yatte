@@ -47,16 +47,16 @@ fun YatteSwitch(
             MaterialTheme.colorScheme.primaryContainer,
         )
         YatteSwitchAccent.Notification -> Pair(
-            Color(0xFFFF9800),
-            Color(0xFFFFE0B2),
+            MaterialTheme.colorScheme.secondary,
+            MaterialTheme.colorScheme.secondaryContainer,
         )
         YatteSwitchAccent.Vibration -> Pair(
-            Color(0xFF2196F3),
-            Color(0xFFBBDEFB),
+            MaterialTheme.colorScheme.tertiary,
+            MaterialTheme.colorScheme.tertiaryContainer,
         )
         YatteSwitchAccent.Sound -> Pair(
-            Color(0xFF9C27B0),
-            Color(0xFFE1BEE7),
+            MaterialTheme.colorScheme.error,
+            MaterialTheme.colorScheme.errorContainer,
         )
     }
 

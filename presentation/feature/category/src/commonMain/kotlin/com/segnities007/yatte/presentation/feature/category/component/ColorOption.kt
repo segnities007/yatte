@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import com.segnities007.yatte.presentation.designsystem.component.display.YatteIcon
+import com.segnities007.yatte.presentation.designsystem.theme.YatteTheme
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
@@ -34,7 +34,7 @@ fun ColorOption(
             .background(Color(color.hex))
             .then(
                 if (isSelected) {
-                    Modifier.border(ColorOptionBorderWidth, MaterialTheme.colorScheme.primary, CircleShape)
+                    Modifier.border(ColorOptionBorderWidth, YatteTheme.colors.primary, CircleShape)
                 } else {
                     Modifier
                 },
@@ -43,10 +43,10 @@ fun ColorOption(
         contentAlignment = Alignment.Center,
     ) {
         if (isSelected) {
-            Icon(
+            YatteIcon(
                 Icons.Default.Check,
                 contentDescription = "選択済み",
-                tint = Color.Black.copy(alpha = 0.7f),
+                tint = Color.Black.copy(alpha = 0.7f), // TODO: High contrast?
                 modifier = Modifier.size(ColorOptionIconSize),
             )
         }
@@ -60,7 +60,7 @@ private val ColorOptionBorderWidth = YatteSpacing.xxs
 @Composable
 @Preview
 fun ColorOptionPreview() {
-    MaterialTheme {
+    YatteTheme {
         ColorOption(
             color = CategoryColor.BLUE,
             isSelected = true,

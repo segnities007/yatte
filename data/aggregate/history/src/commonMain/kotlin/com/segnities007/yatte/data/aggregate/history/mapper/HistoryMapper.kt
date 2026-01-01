@@ -1,6 +1,6 @@
 package com.segnities007.yatte.data.aggregate.history.mapper
 
-import com.segnities007.yatte.data.core.database.entity.HistoryEntity
+import com.segnities007.yatte.data.aggregate.history.local.HistoryEntity
 import com.segnities007.yatte.domain.aggregate.history.model.History
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryId
 import com.segnities007.yatte.domain.aggregate.history.model.HistoryStatus
