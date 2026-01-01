@@ -34,3 +34,7 @@ end_of_line = crlf
 ktlint_standard_class-naming = disabled
 ktlint_standard_function-naming = disabled
 ktlint_standard_no-wildcard-imports = disabled
+
+[**/src/*Test/kotlin/**/*.kt]
+ktlint_standard_function-naming = disabled
+

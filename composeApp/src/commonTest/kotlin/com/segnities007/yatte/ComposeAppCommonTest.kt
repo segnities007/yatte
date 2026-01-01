@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class ComposeAppCommonTest {
     @Test
-    fun Given_1and2_When_Added_Then_ResultIs3() {
+    fun `GIVEN 1 and 2 WHEN added THEN result is 3`() {
         // Arrange
         val a = 1
         val b = 2
